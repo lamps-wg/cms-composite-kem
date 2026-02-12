@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-10T02:56:06.128922+00:00",
+  "timestamp": "2026-02-12T02:49:51.103401+00:00",
   "repo": "lamps-wg/cms-composite-kem",
   "labels": [
     {
@@ -49,6 +49,23 @@
       "color": "ffffff"
     }
   ],
-  "issues": [],
+  "issues": [
+    {
+      "number": 1,
+      "id": "I_kwDOQdl0ts7qFHbR",
+      "title": "Decision on KDF to use in the forthcoming draft",
+      "url": "https://github.com/lamps-wg/cms-composite-kem/issues/1",
+      "state": "OPEN",
+      "author": "johngray-dev",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "We discussed using HDKF-SHA256 a few times, and no one has a problem with its usage...",
+      "createdAt": "2026-02-11T15:33:46Z",
+      "updatedAt": "2026-02-11T15:33:46Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
   "pulls": []
 }
