@@ -1,0 +1,67 @@
+Composite-MLKEM-CMS-2026
+      { iso(1) identified-organization(3) dod(6) internet(1)
+        security(5) mechanisms(5) pkix(7) id-mod(0)
+        id-mod-composite-mlkem-cms-2026(TBDMOD) }
+
+DEFINITIONS IMPLICIT TAGS ::= BEGIN
+
+EXPORTS ALL;
+
+IMPORTS
+
+SMIME-CAPS
+  FROM AlgorithmInformation-2009  -- [RFC5911]
+    { iso(1) identified-organization(3) dod(6) internet(1)
+      security(5) mechanisms(5) pkix(7) id-mod(0)
+      id-mod-algorithmInformation-02(58) }
+
+KEM-ALGORITHM
+  FROM KEMAlgorithmInformation-2023  -- [RFC9629]
+      { iso(1) identified-organization(3) dod(6) internet(1)
+        security(5) mechanisms(5) pkix(7) id-mod(0)
+        id-mod-kemAlgorithmInformation-2023(109) }
+
+kda-hkdf-with-sha256
+  FROM HKDF-OID-2019  -- [RFC8619]
+      { iso(1) member-body(2) us(840) rsadsi(113549) pkcs(1)
+        pkcs-9(9) smime(16) modules(0) id-mod-hkdf-oid-2019(68) }
+
+kwa-aes256-wrap
+  FROM CMSAesRsaesOaep-2009  -- [RFC5911]
+      { iso(1) member-body(2) us(840) rsadsi(113549)
+      pkcs(1) pkcs-9(9) smime(16) modules(0)
+      id-mod-cms-aes-02(38) }
+
+kema-MLKEM768-RSA2048-SHA3-256, kema-MLKEM768-RSA3072-SHA3-256,
+kema-MLKEM768-RSA4096-SHA3-256, kema-MLKEM768-X25519-SHA3-256,
+kema-MLKEM768-ECDH-P256-SHA3-256, kema-MLKEM768-ECDH-P384-SHA3-256,
+kema-MLKEM768-ECDH-brainpoolP256r1-SHA3-256,
+kema-MLKEM1024-RSA3072-SHA3-256, kema-MLKEM1024-ECDH-P384-SHA3-256,
+kema-MLKEM1024-ECDH-brainpoolP384r1-SHA3-256, kema-MLKEM1024-X448,
+kema-MLKEM1024-ECDH-P521-SHA3-256
+  FROM Composite-MLKEM-2025
+      { iso(1) identified-organization(3) dod(6) internet(1)
+      security(5) mechanisms(5) pkix(7) id-mod(0)
+      id-mod-composite-mlkem-2025(TBDCompositeMOD) }
+;
+
+-- Updates for the SMIME-CAPS Set from RFC 5911
+
+SMimeCapsSet SMIME-CAPS ::=
+   { kema-MLKEM768-RSA2048-SHA3-256.&smimeCaps |
+     kema-MLKEM768-RSA3072-SHA3-256.&smimeCaps |
+     kema-MLKEM768-RSA4096-SHA3-256.&smimeCaps |
+     kema-MLKEM768-X25519-SHA3-256.&smimeCaps |
+     kema-MLKEM768-ECDH-P256-SHA3-256.&smimeCaps |
+     kema-MLKEM768-ECDH-P384-SHA3-256.&smimeCaps |
+     kema-MLKEM768-ECDH-brainpoolP256r1-SHA3-256.&smimeCaps |
+     kema-MLKEM1024-RSA3072-SHA3-256.&smimeCaps |
+     kema-MLKEM1024-ECDH-P384-SHA3-256.&smimeCaps |
+     kema-MLKEM1024-ECDH-brainpoolP384r1-SHA3-256.&smimeCaps |
+     kema-MLKEM1024-X448,.&smimeCaps |
+     kema-MLKEM1024-ECDH-P521-SHA3-256.&smimeCaps |
+     kda-hkdf-with-sha256.&smimeCaps |
+     kwa-aes256-wrap.&smimeCaps,
+     ... }
+
+END

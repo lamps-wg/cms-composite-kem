@@ -1,0 +1,124 @@
+   0 1394: SEQUENCE {
+   4   11:  OBJECT IDENTIFIER
+         :   authEnvelopedData (1 2 840 113549 1 9 16 1 23)
+  17 1377:  [0] {
+  21 1373:   SEQUENCE {
+  25    1:    INTEGER 0
+  28 1288:    SET {
+  32 1284:     [4] {
+  36   11:      OBJECT IDENTIFIER '1 2 840 113549 1 9 16 13 3'
+  49 1267:      SEQUENCE {
+  53    1:       INTEGER 0
+  56   20:       [0]
+         :   14 F1 D8 FE D2 1F 61 03 67 6C 75 2C 97 D0 94 95
+         :   37 A9 6A B2
+  78   10:       SEQUENCE {
+  80    8:        OBJECT IDENTIFIER '1 3 6 1 5 5 7 6 59'
+         :         }
+  90 1153:       OCTET STRING
+         :   54 B7 5C 94 5F F8 31 94 FB F3 12 21 47 49 B1 14
+         :   BF 68 38 87 8B 49 40 3F 52 35 BE 77 4A E6 71 9D
+         :   90 53 1D A9 AB 01 3A 0F 8A 81 DB D6 51 05 92 F5
+         :   FB CB E3 B1 BC F3 93 79 3F 51 7E 75 8B BD D1 04
+         :   67 C1 A7 2B 14 16 52 33 E3 86 EA 6B 02 7E 48 28
+         :   24 D3 32 44 CC 7F 81 0B F7 D2 1C D2 8E 00 7C 84
+         :   19 08 76 98 BE 0D D7 93 46 53 F3 5C 8B 01 64 C2
+         :   18 DC BC BE 28 30 2A 81 3E 47 A3 34 C9 56 53 49
+         :   0C F5 76 02 C7 98 D6 3D 39 3E 9E 6E BC 21 92 65
+         :   AA 65 62 63 2A 61 8D 4C 3E 40 52 B2 0C 89 F2 F0
+         :   4E A4 55 54 67 3D 1B E8 91 1F 83 CA 4A 20 CE 86
+         :   B5 9C F0 A8 C9 64 E5 B0 47 07 87 5D 56 01 1D 48
+         :   92 91 AB F2 37 08 38 DC 60 8F E2 E2 6E 61 7D 0E
+         :   C2 C2 C6 43 E5 1C AF 67 16 E6 4C 2C C5 A1 85 C7
+         :   27 70 EC 41 85 48 75 89 15 6B B4 7E 41 41 80 C6
+         :   CE DE AC D8 DA D0 7F FA 90 91 44 1F DA CE D5 53
+         :   C4 82 BD 0C 41 D5 B7 76 49 F0 ED 80 3D 07 D2 96
+         :   82 DC 2C 41 D2 04 7D 18 FD DA B9 65 29 B9 F8 A2
+         :   F0 DD D5 E4 B3 02 FF FD 8C CB EC 03 D9 91 7F FA
+         :   6B 8D 24 91 17 14 6C 58 FD 89 A1 35 A9 6E CE 67
+         :   0C 58 A5 59 62 8A 68 01 2D 4C 9A 43 E5 FF FB 42
+         :   7F 0D F3 0D A7 45 BB 0E 4E B3 34 71 6B B8 21 75
+         :   10 46 7B 8B 58 E1 BE 54 B3 0C 85 75 22 65 4C BB
+         :   57 87 81 3C B1 B2 FB 95 7A 72 5F 51 61 21 87 B5
+         :   8B B8 33 53 F8 E5 6A A6 AF 89 C9 4E DD 65 6D 92
+         :   BF 66 91 30 22 FC E8 F8 57 30 61 7D 8A 16 6B BB
+         :   24 51 55 59 91 5C C4 72 43 59 50 BC E8 C2 52 19
+         :   FE F5 07 A6 52 7A 6A 39 20 C2 DE AD A7 73 29 02
+         :   E2 D2 AE 8C 60 BD A5 18 A6 5D A6 6F 93 58 1B 7E
+         :   37 04 2A 10 46 46 75 AB 32 6F 60 3B E1 4E 5B 55
+         :   25 63 4A DE B9 56 51 2A 84 FD B8 09 AF 2F 37 D2
+         :   0A 9F D2 3F 67 EC A7 74 1B 49 D5 B7 D7 4F 94 7A
+         :   8B 6D AC 68 88 8B 3E 38 02 99 4C 98 CC CB 68 C2
+         :   A0 E7 92 7F 15 E5 E7 BE 14 00 98 3E 22 A4 C9 EF
+         :   2B AB DF 24 45 25 AD DE 3B 4D 91 E7 78 E2 1E 2B
+         :   D3 2C 52 21 F5 43 3F 28 39 01 28 EA BF 3B 18 1B
+         :   85 C2 C1 EF D7 FA E9 46 39 9B B8 FE 21 DE 2A ED
+         :   0A 3E 72 CA B3 4D 30 55 09 54 7D F3 3A 45 D1 7D
+         :   01 3A 3A C0 8F 0D B6 9D BF F0 BA E5 A4 B9 C1 5E
+         :   E8 BD C4 E2 52 5B 49 E6 86 5A EB 75 20 51 93 5F
+         :   8E 2F B5 DA EA 91 2D 11 86 71 10 2B 8F B4 67 5C
+         :   39 37 B3 89 A7 C7 06 8C B6 97 B3 79 8F FF E9 D6
+         :   E6 41 56 49 3B B8 08 D0 67 A3 EA C4 18 A7 BF 58
+         :   19 E2 5A 74 0C 83 49 91 4E 50 08 34 0C 38 1A 07
+         :   D8 70 B1 4B 9B E9 93 9D 30 6B C7 02 D4 6A 58 21
+         :   6D F9 32 D2 BC B4 5A 3F 18 1B D8 4F 4B 9B A9 92
+         :   F3 A5 F1 2A 5D B6 15 AE 05 98 A9 C4 32 CF 5C 00
+         :   95 18 7A 84 9A 93 CA 0D 2D 7D EE DB 2D B1 CE D5
+         :   3C 0D 4A E5 D2 B3 7E B2 5E 07 99 24 52 E0 18 8E
+         :   2D 72 68 2F 46 F0 16 7F 0F 6A 68 02 43 EF F2 C4
+         :   B5 FC F0 23 58 52 F9 9D EF A4 D5 35 A4 79 17 6F
+         :   A3 A2 25 87 51 15 81 B3 64 9F E4 10 E3 02 EC 1B
+         :   90 61 CB 53 5C 49 2A E5 7A C1 26 CB 49 EA 47 DE
+         :   12 A9 09 7C 5F 8A 86 9D 84 D4 AA E9 03 F0 BC 6F
+         :   53 A6 05 14 CE BE 02 FD C9 A2 04 A6 BE 2A 66 56
+         :   7D 58 9F CB AC A3 65 65 A3 E0 2D 10 B1 69 20 EA
+         :   26 B0 5C 50 BE 80 5D 06 EC E3 C9 EE 7D B7 EB 20
+         :   7C 33 C1 D4 AC 92 CA 29 4F 1A 0F 8F AC 83 9F EA
+         :   03 89 FA E4 33 84 A2 DA A7 A4 C1 F5 E9 2D 62 2F
+         :   8E B3 7A C0 C5 5E B9 DF 8D 97 13 DE 03 A0 EF 8B
+         :   2D 93 06 C8 53 0F 60 7D 89 8B A8 8A DB 6A D9 82
+         :   BE CD 3B 05 CA C3 2B 7D FE 76 7C 82 6E 5E 8B DF
+         :   40 12 0F 1A 49 E8 4C D1 1C 4C 09 B0 7C 27 59 1A
+         :   60 32 B3 72 A7 BD 46 8B 09 EC E0 7E E6 EC A6 E9
+         :   45 59 F1 48 43 DD 9A 97 93 1E 0C 06 D1 05 AA 22
+         :   37 E6 7A 3C 12 8D 33 AB 61 DC 47 98 6F DA FB 79
+         :   7E 60 CB 44 45 3B 4D FB CF 7A FD FE 02 F6 86 C7
+         :   20 FD 65 D5 38 18 27 BE 62 F3 32 2A CB C3 72 13
+         :   04 43 D6 69 0E 3A E3 B1 7F 26 3F 93 45 99 8C A2
+         :   63 17 F7 57 B8 6D 0A D4 15 31 B1 14 F5 D5 7F A8
+         :   2E 50 23 E5 17 62 27 D0 87 F7 65 E1 42 1C EF 31
+         :   BE 9C 31 58 66 83 80 17 BB 2A A5 89 55 BF 52 CE
+         :   6E
+1247   13:       SEQUENCE {
+1249   11:        OBJECT IDENTIFIER
+         :         hkdfWithSha256 (1 2 840 113549 1 9 16 3 28)
+         :         }
+1262    1:       INTEGER 32
+1265   11:       SEQUENCE {
+1267    9:        OBJECT IDENTIFIER
+         :         aes256-wrap (2 16 840 1 101 3 4 1 45)
+         :         }
+1278   40:       OCTET STRING
+         :   5D 13 AE 00 D9 14 A2 91 58 A8 EF 32 B2 3A E5 F2
+         :   7B 8C 29 33 87 E3 BE 65 FC 3D FC 19 B9 9D 8F DC
+         :   55 25 27 FD 42 15 4B 37
+         :        }
+         :       }
+         :      }
+1320   58:    SEQUENCE {
+1322    9:     OBJECT IDENTIFIER data (1 2 840 113549 1 7 1)
+1333   30:     SEQUENCE {
+1335    9:      OBJECT IDENTIFIER
+         :       aes256-GCM (2 16 840 1 101 3 4 1 46)
+1346   17:      SEQUENCE {
+1348   12:       OCTET STRING 86 BC 07 FB C3 DC 4A 59 9D 90 F3 E8
+1362    1:       INTEGER 16
+         :        }
+         :       }
+1365   13:     [0] 20 F9 4F 06 1F 7B 05 F9 5B 32 57 FF C0
+         :      }
+1380   16:    OCTET STRING
+         :   5F 2A 60 63 AF 2C F0 5F E1 E2 97 A2 8B A7 AB 10
+         :     }
+         :    }
+         :   }
