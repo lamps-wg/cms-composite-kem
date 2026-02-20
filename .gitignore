@@ -2,6 +2,7 @@
 *.pdf
 *.redxml
 *.swp
+*.txt
 *.upload
 *~
 .includes.mk
@@ -18,8 +19,8 @@
 /versioned/
 Gemfile.lock
 archive.json
-draft-ietf-lamps-cms-composite-kem.xml
 draft-ietf-lamps-cms-composite-kem.txt
+draft-ietf-lamps-cms-composite-kem.xml
 lib/
 package-lock.json
 report.xml
