@@ -58,7 +58,7 @@ SMimeCapsSet SMIME-CAPS ::=
      kema-MLKEM1024-RSA3072-SHA3-256.&smimeCaps |
      kema-MLKEM1024-ECDH-P384-SHA3-256.&smimeCaps |
      kema-MLKEM1024-ECDH-brainpoolP384r1-SHA3-256.&smimeCaps |
-     kema-MLKEM1024-X448,.&smimeCaps |
+     kema-MLKEM1024-X448.&smimeCaps |
      kema-MLKEM1024-ECDH-P521-SHA3-256.&smimeCaps |
      kda-hkdf-with-sha256.&smimeCaps |
      kwa-aes256-wrap.&smimeCaps,
