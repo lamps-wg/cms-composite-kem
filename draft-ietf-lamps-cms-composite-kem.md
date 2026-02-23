@@ -121,7 +121,7 @@ Mechanism (KEM) Algorithms in the Cryptographic Message Syntax (CMS)” (RFC 962
 
 # Introduction {#sec-intro}
 
-{{!I-D.ietf-lamps-pq-composite-kem}} defines a collection of Key Encapsulation Mechanisn (KEM) algorithms, referred to as Composite ML-KEM, which combine ML-KEM {{FIPS203}} with traditional algorithms RSA-OAEP, ECDH, X25519, and X448.
+{{!I-D.ietf-lamps-pq-composite-kem}} defines a collection of Key Encapsulation Mechanism (KEM) algorithms, referred to as Composite ML-KEM, which combine ML-KEM {{FIPS203}} with traditional algorithms RSA-OAEP, ECDH, X25519, and X448.
 {{!RFC9629}} defines the KEMRecipientInfo structure for the use of KEM algorithms for the Cryptographic Message Syntax (CMS) {{!RFC5652}} enveloped-data content type, the CMS authenticated-data content type, and the CMS authenticated-enveloped-data content type.
 This document acts as a companion to {{I-D.ietf-lamps-pq-composite-kem}} by providing conventions for using Composite ML-KEM algorithms with the KEMRecipientInfo structure within the CMS.
 
@@ -161,9 +161,9 @@ Decapsulate(dk, c) -> ss:
 
 # Use of Composite ML-KEM in the CMS
 
-Composite ML-KEM algorithms MAY be employed for one or more recipients in the CMS enveloped-data content type {{!RFC5652}}, the CMS authenticated-data content type {{!RFC5652}}, or the CMS authenticated-enveloped-data content type {{!RFC5083}}. In each case, the KEMRecipientInfo {{!RFC9629}} is used with the Composite ML-KEM algorithm to securely transfer the content-encryption key from the originator to the recipient.
+Composite ML-KEM algorithms MAY be employed for one or more recipients in the CMS enveloped-data content type {{!RFC5652}}, the CMS authenticated-data content type {{!RFC5652}}, or the CMS authenticated-enveloped-data content type {{!RFC5083}}. In each case, the KEMRecipientInfo {{!RFC9629}} type is used with the Composite ML-KEM algorithm to securely transfer the content-encryption key from the originator to the recipient.
 
-Processing a Composite ML-KEM algorithm with KEMRecipientInfo follows the same steps as {{Section 2 of RFC9629}}. To support the ML-KEM algorithm, a CMS originator MUST implement the Encapsulate() function and a CMS recipient MUST implement the Decapsulate() function.
+Processing a Composite ML-KEM algorithm with KEMRecipientInfo follows the same steps as {{Section 2 of RFC9629}}. To support the Composite ML-KEM algorithm, a CMS originator MUST implement the Encapsulate() function and a CMS recipient MUST implement the Decapsulate() function.
 
 
 ## RecipientInfo Conventions {#sec-using-recipientInfo}
@@ -200,7 +200,7 @@ The secure use of Composite ML-KEM in CMS does not depend on the use of a ukm va
 See {{Section 3 of RFC9629}} for more information about the ukm parameter.
 
 wrap:
-Identifies a key-encryption algorithm used to encrypt the content-encryption key.
+: Identifies a key-encryption algorithm used to encrypt the content-encryption key.
 Implementations MUST support the AES-Wrap-256 {{!RFC3394}} key-encryption algorithm using the id-aes256-wrap key-encryption algorithm OID {{!RFC3565}}.
 Implementations MAY support other key-encryption algorithms as well.
 
@@ -209,10 +209,10 @@ Implementations MAY support other key-encryption algorithms as well.
 
 ## Underlying Components
 
-When ML-KEM is employed in the CMS, the underlying components used within the KEMRecipientInfo structure SHOULD be consistent with a minimum desired security level.
+When Composite ML-KEM is employed in the CMS, the underlying components used within the KEMRecipientInfo structure SHOULD be consistent with a minimum desired security level.
 Several security levels have been identified {{?SP.800-57pt1r5}}.
 
-If underlying components other than those specified in {{sec-using-recipientInfo}} are used, then the following table gives the minimum requirements on the components used with ML-KEM in the KEMRecipientInfo type in order to satisfy the KDF and key wrapping algorithm requirements from {{Section 7 of RFC9629}}.
+If underlying components other than those specified in {{sec-using-recipientInfo}} are used, then the following table gives the minimum requirements on the components used with Composite ML-KEM in the KEMRecipientInfo type in order to satisfy the KDF and key wrapping algorithm requirements from {{Section 7 of RFC9629}}.
 The components are chosen based on the ML-KEM variant used within the Composite ML-KEM algorithm.
 
 | Security Strength | ML-KEM Variant | KDF Preimage Strength | Symmetric Key-Encryption Strength |
@@ -248,7 +248,7 @@ The conventions for carrying Composite ML-KEM public keys are specified in {{I-D
 ## SMIME Capabilities Attribute Conventions {#sec-using-smime-caps}
 
 {{Section 2.5.2 of RFC8551}} defines the SMIMECapabilities attribute to announce a partial list of algorithms that an S/MIME implementation can support.
-When constructing a CMS signed-data content type {{!RFC5652}}, a compliant implementation MAY include the SMIMECapabilities attribute that announces support for one or more of the Composite ML-KEM algorithm identifiers.
+When constructing a CMS enveloped-data content type, a CMS authenticated-data content type, or a CMS authenticated-enveloped-data content type, a compliant implementation MAY include the SMIMECapabilities attribute that announces support for one or more of the Composite ML-KEM algorithm identifiers.
 
 The SMIMECapability SEQUENCE representing the Composite ML-KEM algorithm MUST include one of the Composite ML-KEM OIDs in the capabilityID field.
 When one of the Composite ML-KEM OIDs appears in the capabilityID field, the parameters MUST NOT be present.
@@ -330,7 +330,7 @@ The Security Considerations sections of {{I-D.ietf-lamps-pq-composite-kem}} and 
 
 Implementations MUST protect the Composite ML-KEM private key, the key-encryption key, the content-encryption key, message-authentication key, and the content-authenticated-encryption key.
 Of these keys, all but the private key are ephemeral and MUST be wiped after use.
-Disclosure of the ML-KEM private key could result in the compromise of all messages protected with that key.
+Disclosure of the Composite ML-KEM private key could result in the compromise of all messages protected with that key.
 Disclosure of the key-encryption key, the content-encryption key, or the content-authenticated-encryption key could result in the compromise of the associated encrypted content.
 Disclosure of the key-encryption key, the message-authentication key, or the content-authenticated-encryption key could allow modification of the associated authenticated content.
 
