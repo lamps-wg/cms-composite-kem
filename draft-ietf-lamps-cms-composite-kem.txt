@@ -5,11 +5,11 @@
 LAMPS                                                       D. Van Geest
 Internet-Draft                                       CryptoNext Security
 Intended status: Standards Track                            M. Ounsworth
-Expires: 27 August 2026                                          J. Gray
+Expires: 28 August 2026                                          J. Gray
                                                                  Entrust
                                                             J. Klaussner
                                                     Bundesdruckerei GmbH
-                                                        23 February 2026
+                                                        24 February 2026
 
 
      Composite ML-KEM for use in Cryptographic Message Syntax (CMS)
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 27 August 2026.
+   This Internet-Draft will expire on 28 August 2026.
 
 Copyright Notice
 
@@ -282,11 +282,10 @@ Table of Contents
 
    Section 2.5.2 of [RFC8551] defines the SMIMECapabilities attribute to
    announce a partial list of algorithms that an S/MIME implementation
-   can support.  When constructing a CMS enveloped-data content type, a
-   CMS authenticated-data content type, or a CMS authenticated-
-   enveloped-data content type, a compliant implementation MAY include
-   the SMIMECapabilities attribute that announces support for one or
-   more of the Composite ML-KEM algorithm identifiers.
+   can support.  When constructing a CMS signed-data content type
+   [RFC5652], a compliant implementation MAY include the
+   SMIMECapabilities attribute that announces support for one or more of
+   the Composite ML-KEM algorithm identifiers.
 
    The SMIMECapability SEQUENCE representing the Composite ML-KEM
    algorithm MUST include one of the Composite ML-KEM OIDs in the
