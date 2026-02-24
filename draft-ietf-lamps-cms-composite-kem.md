@@ -140,7 +140,7 @@ CMS values are generated using ASN.1 {{X680}}, using the Basic Encoding Rules (B
 
 ML-KEM is a lattice-based KEM using Module Learning with Errors as its underlying primitive.
 It was standardized with three parameter sets: ML-KEM-512, ML-KEM-768, and ML-KEM-1024.
-Composite ML-KEM pairs ML-KEM-768 or ML-KEM-1024 with RSA-OAEP, ECDH, X25519, or X448 at similar security levels such that the shared secret key from each component algorithm is combined into a single shared secret key. Note that Composite ML-KEM does not provide pairings based on ML-KEM-512.
+Composite ML-KEM pairs ML-KEM-768 or ML-KEM-1024 with RSA-OAEP, ECDH, X25519, or X448 at similar security levels such that the shared secret key from each component algorithm is combined into a single shared secret key. Composite ML-KEM does not provide pairings based on ML-KEM-512.
 
 All KEM algorithms provide three functions: KeyGen(), Encapsulate(), and Decapsulate().
 
