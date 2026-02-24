@@ -248,7 +248,7 @@ The conventions for carrying Composite ML-KEM public keys are specified in {{I-D
 ## SMIME Capabilities Attribute Conventions {#sec-using-smime-caps}
 
 {{Section 2.5.2 of RFC8551}} defines the SMIMECapabilities attribute to announce a partial list of algorithms that an S/MIME implementation can support.
-When constructing a CMS enveloped-data content type, a CMS authenticated-data content type, or a CMS authenticated-enveloped-data content type, a compliant implementation MAY include the SMIMECapabilities attribute that announces support for one or more of the Composite ML-KEM algorithm identifiers.
+When constructing a CMS signed-data content type {{!RFC5652}}, a compliant implementation MAY include the SMIMECapabilities attribute that announces support for one or more of the Composite ML-KEM algorithm identifiers.
 
 The SMIMECapability SEQUENCE representing the Composite ML-KEM algorithm MUST include one of the Composite ML-KEM OIDs in the capabilityID field.
 When one of the Composite ML-KEM OIDs appears in the capabilityID field, the parameters MUST NOT be present.
