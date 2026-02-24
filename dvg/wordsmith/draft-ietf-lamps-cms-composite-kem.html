@@ -1,0 +1,2179 @@
+<!DOCTYPE html>
+<html lang="en" class="Internet-Draft">
+<head>
+<meta charset="utf-8">
+<meta content="Common,Inherited,Latin" name="scripts">
+<meta content="initial-scale=1.0" name="viewport">
+<title>Composite ML-KEM for use in Cryptographic Message Syntax (CMS)</title>
+<meta content="Daniel Van Geest" name="author">
+<meta content="Mike Ounsworth" name="author">
+<meta content="John Gray" name="author">
+<meta content="Jan Klaussner" name="author">
+<meta content="
+       Composite ML-KEM defines combinations of ML-KEM with RSA-OAEP, ECDH, X25519, and X448.
+This document specifies the conventions for using Composite ML-KEM algorithms with the Cryptographic Message Syntax (CMS) using the KEMRecipientInfo structure defined in “Using Key Encapsulation
+Mechanism (KEM) Algorithms in the Cryptographic Message Syntax (CMS)” (RFC 9629). 
+    " name="description">
+<meta content="xml2rfc 3.31.0" name="generator">
+<meta content="X.509" name="keyword">
+<meta content="CMS" name="keyword">
+<meta content="Post-Quantum" name="keyword">
+<meta content="KEM" name="keyword">
+<meta content="Composite ML-KEM" name="keyword">
+<meta content="draft-ietf-lamps-cms-composite-kem-latest" name="ietf.draft">
+<!-- Generator version information:
+  xml2rfc 3.31.0
+    Python 3.12.12
+    ConfigArgParse 1.7
+    google-i18n-address 3.1.1
+    intervaltree 3.2.1
+    Jinja2 3.1.6
+    lxml 6.0.2
+    platformdirs 4.5.1
+    pycountry 24.6.1
+    PyYAML 6.0.3
+    requests 2.32.5
+    wcwidth 0.3.0
+-->
+<link href="draft-ietf-lamps-cms-composite-kem.xml" rel="alternate" type="application/rfc+xml">
+<link href="#copyright" rel="license">
+<style type="text/css">@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Lora SemiBold'), local('Lora-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-semibold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+}
+
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  color-scheme: light dark;
+  --background-color: #fff;
+  --text-color: #222;
+  --title-color: #191919;
+  --link-color: #2a6496;
+  --highlight-color: #f9f9f9;
+  --line-color: #eee;
+  --pilcrow-weak: #ddd;
+  --pilcrow-strong: #bbb;
+  --small-font-size: 14.5px;
+  --font-mono: 'Oxygen Mono', monospace;
+  --font-title: "Sofia Sans Semi Condensed", sans-serif;
+  scrollbar-color: #bbb #eee;
+}
+body {
+  max-width: 600px;
+  margin: 75px auto;
+  padding: 0 5px;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  font: 16px/22px "Lora", serif;
+  scroll-behavior: smooth;
+}
+
+.ears {
+  display: none;
+}
+
+/* headings */
+section {
+  clear: both;
+}
+.section-number {
+  padding-right: 0.5em;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-title);
+  font-weight: 680;
+  margin: 0.8em 0 0.3em;
+  font-size-adjust: 0.5;
+  color: var(--title-color);
+}
+h1#title {
+  font-size: 32px;
+  line-height: 40px;
+  clear: both;
+}
+h1#title, h1#rfcnum {
+  margin: 1.5em 0 0.2em;
+}
+h1#rfcnum + h1#title {
+  margin: 0.2em 0;
+}
+
+h1, h2, h3 {
+  font-size: 22px;
+  line-height: 27px;
+}
+h4, h5, h6 {
+  font-size: 20px;
+  line-height: 24px;
+}
+
+/* general structure */
+.author {
+  padding-bottom: 0.3em;
+  vertical-align: top;
+}
+#abstract+p {
+  font-size: 18px;
+  line-height: 24px;
+}
+#abstract+p code, #abstract+p samp, #abstract+p tt {
+  font-size: 16px;
+  line-height: 0;
+}
+
+p {
+  padding: 0;
+  margin: 0.5em 0;
+  text-align: left;
+}
+div {
+  margin: 0;
+}
+.alignRight.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignRight.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignRight {
+  margin: 1em 0;
+}
+.alignRight > *:first-child {
+  border: none;
+  margin: 0;
+  float: right;
+  clear: both;
+}
+.alignRight > *:nth-child(2) {
+  clear: both;
+  display: block;
+  border: none;
+}
+svg {
+  display: block;
+}
+/* font-family isn't space-separated, but =~ will have to do */
+svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
+  font-family: var(--font-mono);
+}
+.alignCenter.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignCenter.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignCenter {
+  margin: 1em 0;
+}
+.alignCenter > *:first-child {
+  border: none;
+  /* this isn't optimal, but it's an existence proof.  PrinceXML doesn't
+     support flexbox yet.
+  */
+  display: table;
+  margin: 0 auto;
+}
+
+/* lists */
+ol, ul {
+  padding: 0;
+  margin: 0 0 0.5em 2em;
+  & :is(ol, ul) {
+    margin-left: 1em;
+  }
+}
+li {
+  margin: 0 0 0.25em 0;
+}
+ul.empty, .ulEmpty {
+  list-style-type: none;
+  & li {
+    margin-top: 0.5em;
+  }
+}
+:is(ul, ol).compact, .ulCompact, .olCompact {
+  margin: 0 0 0 2em;
+  & li {
+    margin: 0;
+    & :first-child { margin-top: 0; }
+    & :last-child { margin-bottom: 0; }
+  }
+}
+
+/* definition lists */
+dl {
+  clear: left;
+  --indent: 3ch;
+  /* --indent: attr(indent ch); not supported in any browser, but we can dream */
+  &.olPercent {
+    --indent: 5ch;
+    & > dt {
+      min-width: calc(var(--indent) - 2ch);
+    }
+  }
+  &.olPercent > dt {
+    float: none;
+  }
+
+  dl > dd > & {
+    margin-top: 0.5em;
+    margin-bottom: 0;
+  }
+}
+dl:not(.dlNewline) > dt {
+  float: left;
+  margin-right: 2ch;
+  min-width: 8ch;
+}
+dl > dd {
+  margin-bottom: .8em;
+  margin-left: var(--indent) !important; /* stupid element overrides */
+  min-height: 2ex;
+}
+:is(dl.compact, .dlCompact) > dd {
+  margin-bottom: 0;
+  & > :is(:first-child, .break:first-child + *) {
+    margin-top: 0;
+  }
+  & > :is(:last-child) {
+    margin-bottom: 0;
+  }
+}
+:is(dd, span).break {
+  display: none;
+}
+
+/* links */
+a, a[href].selfRef:hover {
+  text-decoration: none;
+}
+a[href] {
+  color: var(--link-color);
+}
+a[href].selfRef, .iref + a[href].internal {
+  color: var(--text-color);
+}
+a[href]:hover {
+  text-decoration: underline;
+}
+a[href].selfRef:hover {
+  background-color: var(--highlight-color);
+}
+a.xref:is(.cite, .auto), :is(#status-of-memo, #copyright) a {
+  white-space: nowrap;
+}
+
+/* Figures */
+tt, code, pre {
+  background-color: var(--highlight-color);
+  font: 14px/22px var(--font-mono);
+}
+tt, code {
+  /* changing the font for inline elements leads to different ascender
+     and descender heights; as we want to retain baseline alignment,
+     remove leading to avoid altering the final height of lines
+     note: this fails if these blocks take an entire line,
+     a different solution would be great */
+  line-height: 0;
+}
+:is(h1, h2, h3, h4, h5, h6) :is(tt, code) {
+  font-size: 84%;
+}
+pre {
+  border: 1px solid var(--line-color);
+  font-size: 13.5px;
+  line-height: 16px;
+  letter-spacing: -0.2px;
+  margin: 5px;
+  padding: 5px;
+}
+img {
+  max-width: 100%;
+}
+figure {
+  margin: 0.5em 0;
+  padding: 0;
+}
+figure blockquote {
+  margin: 0.8em 0.4em 0.4em;
+}
+figcaption, caption {
+  font-style: italic;
+  margin: 0.5em 1.5em;
+  text-align: left;
+  caption-side: bottom;
+}
+@media screen {
+  /* Auto-collapse boilerplate. */
+  :is(#status-of-memo, #copyright) p {
+    margin: -2px 0;
+    max-height: 0;
+    transition: max-height 2s ease, margin 0.5s ease 0.5s;
+    overflow: hidden;
+  }
+  :is(#status-of-memo, #copyright):hover p,
+  :is(#status-of-memo, #copyright) h2:target ~ p {
+    margin: 0.5em 0;
+    max-height: 500px;
+    overflow: auto;
+  }
+  pre, svg {
+    display: inline-block;
+    /* In the horizontal direction, sometimes people make over-sized figures.
+       Scrollbars for those is therefore necessary: auto adds them as necessary..
+       In the vertical direction, the line-height can combine with the font
+       asender/descender height to produce scrollbars: hidden avoids that. */
+    overflow: auto hidden;
+  }
+  pre {
+    max-width: 100%;
+    width: calc(100% - 22px - 1em);
+  }
+  svg {
+    max-width: calc(100% - 22px - 1em);
+  }
+  figure pre {
+    display: block;
+    width: calc(100% - 25px);
+  }
+  :is(pre, svg) + .pilcrow {
+    display: inline-block;
+    vertical-align: text-bottom;
+    padding-bottom: 8px;
+  }
+}
+
+/* aside, blockquote */
+aside, blockquote {
+  margin-left: 0;
+  padding: 0 2em;
+  font-style: italic;
+}
+blockquote {
+  margin: 1em 0;
+  border-left: 2px var(--pilcrow-strong) solid;
+}
+cite {
+  display: block;
+  text-align: right;
+  font-style: italic;
+}
+
+/* tables */
+table {
+  width: auto;
+  max-width: 100%;
+  margin: 0 0 1em;
+  border-collapse: collapse;
+}
+table.right {
+  margin-left: auto;
+}
+table.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+table.left {
+  margin-right: auto;
+}
+table .text-left {
+  text-align: left;
+}
+table .text-center {
+  text-align: center;
+}
+table .text-right {
+  text-align: right;
+}
+
+thead, tbody {
+  border: 1px solid var(--line-color);
+}
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 5px 10px;
+}
+th {
+  background-color: var(--line-color);
+}
+:is(tr:nth-child(2n), thead+tbody > tr:nth-child(2n+1)) > td {
+  background-color: var(--background-color);
+}
+:is(tr:nth-child(2n+1), thead+tbody > tr:nth-child(2n)) > td {
+  background-color: var(--highlight-color);
+}
+table caption {
+  margin: 0;
+  padding: 3px 0 3px 1em;
+}
+table p {
+  margin: 0;
+}
+
+/* pilcrow */
+a.pilcrow {
+  margin-left: 3px;
+  opacity: 0.2;
+  user-select: none;
+  &[href] {
+    color: var(--pilcrow-weak);
+    &:hover { text-decoration: none; }
+  }
+}
+@media not print {
+  :hover > a.pilcrow, a.pilcrow:focus {
+    opacity: 1;
+  }
+  a.pilcrow[href]:hover {
+    color: var(--pilcrow-strong);
+    background-color: transparent;
+  }
+}
+@media print {
+  a.pilcrow {
+    display: none;
+  }
+}
+
+/* misc */
+hr {
+  border: 0;
+  border-top: 1px solid var(--line-color);
+}
+.bcp14 {
+  font-variant: small-caps;
+  font-weight: 600;
+  font-size: var(--small-font-size);
+}
+.role {
+  font-variant: all-small-caps;
+}
+sub, sup {
+  line-height: 1;
+  font-size: 80%;
+}
+
+/* info block */
+#identifiers {
+  margin: 0;
+  font-size: var(--small-font-size);
+  line-height: 18px;
+  --identifier-width: 15ch;
+  & dt {
+    width: var(--identifier-width);
+    min-width: var(--identifier-width);
+    clear: left;
+    float: left;
+    text-align: right;
+    margin-right: 1ch;
+  }
+  & dd {
+    margin: 0;
+    margin-left: calc(1em + var(--identifier-width)) !important;
+    min-width: 5em;
+  }
+  & .authors {
+    & .author {
+      display: inline-block;
+      margin-right: 1.5em;
+    }
+    & .org {
+      font-style: italic;
+    }
+  }
+}
+
+/* The prepared/rendered info at the very bottom of the page */
+.docInfo {
+  color: #999;
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 2em;
+}
+.docInfo .prepared {
+  float: right;
+}
+
+/* table of contents */
+#toc {
+  padding: 0.75em 0 2em 0;
+  margin-bottom: 1em;
+
+  & nav {
+    & ul {
+      margin: 0 0.5em 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    & li {
+      line-height: 1.3em;
+      margin: 2px 0;
+      padding-left: 1.2em;
+      text-indent: -1.2em;
+    }
+  }
+  & a.xref {
+    white-space: normal;
+  }
+}
+
+.references {
+  & > dt {
+    text-align: right;
+    font-weight: bold;
+    min-width: 10ch;
+    margin-right: 1.5ch;
+    &:target::before {
+      content: "⇒";
+      margin: 0 10px 0 -25px;
+    }
+  }
+  & > dd {
+    margin-left: 12ch !important;
+    overflow: visible;
+    & .refInstance {
+      margin-bottom: 0.8em;
+    }
+    & .ascii {
+      margin-bottom: 0.25em;
+    }
+  }
+}
+
+#rfc\.index\.index + ul {
+  margin-left: 0;
+}
+
+/* authors */
+address.vcard {
+  font-style: normal;
+  max-width: 20em;
+  margin: 1em auto 1em 0;
+
+  & .nameRole {
+    font-weight: 700;
+    margin-left: 0;
+  }
+  & .label {
+    margin: 0.5em 0;
+  }
+  & .type {
+    display: none;
+  }
+  & .alternative-contact {
+    margin: 0.5em 0 0.25em 0;
+  }
+  & .non-ascii {
+    margin: 0 0 0 2em;
+  }
+  & div.left {
+    text-align: left;
+  }
+  & div.right {
+    text-align: right;
+  }
+}
+
+hr.addr {
+  border-top: 1px dashed;
+  margin: 0;
+  color: #ddd;
+  max-width: calc(100% - 16px);
+}
+@media (min-width: 500px) {
+  #authors-addresses > section {
+    column-count: 2;
+    column-gap: 20px;
+  }
+  #authors-addresses > section > h2 {
+    column-span: all;
+  }
+  /* hack for break-inside: avoid-column */
+  #authors-addresses address {
+    display: inline-block;
+    break-inside: avoid-column;
+  }
+}
+
+/* Comments */
+.rfcEditorRemove p:first-of-type {
+  font-style: italic;
+}
+.cref {
+  background-color: rgba(249, 232, 105, 0.3);
+  padding: 2px 4px;
+}
+.crefSource {
+  font-style: italic;
+}
+
+@media screen {
+  #toc nav {
+    font-family: var(--font-title);
+    font-weight: 360;
+    & > ul { margin-bottom: 2em; }
+    & ul {
+      margin: 0 0 0 4px;
+      & :is(p, li) {
+        margin: 2px 0;
+      }
+    }
+  }
+  #toc a.toplink {
+    float: right;
+  }
+}
+@media not screen {
+  #toc a.toplink {
+    display: none;
+  }
+}
+
+
+/* TOC layout for smaller screens */
+@media screen and (max-width: 929px) {
+  #toc {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    padding: 1px 0 0 0;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+    opacity: 0.6;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 2px 0 2px 6px;
+    padding-right: 1em;
+    font-size: 18px;
+    line-height: 24px;
+    min-width: 190px;
+    text-align: right;
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+    &::before { /* css hamburger */
+      float: right;
+      position: relative;
+      width: 1em;
+      height: 1px;
+      left: -164px;
+      margin: 8px 0 0 0;
+      background: white none repeat scroll 0 0;
+      box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+      content: "";
+    }
+  }
+  #toc nav {
+    display: none;
+    background-color: var(--background-color);
+    padding: 0.5em 1em 1em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    height: calc(100vh - 48px);
+    border-left: 1px solid #ddd;
+  }
+  #toc.active {
+    opacity: 1;
+    & nav { display: block; }
+  }
+  /* Make the collapsed ToC header render white on gray also when it's a link */
+  #toc h2 a,
+  #toc h2 a:is(:link, :focus, :hover),
+  #toc a.toplink,
+  #toc a.toplink:hover {
+    color: white;
+    background-color: #444;
+    text-decoration: none;
+  }
+  #toc a.toplink {
+    margin: 2px 0.5em 0;
+  }
+}
+
+/* TOC layout for wide screens */
+@media screen and (min-width: 930px) {
+  body {
+    padding-right: 360px;
+    padding-right: calc(min(180px + 20%, 500px));
+  }
+  #toc {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    right: calc(50vw - 480px);
+    width: 312px;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 0.25em 1em 1em 0;
+  }
+  #toc nav {
+    display: block;
+    height: calc(90vh - 84px);
+    bottom: 0;
+    padding: 0.5em 0 2em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+  img { /* future proofing */
+    max-width: 100%;
+    height: auto;
+  }
+  #toc a.toplink {
+    margin: 8px 0.5em 0;
+  }
+}
+
+/* pagination */
+@media print {
+  body {
+    width: 100%;
+  }
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+  #n-copyright-notice {
+    border-bottom: none;
+  }
+  #toc, #n-introduction {
+    page-break-before: always;
+  }
+  #toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  figure, pre, .vcard {
+    page-break-inside: avoid;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  :is(h2, h3, h4, h5, h6)+*, dd {
+    page-break-before: avoid;
+  }
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 10pt;
+  }
+  table {
+    border: 1px solid #ddd;
+  }
+  td {
+    border-top: 1px solid #ddd;
+  }
+}
+
+@page :first {
+  padding-top: 0;
+  @top-left {
+    content: normal;
+    border: none;
+  }
+  @top-center {
+    content: normal;
+    border: none;
+  }
+  @top-right {
+    content: normal;
+    border: none;
+  }
+}
+
+@page {
+  size: A4;
+  margin-bottom: 45mm;
+  padding-top: 20px;
+}
+
+/* Dark mode. */
+@media (prefers-color-scheme: dark) {
+:root {
+  --background-color: #121212;
+  --text-color: #f0f0f0;
+  --title-color: #fff;
+  --link-color: #4da4f0;
+  --highlight-color: #282828;
+  --line-color: #444;
+  --pilcrow-weak: #444;
+  --pilcrow-strong: #666;
+  scrollbar-color: #777 #333;
+}
+}
+
+/* SVG Trick: a prefix match works because only black and white are allowed */
+svg :is([stroke="black"], [stroke^="#000"]) {
+  stroke: var(--text-color);
+}
+svg :is([stroke="white"], [stroke^="#fff"]) {
+  stroke: var(--background-color);
+}
+svg :is([fill="black"], [fill^="#000"], :not([fill])) {
+  fill: var(--text-color);
+}
+svg :is([fill="white"], [fill^="#fff"]) {
+  fill: var(--background-color);
+}
+</style>
+
+</head>
+<body class="xml2rfc">
+<table class="ears">
+<thead><tr>
+<td class="left">Internet-Draft</td>
+<td class="center">Composite ML-KEM CMS</td>
+<td class="right">February 2026</td>
+</tr></thead>
+<tfoot><tr>
+<td class="left">Van Geest, et al.</td>
+<td class="center">Expires 28 August 2026</td>
+<td class="right">[Page]</td>
+</tr></tfoot>
+</table>
+<div id="external-metadata" class="document-information"></div>
+<div id="internal-metadata" class="document-information">
+<dl id="identifiers">
+<dt class="label-workgroup">Workgroup:</dt>
+<dd class="workgroup">LAMPS</dd>
+<dt class="label-internet-draft">Internet-Draft:</dt>
+<dd class="internet-draft">draft-ietf-lamps-cms-composite-kem-latest</dd>
+<dt class="label-published">Published:</dt>
+<dd class="published">
+<time datetime="2026-02-24" class="published">24 February 2026</time>
+    </dd>
+<dt class="label-intended-status">Intended Status:</dt>
+<dd class="intended-status">Standards Track</dd>
+<dt class="label-expires">Expires:</dt>
+<dd class="expires"><time datetime="2026-08-28">28 August 2026</time></dd>
+<dt class="label-authors">Authors:</dt>
+<dd class="authors">
+<div class="author">
+      <div class="author-name">D. Van Geest</div>
+<div class="org">CryptoNext Security</div>
+</div>
+<div class="author">
+      <div class="author-name">M. Ounsworth</div>
+<div class="org">Entrust</div>
+</div>
+<div class="author">
+      <div class="author-name">J. Gray</div>
+<div class="org">Entrust</div>
+</div>
+<div class="author">
+      <div class="author-name">J. Klaussner</div>
+<div class="org">Bundesdruckerei GmbH</div>
+</div>
+</dd>
+</dl>
+</div>
+<h1 id="title">Composite ML-KEM for use in Cryptographic Message Syntax (CMS)</h1>
+<section id="section-abstract">
+      <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
+<p id="section-abstract-1">Composite ML-KEM defines combinations of ML-KEM with RSA-OAEP, ECDH, X25519, and X448.
+This document specifies the conventions for using Composite ML-KEM algorithms with the Cryptographic Message Syntax (CMS) using the KEMRecipientInfo structure defined in “Using Key Encapsulation
+Mechanism (KEM) Algorithms in the Cryptographic Message Syntax (CMS)” (RFC 9629).<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+</section>
+<section class="note rfcEditorRemove" id="section-note.1">
+      <h2 id="name-about-this-document">
+<a href="#name-about-this-document" class="section-name selfRef">About This Document</a>
+      </h2>
+<p id="section-note.1-1">This note is to be removed before publishing as an RFC.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
+<p id="section-note.1-2">
+        The latest revision of this draft can be found at <span><a href="https://lamps-wg.github.io/draft-composite-kem/draft-ietf-lamps-pq-composite-kem.html">https://lamps-wg.github.io/draft-composite-kem/draft-ietf-lamps-pq-composite-kem.html</a></span>.
+        Status information for this document may be found at <span><a href="https://datatracker.ietf.org/doc/draft-ietf-lamps-cms-composite-kem/">https://datatracker.ietf.org/doc/draft-ietf-lamps-cms-composite-kem/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
+<p id="section-note.1-3">
+        Discussion of this document takes place on the
+        LAMPS Working Group mailing list (<span><a href="mailto:spams@ietf.org">mailto:spams@ietf.org</a></span>),
+        which is archived at <span><a href="https://datatracker.ietf.org/wg/lamps/about/">https://datatracker.ietf.org/wg/lamps/about/</a></span>.
+        Subscribe at <span><a href="https://www.ietf.org/mailman/listinfo/spams/">https://www.ietf.org/mailman/listinfo/spams/</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
+<p id="section-note.1-4">Source for this draft and an issue tracker can be found at
+        <span><a href="https://github.com/lamps-wg/draft-composite-kem">https://github.com/lamps-wg/draft-composite-kem</a></span>.<a href="#section-note.1-4" class="pilcrow">¶</a></p>
+</section>
+<div id="status-of-memo">
+<section id="section-boilerplate.1">
+        <h2 id="name-status-of-this-memo">
+<a href="#name-status-of-this-memo" class="section-name selfRef">Status of This Memo</a>
+        </h2>
+<p id="section-boilerplate.1-1">
+        This Internet-Draft is submitted in full conformance with the
+        provisions of BCP 78 and BCP 79.<a href="#section-boilerplate.1-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-2">
+        Internet-Drafts are working documents of the Internet Engineering Task
+        Force (IETF). Note that other groups may also distribute working
+        documents as Internet-Drafts. The list of current Internet-Drafts is
+        at <span><a href="https://datatracker.ietf.org/drafts/current/">https://datatracker.ietf.org/drafts/current/</a></span>.<a href="#section-boilerplate.1-2" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-3">
+        Internet-Drafts are draft documents valid for a maximum of six months
+        and may be updated, replaced, or obsoleted by other documents at any
+        time. It is inappropriate to use Internet-Drafts as reference
+        material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-4">
+        This Internet-Draft will expire on 28 August 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="copyright">
+<section id="section-boilerplate.2">
+        <h2 id="name-copyright-notice">
+<a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
+        </h2>
+<p id="section-boilerplate.2-1">
+            Copyright (c) 2026 IETF Trust and the persons identified as the
+            document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.2-2">
+            This document is subject to BCP 78 and the IETF Trust's Legal
+            Provisions Relating to IETF Documents
+            (<span><a href="https://trustee.ietf.org/license-info">https://trustee.ietf.org/license-info</a></span>) in effect on the date of
+            publication of this document. Please review these documents
+            carefully, as they describe your rights and restrictions with
+            respect to this document. Code Components extracted from this
+            document must include Revised BSD License text as described in
+            Section 4.e of the Trust Legal Provisions and are provided without
+            warranty as described in the Revised BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="toc">
+<section id="section-toc.1">
+        <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
+<a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
+        </h2>
+<nav class="toc"><ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
+            <p id="section-toc.1-1.1.1"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1">
+                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="auto internal xref">1.1</a>.  <a href="#name-asn1" class="internal xref">ASN.1</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.2">
+                <p id="section-toc.1-1.1.2.2.1" class="keepWithNext"><a href="#section-1.2" class="auto internal xref">1.2</a>.  <a href="#name-conventions-and-terminology" class="internal xref">Conventions and Terminology</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.3">
+                <p id="section-toc.1-1.1.2.3.1" class="keepWithNext"><a href="#section-1.3" class="auto internal xref">1.3</a>.  <a href="#name-composite-ml-kem" class="internal xref">Composite ML-KEM</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
+            <p id="section-toc.1-1.2.1"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-use-of-composite-ml-kem-in-" class="internal xref">Use of Composite ML-KEM in the CMS</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.1">
+                <p id="section-toc.1-1.2.2.1.1"><a href="#section-2.1" class="auto internal xref">2.1</a>.  <a href="#name-recipientinfo-conventions" class="internal xref">RecipientInfo Conventions</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.2">
+                <p id="section-toc.1-1.2.2.2.1"><a href="#section-2.2" class="auto internal xref">2.2</a>.  <a href="#name-underlying-components" class="internal xref">Underlying Components</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.2.2.1">
+                    <p id="section-toc.1-1.2.2.2.2.1.1"><a href="#section-2.2.1" class="auto internal xref">2.2.1</a>.  <a href="#name-use-of-the-hkdf-based-key-d" class="internal xref">Use of the HKDF-Based Key Derivation Function</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.3">
+                <p id="section-toc.1-1.2.2.3.1"><a href="#section-2.3" class="auto internal xref">2.3</a>.  <a href="#name-certificate-conventions" class="internal xref">Certificate Conventions</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.4">
+                <p id="section-toc.1-1.2.2.4.1"><a href="#section-2.4" class="auto internal xref">2.4</a>.  <a href="#name-smime-capabilities-attribut" class="internal xref">SMIME Capabilities Attribute Conventions</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-identifiers" class="internal xref">Identifiers</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-references" class="internal xref">References</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
+                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2">
+                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-asn1-module" class="internal xref">ASN.1 Module</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#appendix-B" class="auto internal xref">Appendix B</a>.  <a href="#name-composite-ml-kem-cms-authen" class="internal xref">Composite ML-KEM CMS Authenticated-Enveloped-Data Example</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1">
+                <p id="section-toc.1-1.8.2.1.1"><a href="#appendix-B.1" class="auto internal xref">B.1</a>.  <a href="#name-originator-cms-processing" class="internal xref">Originator CMS Processing</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2">
+                <p id="section-toc.1-1.8.2.2.1"><a href="#appendix-B.2" class="auto internal xref">B.2</a>.  <a href="#name-recipient-cms-processing" class="internal xref">Recipient CMS Processing</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#appendix-C" class="auto internal xref">Appendix C</a>.  <a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
+            <p id="section-toc.1-1.10.1"><a href="#appendix-D" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+</li>
+        </ul>
+</nav>
+</section>
+</div>
+<div id="sec-intro">
+<section id="section-1">
+      <h2 id="name-introduction">
+<a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
+      </h2>
+<p id="section-1-1"><span>[<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> defines a collection of Key Encapsulation Mechanism (KEM) algorithms, referred to as Composite ML-KEM, which combine ML-KEM <span>[<a href="#FIPS203" class="cite xref">FIPS203</a>]</span> with traditional algorithms RSA-OAEP, ECDH, X25519, and X448.
+<span>[<a href="#RFC9629" class="cite xref">RFC9629</a>]</span> defines the KEMRecipientInfo structure for the use of KEM algorithms for the Cryptographic Message Syntax (CMS) <span>[<a href="#RFC5652" class="cite xref">RFC5652</a>]</span> enveloped-data content type, the CMS authenticated-data content type, and the CMS authenticated-enveloped-data content type.
+This document acts as a companion to <span>[<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> by providing conventions for using Composite ML-KEM algorithms with the KEMRecipientInfo structure within the CMS.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<div id="asn1">
+<section id="section-1.1">
+        <h3 id="name-asn1">
+<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-asn1" class="section-name selfRef">ASN.1</a>
+        </h3>
+<p id="section-1.1-1">CMS values are generated using ASN.1 <span>[<a href="#X680" class="cite xref">X680</a>]</span>, using the Basic Encoding Rules (BER) and the Distinguished Encoding Rules (DER) <span>[<a href="#X690" class="cite xref">X690</a>]</span>.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sec-terminology">
+<section id="section-1.2">
+        <h3 id="name-conventions-and-terminology">
+<a href="#section-1.2" class="section-number selfRef">1.2. </a><a href="#name-conventions-and-terminology" class="section-name selfRef">Conventions and Terminology</a>
+        </h3>
+<p id="section-1.2-1">The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED",
+"MAY", and "OPTIONAL" in this document are to be interpreted as
+described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and only when, they
+appear in all capitals, as shown here.
+These words may also appear in this document in
+lower case as plain English words, absent their normative meanings.<a href="#section-1.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="composite-ml-kem">
+<section id="section-1.3">
+        <h3 id="name-composite-ml-kem">
+<a href="#section-1.3" class="section-number selfRef">1.3. </a><a href="#name-composite-ml-kem" class="section-name selfRef">Composite ML-KEM</a>
+        </h3>
+<p id="section-1.3-1">ML-KEM is a lattice-based KEM using Module Learning with Errors as its underlying primitive.
+It was standardized with three parameter sets: ML-KEM-512, ML-KEM-768, and ML-KEM-1024.
+Composite ML-KEM pairs ML-KEM-768 or ML-KEM-1024 with RSA-OAEP, ECDH, X25519, or X448 at similar security levels such that the shared secret key from each component algorithm is combined into a single shared secret key. Composite ML-KEM does not provide pairings based on ML-KEM-512.<a href="#section-1.3-1" class="pilcrow">¶</a></p>
+<p id="section-1.3-2">All KEM algorithms provide three functions: KeyGen(), Encapsulate(), and Decapsulate().<a href="#section-1.3-2" class="pilcrow">¶</a></p>
+<p id="section-1.3-3">The following summarizes these three functions for Composite ML-KEM:<a href="#section-1.3-3" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-1.3-4">
+          <dt id="section-1.3-4.1">KeyGen() -&gt; (ek, dk):</dt>
+          <dd style="margin-left: 1.5em" id="section-1.3-4.2">
+            <p id="section-1.3-4.2.1">Generate the public encapsulation key (ek) and a private decapsulation key (dk).
+<span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-kem-12#section-3.1" class="relref">Section 3.1</a> of [<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> specifies the key generation algorithm for Composite ML-KEM.<a href="#section-1.3-4.2.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-1.3-4.3">Encapsulate(ek) -&gt; (c, ss):</dt>
+          <dd style="margin-left: 1.5em" id="section-1.3-4.4">
+            <p id="section-1.3-4.4.1">Given the recipient's public key (ek), produce both a ciphertext (c) to be passed to the recipient and a shared secret (ss) for use by the originator.
+<span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-kem-12#section-3.2" class="relref">Section 3.2</a> of [<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> specifies the encapsulation algorithm for Composite ML-KEM.<a href="#section-1.3-4.4.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-1.3-4.5">Decapsulate(dk, c) -&gt; ss:</dt>
+          <dd style="margin-left: 1.5em" id="section-1.3-4.6">
+            <p id="section-1.3-4.6.1">Given the private key (dk) and the ciphertext (c), produce the shared secret (ss) for the recipient.
+<span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-kem-12#section-3.3" class="relref">Section 3.3</a> of [<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> specifies the decapsulation algorithm for Composite ML-KEM.<a href="#section-1.3-4.6.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+</dl>
+</section>
+</div>
+</section>
+</div>
+<div id="use-of-composite-ml-kem-in-the-cms">
+<section id="section-2">
+      <h2 id="name-use-of-composite-ml-kem-in-">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-use-of-composite-ml-kem-in-" class="section-name selfRef">Use of Composite ML-KEM in the CMS</a>
+      </h2>
+<p id="section-2-1">Composite ML-KEM algorithms MAY be employed for one or more recipients in the CMS enveloped-data content type <span>[<a href="#RFC5652" class="cite xref">RFC5652</a>]</span>, the CMS authenticated-data content type <span>[<a href="#RFC5652" class="cite xref">RFC5652</a>]</span>, or the CMS authenticated-enveloped-data content type <span>[<a href="#RFC5083" class="cite xref">RFC5083</a>]</span>. In each case, the KEMRecipientInfo <span>[<a href="#RFC9629" class="cite xref">RFC9629</a>]</span> type is used with the Composite ML-KEM algorithm to securely transfer the content-encryption key from the originator to the recipient.<a href="#section-2-1" class="pilcrow">¶</a></p>
+<p id="section-2-2">Processing a Composite ML-KEM algorithm with KEMRecipientInfo follows the same steps as <span><a href="https://rfc-editor.org/rfc/rfc9629#section-2" class="relref">Section 2</a> of [<a href="#RFC9629" class="cite xref">RFC9629</a>]</span>. To support the Composite ML-KEM algorithm, a CMS originator MUST implement the Encapsulate() function and a CMS recipient MUST implement the Decapsulate() function.<a href="#section-2-2" class="pilcrow">¶</a></p>
+<div id="sec-using-recipientInfo">
+<section id="section-2.1">
+        <h3 id="name-recipientinfo-conventions">
+<a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-recipientinfo-conventions" class="section-name selfRef">RecipientInfo Conventions</a>
+        </h3>
+<p id="section-2.1-1">When a Composite ML-KEM algorithm is employed for a recipient, the RecipientInfo alternative for that recipient MUST be OtherRecipientInfo using the KEMRecipientInfo structure as defined in <span>[<a href="#RFC9629" class="cite xref">RFC9629</a>]</span>.<a href="#section-2.1-1" class="pilcrow">¶</a></p>
+<p id="section-2.1-2">The fields of the KEMRecipientInfo have the following meanings:<a href="#section-2.1-2" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlNewline" id="section-2.1-3">
+          <dt id="section-2.1-3.1">version</dt>
+          <dd style="margin-left: 1.5em" id="section-2.1-3.2">
+            <p id="section-2.1-3.2.1">The syntax version number; it MUST be 0.<a href="#section-2.1-3.2.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-2.1-3.3">rid</dt>
+          <dd style="margin-left: 1.5em" id="section-2.1-3.4">
+            <p id="section-2.1-3.4.1">Identifies the recipient's certificate or public key.<a href="#section-2.1-3.4.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-2.1-3.5">kem</dt>
+          <dd style="margin-left: 1.5em" id="section-2.1-3.6">
+            <p id="section-2.1-3.6.1">Identifies the KEM algorithm; it MUST contain one of the Composite ML-KEM OIDs in <a href="#sec-identifiers" class="auto internal xref">Section 3</a>.<a href="#section-2.1-3.6.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-2.1-3.7">kemct</dt>
+          <dd style="margin-left: 1.5em" id="section-2.1-3.8">
+            <p id="section-2.1-3.8.1">The ciphertext produced for this recipient.<a href="#section-2.1-3.8.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-2.1-3.9">kdf</dt>
+          <dd style="margin-left: 1.5em" id="section-2.1-3.10">
+            <p id="section-2.1-3.10.1">Identifies the key derivation algorithm. Note that the Key Derivation Function (KDF) used for CMS RecipientInfo process MAY be different than the KDF used within the Composite ML-KEM algorithm.
+Implementations MUST support the HMAC-based Key Derivation Function (HKDF) <span>[<a href="#RFC5869" class="cite xref">RFC5869</a>]</span> with SHA-256 <span>[<a href="#FIPS180" class="cite xref">FIPS180</a>]</span>, using the id-alg-hkdf-with-sha256 KDF object identifier (OID) <span>[<a href="#RFC8619" class="cite xref">RFC8619</a>]</span>.
+As specified in <span>[<a href="#RFC8619" class="cite xref">RFC8619</a>]</span>, the parameter field MUST be absent when this OID appears within the ASN.1 type AlgorithmIdentifier.
+Implementations MAY support other KDFs as well.<a href="#section-2.1-3.10.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-2.1-3.11">kekLength</dt>
+          <dd style="margin-left: 1.5em" id="section-2.1-3.12">
+            <p id="section-2.1-3.12.1">The size of the key-encryption key in octets.<a href="#section-2.1-3.12.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-2.1-3.13">ukm</dt>
+          <dd style="margin-left: 1.5em" id="section-2.1-3.14">
+            <p id="section-2.1-3.14.1">Optional input to the KDF.
+The secure use of Composite ML-KEM in CMS does not depend on the use of a ukm value, so this document does not place any requirements on this value.
+See <span><a href="https://rfc-editor.org/rfc/rfc9629#section-3" class="relref">Section 3</a> of [<a href="#RFC9629" class="cite xref">RFC9629</a>]</span> for more information about the ukm parameter.<a href="#section-2.1-3.14.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-2.1-3.15">wrap:</dt>
+          <dd style="margin-left: 1.5em" id="section-2.1-3.16">
+            <p id="section-2.1-3.16.1">Identifies a key-encryption algorithm used to encrypt the content-encryption key.
+Implementations MUST support the AES-Wrap-256 <span>[<a href="#RFC3394" class="cite xref">RFC3394</a>]</span> key-encryption algorithm using the id-aes256-wrap key-encryption algorithm OID <span>[<a href="#RFC3565" class="cite xref">RFC3565</a>]</span>.
+Implementations MAY support other key-encryption algorithms as well.<a href="#section-2.1-3.16.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+</dl>
+<p id="section-2.1-4"><a href="#example" class="auto internal xref">Appendix B</a> contains an example of establishing a content-encryption key using Composite ML-KEM in the KEMRecipientInfo type.<a href="#section-2.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="underlying-components">
+<section id="section-2.2">
+        <h3 id="name-underlying-components">
+<a href="#section-2.2" class="section-number selfRef">2.2. </a><a href="#name-underlying-components" class="section-name selfRef">Underlying Components</a>
+        </h3>
+<p id="section-2.2-1">When Composite ML-KEM is employed in the CMS, the underlying components used within the KEMRecipientInfo structure SHOULD be consistent with a minimum desired security level.
+Several security levels have been identified <span>[<a href="#SP.800-57pt1r5" class="cite xref">SP.800-57pt1r5</a>]</span>.<a href="#section-2.2-1" class="pilcrow">¶</a></p>
+<p id="section-2.2-2">If underlying components other than those specified in <a href="#sec-using-recipientInfo" class="auto internal xref">Section 2.1</a> are used, then the following table gives the minimum requirements on the components used with Composite ML-KEM in the KEMRecipientInfo type in order to satisfy the KDF and key wrapping algorithm requirements from <span><a href="https://rfc-editor.org/rfc/rfc9629#section-7" class="relref">Section 7</a> of [<a href="#RFC9629" class="cite xref">RFC9629</a>]</span>.
+The components are chosen based on the ML-KEM variant used within the Composite ML-KEM algorithm.<a href="#section-2.2-2" class="pilcrow">¶</a></p>
+<span id="name-composite-ml-kem-kemrecipie"></span><div id="tab-strong">
+<table class="center" id="table-1">
+          <caption>
+<a href="#table-1" class="selfRef">Table 1</a>:
+<a href="#name-composite-ml-kem-kemrecipie" class="selfRef">Composite ML-KEM KEMRecipientInfo Component Security Levels</a>
+          </caption>
+<thead>
+            <tr>
+              <th class="text-left" rowspan="1" colspan="1">Security Strength</th>
+              <th class="text-left" rowspan="1" colspan="1">ML-KEM Variant</th>
+              <th class="text-left" rowspan="1" colspan="1">KDF Preimage Strength</th>
+              <th class="text-left" rowspan="1" colspan="1">Symmetric Key-Encryption Strength</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">192-bit</td>
+              <td class="text-left" rowspan="1" colspan="1">ML-KEM-768</td>
+              <td class="text-left" rowspan="1" colspan="1">192-bit</td>
+              <td class="text-left" rowspan="1" colspan="1">192-bit (*)</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">256-bit</td>
+              <td class="text-left" rowspan="1" colspan="1">ML-KEM-1024</td>
+              <td class="text-left" rowspan="1" colspan="1">256-bit</td>
+              <td class="text-left" rowspan="1" colspan="1">256-bit</td>
+            </tr>
+          </tbody>
+        </table>
+</div>
+<p id="section-2.2-4">(*) In the case of AES Key Wrap, a 256-bit key is typically used because AES-192 is not as commonly deployed.<a href="#section-2.2-4" class="pilcrow">¶</a></p>
+<div id="use-of-the-hkdf-based-key-derivation-function">
+<section id="section-2.2.1">
+          <h4 id="name-use-of-the-hkdf-based-key-d">
+<a href="#section-2.2.1" class="section-number selfRef">2.2.1. </a><a href="#name-use-of-the-hkdf-based-key-d" class="section-name selfRef">Use of the HKDF-Based Key Derivation Function</a>
+          </h4>
+<p id="section-2.2.1-1">The HKDF function is a composition of the HKDF-Extract and HKDF-Expand functions.<a href="#section-2.2.1-1" class="pilcrow">¶</a></p>
+<div class="lang-pseudocode sourcecode" id="section-2.2.1-2">
+<pre>
+HKDF(salt, IKM, info, L)
+  = HKDF-Expand(HKDF-Extract(salt, IKM), info, L)
+</pre><a href="#section-2.2.1-2" class="pilcrow">¶</a>
+</div>
+<p id="section-2.2.1-3">When used with KEMRecipientInfo, the salt parameter is unused; that is, it is the zero-length string "".
+The IKM, info, and L parameters correspond to the same KDF inputs from <span><a href="https://rfc-editor.org/rfc/rfc9629#section-5" class="relref">Section 5</a> of [<a href="#RFC9629" class="cite xref">RFC9629</a>]</span>.
+The info parameter is independently generated by the originator and recipient.
+Implementations MUST confirm that L is consistent with the key size of the key-encryption algorithm.<a href="#section-2.2.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="sec-using-certs">
+<section id="section-2.3">
+        <h3 id="name-certificate-conventions">
+<a href="#section-2.3" class="section-number selfRef">2.3. </a><a href="#name-certificate-conventions" class="section-name selfRef">Certificate Conventions</a>
+        </h3>
+<p id="section-2.3-1"><span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> specifies the profile for using X.509 certificates in Internet applications.
+A recipient static public key is needed for Composite ML-KEM and the originator obtains that public key from the recipient's certificate.
+The conventions for carrying Composite ML-KEM public keys are specified in <span>[<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span>.<a href="#section-2.3-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sec-using-smime-caps">
+<section id="section-2.4">
+        <h3 id="name-smime-capabilities-attribut">
+<a href="#section-2.4" class="section-number selfRef">2.4. </a><a href="#name-smime-capabilities-attribut" class="section-name selfRef">SMIME Capabilities Attribute Conventions</a>
+        </h3>
+<p id="section-2.4-1"><span><a href="https://rfc-editor.org/rfc/rfc8551#section-2.5.2" class="relref">Section 2.5.2</a> of [<a href="#RFC8551" class="cite xref">RFC8551</a>]</span> defines the SMIMECapabilities attribute to announce a partial list of algorithms that an S/MIME implementation can support.
+When constructing a CMS signed-data content type <span>[<a href="#RFC5652" class="cite xref">RFC5652</a>]</span>, a compliant implementation MAY include the SMIMECapabilities attribute that announces support for one or more of the Composite ML-KEM algorithm identifiers.<a href="#section-2.4-1" class="pilcrow">¶</a></p>
+<p id="section-2.4-2">The SMIMECapability SEQUENCE representing the Composite ML-KEM algorithm MUST include one of the Composite ML-KEM OIDs in the capabilityID field.
+When one of the Composite ML-KEM OIDs appears in the capabilityID field, the parameters MUST NOT be present.<a href="#section-2.4-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="sec-identifiers">
+<section id="section-3">
+      <h2 id="name-identifiers">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-identifiers" class="section-name selfRef">Identifiers</a>
+      </h2>
+<p id="section-3-1">All identifiers used to indicate Composite ML-KEM within the CMS are defined in <span>[<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span>, <span>[<a href="#RFC8619" class="cite xref">RFC8619</a>]</span>, and <span>[<a href="#RFC3565" class="cite xref">RFC3565</a>]</span>; they are reproduced here for convenience:<a href="#section-3-1" class="pilcrow">¶</a></p>
+<div class="breakable lang-asn.1 sourcecode" id="section-3-2">
+<pre>
+  -- Composite ML-KEM OIDs
+
+  id-MLKEM768-RSA2048-SHA3-256 OBJECT IDENTIFIER ::= {
+    iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+    pkix(7) alg(6) 55 }
+
+  id-MLKEM768-RSA3072-SHA3-256 OBJECT IDENTIFIER ::= {
+    iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+    pkix(7) alg(6) 56 }
+
+  id-MLKEM768-RSA4096-SHA3-256 OBJECT IDENTIFIER ::= {
+    iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+    pkix(7) alg(6) 57 }
+
+  id-MLKEM768-X25519-SHA3-256 OBJECT IDENTIFIER ::= {
+    iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+    pkix(7) alg(6) 58 }
+
+  id-MLKEM768-ECDH-P256-SHA3-256 OBJECT IDENTIFIER ::= {
+    iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+    pkix(7) alg(6) 59 }
+
+  id-MLKEM768-ECDH-P384-SHA3-256 OBJECT IDENTIFIER ::= {
+    iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+    pkix(7) alg(6) 60 }
+
+  id-MLKEM768-ECDH-brainpoolP256r1-SHA3-256 OBJECT IDENTIFIER ::= {
+    iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+    pkix(7) alg(6) 61 }
+
+  id-MLKEM1024-RSA3072-SHA3-256 OBJECT IDENTIFIER ::= {
+    iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+    pkix(7) alg(6) 62 }
+
+  id-MLKEM1024-ECDH-P384-SHA3-256 OBJECT IDENTIFIER ::= {
+    iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+    pkix(7) alg(6) 63 }
+
+  id-MLKEM1024-ECDH-brainpoolP384r1-SHA3-256 OBJECT IDENTIFIER ::= {
+    iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+    pkix(7) alg(6) 64 }
+
+  id-MLKEM1024-X448-SHA3-256 OBJECT IDENTIFIER ::= {
+    iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+    pkix(7) alg(6) 65 }
+
+  id-MLKEM1024-ECDH-P521-SHA3-256 OBJECT IDENTIFIER ::= {
+    iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
+    pkix(7) alg(6) 66 }
+
+  -- KEMRecipientInfo.kdf OIDs
+
+  id-alg-hkdf-with-sha256 OBJECT IDENTIFIER ::= { iso(1)
+      member-body(2) us(840) rsadsi(113549) pkcs(1) pkcs-9(9)
+      smime(16) alg(3) 28 }
+
+  -- KEMRecipientInfo.wrap OIDs
+
+  aes OBJECT IDENTIFIER ::= { joint-iso-itu-t(2) country(16) us(840)
+      organization(1) gov(101) csor(3) nistAlgorithms(4) 1 }
+
+  id-aes256-wrap OBJECT IDENTIFIER ::= { aes 45 }
+</pre><a href="#section-3-2" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="security-considerations">
+<section id="section-4">
+      <h2 id="name-security-considerations">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+      </h2>
+<p id="section-4-1">The Security Considerations sections of <span>[<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> and <span>[<a href="#RFC9629" class="cite xref">RFC9629</a>]</span> apply to this specification as well.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<p id="section-4-2">Implementations MUST protect the Composite ML-KEM private key, the key-encryption key, the content-encryption key, message-authentication key, and the content-authenticated-encryption key.
+Of these keys, all but the private key are ephemeral and MUST be wiped after use.
+Disclosure of the Composite ML-KEM private key could result in the compromise of all messages protected with that key.
+Disclosure of the key-encryption key, the content-encryption key, or the content-authenticated-encryption key could result in the compromise of the associated encrypted content.
+Disclosure of the key-encryption key, the message-authentication key, or the content-authenticated-encryption key could allow modification of the associated authenticated content.<a href="#section-4-2" class="pilcrow">¶</a></p>
+<p id="section-4-3">Additional considerations related to key management may be found in <span>[<a href="#SP.800-57pt1r5" class="cite xref">SP.800-57pt1r5</a>]</span>.<a href="#section-4-3" class="pilcrow">¶</a></p>
+<p id="section-4-4">The generation of private keys relies on random numbers, as does the encapsulation function of Composite ML-KEM.
+The use of inadequate pseudorandom number generators (PRNGs) to generate these values can result in little or no security.
+If the random value is weakly chosen, then an attacker may find it much easier to reproduce the PRNG environment that produced the keys or ciphertext, searching the resulting small set of possibilities for a matching public key or ciphertext value, rather than performing a more complex algorithmic attack against Composite ML-KEM.<a href="#section-4-4" class="pilcrow">¶</a></p>
+<p id="section-4-5">Composite ML-KEM encapsulation and decapsulation only outputs a shared secret and ciphertext.
+Implementations MUST NOT use intermediate values directly for any purpose.<a href="#section-4-5" class="pilcrow">¶</a></p>
+<p id="section-4-6">Implementations SHOULD NOT reveal information about intermediate values or calculations, whether by timing or other "side channels"; otherwise an opponent may be able to determine information about the keying data and/or the recipient's private key.
+Although not all intermediate information may be useful to an opponent, it is preferable to conceal as much information as is practical, unless analysis specifically indicates that the information would not be useful to an opponent.<a href="#section-4-6" class="pilcrow">¶</a></p>
+<p id="section-4-7">Generally, good cryptographic practice employs a given Composite ML-KEM key pair in only one scheme. This practice avoids the risk that vulnerability in one scheme may compromise the security of the other and may be essential to maintain provable security.<a href="#section-4-7" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sec-iana">
+<section id="section-5">
+      <h2 id="name-iana-considerations">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+      </h2>
+<p id="section-5-1">IANA is requested to allocate a value from the "SMI Security for PKIX Module Identifier" registry for the included ASN.1 module.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5-2.1">
+          <p id="section-5-2.1.1">Decimal: IANA Assigned - <strong>Replace TBDMOD</strong><a href="#section-5-2.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-5-2.2">
+          <p id="section-5-2.2.1">Description: Composite-KEM-2026 - id-mod-composite-mlkem-cms-2026<a href="#section-5-2.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-5-2.3">
+          <p id="section-5-2.3.1">References: This Document<a href="#section-5-2.3.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<aside id="section-5-3">
+        <p id="section-5-3.1">RFC EDITOR: Please replace TBDCompositeMOD in the ASN.1 module with with module number assigned to id-mod-composite-mlkem-2025 in <span>[<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span>.<a href="#section-5-3.1" class="pilcrow">¶</a></p>
+</aside>
+</section>
+</div>
+<div id="sec-combined-references">
+<section id="section-6">
+      <h2 id="name-references">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-references" class="section-name selfRef">References</a>
+      </h2>
+<div id="sec-normative-references">
+<section id="section-6.1">
+        <h3 id="name-normative-references">
+<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+        </h3>
+<dl class="references">
+<dt id="FIPS180">[FIPS180]</dt>
+        <dd>
+<span class="refTitle">"Secure hash standard"</span>, <span class="refContent">National Institute of Standards and Technology (U.S.)</span>, <span class="seriesInfo">DOI 10.6028/nist.fips.180-4</span>, <time datetime="2015" class="refDate">2015</time>, <span>&lt;<a href="https://doi.org/10.6028/nist.fips.180-4">https://doi.org/10.6028/nist.fips.180-4</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.ietf-lamps-pq-composite-kem">[I-D.ietf-lamps-pq-composite-kem]</dt>
+        <dd>
+<span class="refAuthor">Ounsworth, M.</span>, <span class="refAuthor">Gray, J.</span>, <span class="refAuthor">Pala, M.</span>, <span class="refAuthor">Klaußner, J.</span>, and <span class="refAuthor">S. Fluhrer</span>, <span class="refTitle">"Composite ML-KEM for use in X.509 Public Key Infrastructure"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-lamps-pq-composite-kem-12</span>, <time datetime="2026-01-07" class="refDate">7 January 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-kem-12">https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-kem-12</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC2119">[RFC2119]</dt>
+        <dd>
+<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC3394">[RFC3394]</dt>
+        <dd>
+<span class="refAuthor">Schaad, J.</span> and <span class="refAuthor">R. Housley</span>, <span class="refTitle">"Advanced Encryption Standard (AES) Key Wrap Algorithm"</span>, <span class="seriesInfo">RFC 3394</span>, <span class="seriesInfo">DOI 10.17487/RFC3394</span>, <time datetime="2002-09" class="refDate">September 2002</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3394">https://www.rfc-editor.org/rfc/rfc3394</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC3565">[RFC3565]</dt>
+        <dd>
+<span class="refAuthor">Schaad, J.</span>, <span class="refTitle">"Use of the Advanced Encryption Standard (AES) Encryption Algorithm in Cryptographic Message Syntax (CMS)"</span>, <span class="seriesInfo">RFC 3565</span>, <span class="seriesInfo">DOI 10.17487/RFC3565</span>, <time datetime="2003-07" class="refDate">July 2003</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3565">https://www.rfc-editor.org/rfc/rfc3565</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5083">[RFC5083]</dt>
+        <dd>
+<span class="refAuthor">Housley, R.</span>, <span class="refTitle">"Cryptographic Message Syntax (CMS) Authenticated-Enveloped-Data Content Type"</span>, <span class="seriesInfo">RFC 5083</span>, <span class="seriesInfo">DOI 10.17487/RFC5083</span>, <time datetime="2007-11" class="refDate">November 2007</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5083">https://www.rfc-editor.org/rfc/rfc5083</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5280">[RFC5280]</dt>
+        <dd>
+<span class="refAuthor">Cooper, D.</span>, <span class="refAuthor">Santesson, S.</span>, <span class="refAuthor">Farrell, S.</span>, <span class="refAuthor">Boeyen, S.</span>, <span class="refAuthor">Housley, R.</span>, and <span class="refAuthor">W. Polk</span>, <span class="refTitle">"Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile"</span>, <span class="seriesInfo">RFC 5280</span>, <span class="seriesInfo">DOI 10.17487/RFC5280</span>, <time datetime="2008-05" class="refDate">May 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5280">https://www.rfc-editor.org/rfc/rfc5280</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5652">[RFC5652]</dt>
+        <dd>
+<span class="refAuthor">Housley, R.</span>, <span class="refTitle">"Cryptographic Message Syntax (CMS)"</span>, <span class="seriesInfo">STD 70</span>, <span class="seriesInfo">RFC 5652</span>, <span class="seriesInfo">DOI 10.17487/RFC5652</span>, <time datetime="2009-09" class="refDate">September 2009</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5652">https://www.rfc-editor.org/rfc/rfc5652</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5869">[RFC5869]</dt>
+        <dd>
+<span class="refAuthor">Krawczyk, H.</span> and <span class="refAuthor">P. Eronen</span>, <span class="refTitle">"HMAC-based Extract-and-Expand Key Derivation Function (HKDF)"</span>, <span class="seriesInfo">RFC 5869</span>, <span class="seriesInfo">DOI 10.17487/RFC5869</span>, <time datetime="2010-05" class="refDate">May 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5869">https://www.rfc-editor.org/rfc/rfc5869</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5911">[RFC5911]</dt>
+        <dd>
+<span class="refAuthor">Hoffman, P.</span> and <span class="refAuthor">J. Schaad</span>, <span class="refTitle">"New ASN.1 Modules for Cryptographic Message Syntax (CMS) and S/MIME"</span>, <span class="seriesInfo">RFC 5911</span>, <span class="seriesInfo">DOI 10.17487/RFC5911</span>, <time datetime="2010-06" class="refDate">June 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5911">https://www.rfc-editor.org/rfc/rfc5911</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8174">[RFC8174]</dt>
+        <dd>
+<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8551">[RFC8551]</dt>
+        <dd>
+<span class="refAuthor">Schaad, J.</span>, <span class="refAuthor">Ramsdell, B.</span>, and <span class="refAuthor">S. Turner</span>, <span class="refTitle">"Secure/Multipurpose Internet Mail Extensions (S/MIME) Version 4.0 Message Specification"</span>, <span class="seriesInfo">RFC 8551</span>, <span class="seriesInfo">DOI 10.17487/RFC8551</span>, <time datetime="2019-04" class="refDate">April 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8551">https://www.rfc-editor.org/rfc/rfc8551</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8619">[RFC8619]</dt>
+        <dd>
+<span class="refAuthor">Housley, R.</span>, <span class="refTitle">"Algorithm Identifiers for the HMAC-based Extract-and-Expand Key Derivation Function (HKDF)"</span>, <span class="seriesInfo">RFC 8619</span>, <span class="seriesInfo">DOI 10.17487/RFC8619</span>, <time datetime="2019-06" class="refDate">June 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8619">https://www.rfc-editor.org/rfc/rfc8619</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9629">[RFC9629]</dt>
+        <dd>
+<span class="refAuthor">Housley, R.</span>, <span class="refAuthor">Gray, J.</span>, and <span class="refAuthor">T. Okubo</span>, <span class="refTitle">"Using Key Encapsulation Mechanism (KEM) Algorithms in the Cryptographic Message Syntax (CMS)"</span>, <span class="seriesInfo">RFC 9629</span>, <span class="seriesInfo">DOI 10.17487/RFC9629</span>, <time datetime="2024-08" class="refDate">August 2024</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9629">https://www.rfc-editor.org/rfc/rfc9629</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="SP.800-57pt1r5">[SP.800-57pt1r5]</dt>
+        <dd>
+<span class="refAuthor">National Institute of Standards and Technology (NIST)</span>, <span class="refTitle">"Recommendation for Key Management: Part 1 – General"</span>, <time datetime="2020-05" class="refDate">May 2020</time>, <span>&lt;<a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-57pt1r5.pdf">https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-57pt1r5.pdf</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="X680">[X680]</dt>
+        <dd>
+<span class="refAuthor">ITU-T</span>, <span class="refTitle">"Information technology - Abstract Syntax Notation One (ASN.1): Specification of basic notation"</span>, <span class="seriesInfo">ITU-T Recommendation X.680</span>, <span class="seriesInfo">ISO/IEC 8824-1:2021</span>, <time datetime="2021-02" class="refDate">February 2021</time>, <span>&lt;<a href="https://www.itu.int/rec/T-REC-X.680">https://www.itu.int/rec/T-REC-X.680</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="X690">[X690]</dt>
+      <dd>
+<span class="refAuthor">ITU-T</span>, <span class="refTitle">"Information technology - Abstract Syntax Notation One (ASN.1): ASN.1 encoding rules: Specification of Basic Encoding Rules (BER), Canonical Encoding Rules (CER) and Distinguished Encoding Rules (DER)"</span>, <span class="seriesInfo">ITU-T Recommendation X.690</span>, <span class="seriesInfo">ISO/IEC 8825-1:2021</span>, <time datetime="2021-02" class="refDate">February 2021</time>, <span>&lt;<a href="https://www.itu.int/rec/T-REC-X.690">https://www.itu.int/rec/T-REC-X.690</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="sec-informative-references">
+<section id="section-6.2">
+        <h3 id="name-informative-references">
+<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+        </h3>
+<dl class="references">
+<dt id="FIPS203">[FIPS203]</dt>
+        <dd>
+<span class="refTitle">"Module-lattice-based key-encapsulation mechanism standard"</span>, <span class="refContent">National Institute of Standards and Technology (U.S.)</span>, <span class="seriesInfo">DOI 10.6028/nist.fips.203</span>, <time datetime="2024-08" class="refDate">August 2024</time>, <span>&lt;<a href="https://doi.org/10.6028/nist.fips.203">https://doi.org/10.6028/nist.fips.203</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9690">[RFC9690]</dt>
+        <dd>
+<span class="refAuthor">Housley, R.</span> and <span class="refAuthor">S. Turner</span>, <span class="refTitle">"Use of the RSA-KEM Algorithm in the Cryptographic Message Syntax (CMS)"</span>, <span class="seriesInfo">RFC 9690</span>, <span class="seriesInfo">DOI 10.17487/RFC9690</span>, <time datetime="2025-02" class="refDate">February 2025</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9690">https://www.rfc-editor.org/rfc/rfc9690</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9936">[RFC9936]</dt>
+      <dd>
+<span class="refTitle">"*** BROKEN REFERENCE ***"</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</div>
+</section>
+</div>
+<div id="sec-asn1-module">
+<section id="appendix-A">
+      <h2 id="name-asn1-module">
+<a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-asn1-module" class="section-name selfRef">ASN.1 Module</a>
+      </h2>
+<p id="appendix-A-1">This appendix includes the ASN.1 module <span>[<a href="#X680" class="cite xref">X680</a>]</span> for Composite ML-KEM. This module imports objects from <span>[<a href="#RFC5911" class="cite xref">RFC5911</a>]</span>, <span>[<a href="#RFC9629" class="cite xref">RFC9629</a>]</span>, <span>[<a href="#RFC8619" class="cite xref">RFC8619</a>]</span>, <span>[<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span>.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+<div class="breakable lang-asn.1 sourcecode" id="appendix-A-2">
+<pre>
+&lt;CODE BEGINS&gt;
+Composite-MLKEM-CMS-2026
+      { iso(1) identified-organization(3) dod(6) internet(1)
+        security(5) mechanisms(5) pkix(7) id-mod(0)
+        id-mod-composite-mlkem-cms-2026(TBDMOD) }
+
+DEFINITIONS IMPLICIT TAGS ::= BEGIN
+
+EXPORTS ALL;
+
+IMPORTS
+
+SMIME-CAPS
+  FROM AlgorithmInformation-2009  -- [RFC5911]
+    { iso(1) identified-organization(3) dod(6) internet(1)
+      security(5) mechanisms(5) pkix(7) id-mod(0)
+      id-mod-algorithmInformation-02(58) }
+
+KEM-ALGORITHM
+  FROM KEMAlgorithmInformation-2023  -- [RFC9629]
+      { iso(1) identified-organization(3) dod(6) internet(1)
+        security(5) mechanisms(5) pkix(7) id-mod(0)
+        id-mod-kemAlgorithmInformation-2023(109) }
+
+kda-hkdf-with-sha256
+  FROM HKDF-OID-2019  -- [RFC8619]
+      { iso(1) member-body(2) us(840) rsadsi(113549) pkcs(1)
+        pkcs-9(9) smime(16) modules(0) id-mod-hkdf-oid-2019(68) }
+
+kwa-aes256-wrap
+  FROM CMSAesRsaesOaep-2009  -- [RFC5911]
+      { iso(1) member-body(2) us(840) rsadsi(113549)
+      pkcs(1) pkcs-9(9) smime(16) modules(0)
+      id-mod-cms-aes-02(38) }
+
+kema-MLKEM768-RSA2048-SHA3-256, kema-MLKEM768-RSA3072-SHA3-256,
+kema-MLKEM768-RSA4096-SHA3-256, kema-MLKEM768-X25519-SHA3-256,
+kema-MLKEM768-ECDH-P256-SHA3-256, kema-MLKEM768-ECDH-P384-SHA3-256,
+kema-MLKEM768-ECDH-brainpoolP256r1-SHA3-256,
+kema-MLKEM1024-RSA3072-SHA3-256, kema-MLKEM1024-ECDH-P384-SHA3-256,
+kema-MLKEM1024-ECDH-brainpoolP384r1-SHA3-256, kema-MLKEM1024-X448,
+kema-MLKEM1024-ECDH-P521-SHA3-256
+  FROM Composite-MLKEM-2025
+      { iso(1) identified-organization(3) dod(6) internet(1)
+      security(5) mechanisms(5) pkix(7) id-mod(0)
+      id-mod-composite-mlkem-2025(TBDCompositeMOD) }
+;
+
+-- Updates for the SMIME-CAPS Set from RFC 5911
+
+SMimeCapsSet SMIME-CAPS ::=
+   { kema-MLKEM768-RSA2048-SHA3-256.&amp;smimeCaps |
+     kema-MLKEM768-RSA3072-SHA3-256.&amp;smimeCaps |
+     kema-MLKEM768-RSA4096-SHA3-256.&amp;smimeCaps |
+     kema-MLKEM768-X25519-SHA3-256.&amp;smimeCaps |
+     kema-MLKEM768-ECDH-P256-SHA3-256.&amp;smimeCaps |
+     kema-MLKEM768-ECDH-P384-SHA3-256.&amp;smimeCaps |
+     kema-MLKEM768-ECDH-brainpoolP256r1-SHA3-256.&amp;smimeCaps |
+     kema-MLKEM1024-RSA3072-SHA3-256.&amp;smimeCaps |
+     kema-MLKEM1024-ECDH-P384-SHA3-256.&amp;smimeCaps |
+     kema-MLKEM1024-ECDH-brainpoolP384r1-SHA3-256.&amp;smimeCaps |
+     kema-MLKEM1024-X448.&amp;smimeCaps |
+     kema-MLKEM1024-ECDH-P521-SHA3-256.&amp;smimeCaps |
+     kda-hkdf-with-sha256.&amp;smimeCaps |
+     kwa-aes256-wrap.&amp;smimeCaps,
+     ... }
+
+END
+&lt;CODE ENDS&gt;
+</pre><a href="#appendix-A-2" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="example">
+<section id="appendix-B">
+      <h2 id="name-composite-ml-kem-cms-authen">
+<a href="#appendix-B" class="section-number selfRef">Appendix B. </a><a href="#name-composite-ml-kem-cms-authen" class="section-name selfRef">Composite ML-KEM CMS Authenticated-Enveloped-Data Example</a>
+      </h2>
+<p id="appendix-B-1">This example shows the establishment of an AES-256 content-encryption
+key using:<a href="#appendix-B-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-B-2.1">
+          <p id="appendix-B-2.1.1">id-MLKEM768-ECDH-P256-SHA3-256;<a href="#appendix-B-2.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-B-2.2">
+          <p id="appendix-B-2.2.1">KEMRecipientInfo key derivation using HKDF with SHA-256; and<a href="#appendix-B-2.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-B-2.3">
+          <p id="appendix-B-2.3.1">KEMRecipientInfo key wrap using AES-256-KEYWRAP.<a href="#appendix-B-2.3.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="appendix-B-3">In real-world use, the originator would encrypt the content-
+encryption key in a manner that would allow decryption with their own
+private key as well as the recipient's private key.  This is omitted
+in an attempt to simplify the example.<a href="#appendix-B-3" class="pilcrow">¶</a></p>
+<div id="originator-cms-processing">
+<section id="appendix-B.1">
+        <h3 id="name-originator-cms-processing">
+<a href="#appendix-B.1" class="section-number selfRef">B.1. </a><a href="#name-originator-cms-processing" class="section-name selfRef">Originator CMS Processing</a>
+        </h3>
+<p id="appendix-B.1-1">Alice obtains Bob's id-MLKEM768-ECDH-P256-SHA3-256 public key:<a href="#appendix-B.1-1" class="pilcrow">¶</a></p>
+<div class="lang-test-vectors sourcecode" id="appendix-B.1-2">
+<pre>
+-----BEGIN PUBLIC KEY-----
+MIIE8jAKBggrBgEFBQcGOwOCBOIAjssyhemrdzqTE5MNKmCruyoBancRo6y8A5Aw
+uDSZ2AwdyWZCWnG6R2sP0vlXCNglq7BvHQTF6BObo+tT+ZmJSnsy1YaSKuyf8yw3
+vxyr1ScErsY0r2s1gfprFhYLUQNNoQd+YViNTAedvTBeQGJLgJOozEIFKiwHbvcu
+ddc2qnVGqNW0SSjF5QoE/lcwgvpYpZosHRePTYhm87hCdQJldwB6PZmgxZqfyeh0
+vXsB+KGw+XLJaOgb2vtl+Nmbm5cyUvOgHItyxQIadhO8iHEIubYzKdlOcDGiP1qE
+lCiMNslC+TGcl4Ij2SBQgyfLGpw2jpd3xJxyqjFZeeGrgidfRdVRtUyqUbCGHsLH
+ITFJz/h9vqe+S5N6vJmHMFCTHtu0CSiz5pK/RepjWKZiWhYdz1k9u8GWo4q3h8SH
+MnQKoSJq3Fx84Kl/ghUNxXB//2w+a/ekHuUzK8QbyWIqm2RSHkOj91hApCMG0tMn
+I0xoEqm/ewo3xZA5MJUZEdIkmoN+d5fLwVlUOHS0TWVrrCWAvttq4HySFMBU3vGd
+qGQPv2ZLd+NgjzmRMwc3unQh4KIXBspNK+lJgyU57QaDWtVq/yoXjhw5YQlYmckb
+NuIeTjpNDqfNxFSuziVQwZQ6VPm/63tjcxy9uMtxw5wTyqfAkyZVKdTLUdcMsJVF
+8XE0r6xtCQrNsmWzqhK1kvOUQcITlZEonyN4uXdFweFwXImg/NSK6QUcjKi6iQeI
+Gmiy2bKbUIgrIbhyUOZU1ad/vrF+dkBzrPei5BanHBLF5hYVoJcQ+hmg3cVsR1Ke
+XaduFdh0UXPNPMiTrClLz/FMdfcbzbe2xdSXHqCsdIBKxGagT3p0H/uTW1WwheFr
+DJKBDYBaZxVOwRqP16M7QIOTo8AqeXTOQMSxAdCAx7NR4SttZbQDrjwj1qCj5LQ9
+0TW4vUmNsWkaTeQP0LC6f/J5vlEQeIu0vUuggkqmDdaKPwx35SOixjwEwiweXgi1
+3bdn68py4/VVYPwXHZaDhakUurZcNEU91nwkrdG03DmbyBlIrwwIClgMwhmSbSGj
+Mql2lCPPE/zBJAvL9lfDP3mpoEMB0iCZm6t2IfAN7NLOwFeBOUomqxcvs0OkdxFG
+1Gk0hVEis4LHcje/1rBAX8i2Ige6H0AqY5e9X2OHHjVFNzoM8Mavo5trYEksanbG
+aJmpADcX8wxjDPhq+VBethWo5Ik0aLW16qGY/jAX6ROrpeRobOiSYNnDLFWI38Mf
+cZJuHbBajBe2gwQbTdadu0elr7fMuHd7OOB35vgH7qq0lgOg7LcB8rVgXBeHLsJp
+AGS2XTYlKFRNieIo5NSRdkXNkIoHyFZWU9dNUwbKD0CYtxxlj3cKp4AFFHdzCTot
+bFIfhoQQxIsZhbPOFCZKjtEQ+UVnjQN1y0E9uym1N7ZjW9OkjeCs0YaooyooNpu6
+TOMKu3GjVsqmKvgxk3cIztUouTC2+BC0iYANMUxRbZIiqLGWTsa6rBulSqm5Hpu8
+R/LBY0gljpYLFDQJiuYRNvOOIUYEO3ubd8fKY8swLGLNi/LoNwtb+HoJ8szpDsXh
+TIalQ0MEsdePvv0LCZ+0N55b1MaFJZieRuCMVPkbeJGWGzb4WVohn4jrsslaNC6y
+eZxiXOnPS7EDyzLv2PL/zhedCEbC4A==
+-----END PUBLIC KEY-----
+</pre><a href="#appendix-B.1-2" class="pilcrow">¶</a>
+</div>
+<p id="appendix-B.1-3">Bob's id-MLKEM768-ECDH-P256-SHA3-256 public key has the following key identifier:<a href="#appendix-B.1-3" class="pilcrow">¶</a></p>
+<div class="lang-test-vectors sourcecode" id="appendix-B.1-4">
+<pre>
+14F1D8FED21F6103676C752C97D0949537A96AB2
+</pre><a href="#appendix-B.1-4" class="pilcrow">¶</a>
+</div>
+<p id="appendix-B.1-5">Alice generates a shared secret and ciphertext using Bob's id-MLKEM768-ECDH-P256-SHA3-256 public key:<a href="#appendix-B.1-5" class="pilcrow">¶</a></p>
+<p id="appendix-B.1-6">Shared secret:<a href="#appendix-B.1-6" class="pilcrow">¶</a></p>
+<div class="lang-test-vectors sourcecode" id="appendix-B.1-7">
+<pre>
+9bd51d44ba390ff68176b763cee113007f112aac3c2ddbdde916e713762a389c
+</pre><a href="#appendix-B.1-7" class="pilcrow">¶</a>
+</div>
+<p id="appendix-B.1-8">Ciphertext:<a href="#appendix-B.1-8" class="pilcrow">¶</a></p>
+<div class="lang-test-vectors sourcecode" id="appendix-B.1-9">
+<pre>
+54b75c945ff83194fbf312214749b114bf6838878b49403f5235be774ae6719d
+90531da9ab013a0f8a81dbd6510592f5fbcbe3b1bcf393793f517e758bbdd104
+67c1a72b14165233e386ea6b027e482824d33244cc7f810bf7d21cd28e007c84
+19087698be0dd7934653f35c8b0164c218dcbcbe28302a813e47a334c9565349
+0cf57602c798d63d393e9e6ebc219265aa6562632a618d4c3e4052b20c89f2f0
+4ea45554673d1be8911f83ca4a20ce86b59cf0a8c964e5b04707875d56011d48
+9291abf2370838dc608fe2e26e617d0ec2c2c643e51caf6716e64c2cc5a185c7
+2770ec4185487589156bb47e414180c6cedeacd8dad07ffa9091441fdaced553
+c482bd0c41d5b77649f0ed803d07d29682dc2c41d2047d18fddab96529b9f8a2
+f0ddd5e4b302fffd8ccbec03d9917ffa6b8d249117146c58fd89a135a96ece67
+0c58a559628a68012d4c9a43e5fffb427f0df30da745bb0e4eb334716bb82175
+10467b8b58e1be54b30c857522654cbb5787813cb1b2fb957a725f51612187b5
+8bb83353f8e56aa6af89c94edd656d92bf66913022fce8f85730617d8a166bbb
+24515559915cc472435950bce8c25219fef507a6527a6a3920c2deada7732902
+e2d2ae8c60bda518a65da66f93581b7e37042a10464675ab326f603be14e5b55
+25634adeb956512a84fdb809af2f37d20a9fd23f67eca7741b49d5b7d74f947a
+8b6dac68888b3e3802994c98cccb68c2a0e7927f15e5e7be1400983e22a4c9ef
+2babdf244525adde3b4d91e778e21e2bd32c5221f5433f28390128eabf3b181b
+85c2c1efd7fae946399bb8fe21de2aed0a3e72cab34d305509547df33a45d17d
+013a3ac08f0db69dbff0bae5a4b9c15ee8bdc4e2525b49e6865aeb752051935f
+8e2fb5daea912d118671102b8fb4675c3937b389a7c7068cb697b3798fffe9d6
+e64156493bb808d067a3eac418a7bf5819e25a740c8349914e5008340c381a07
+d870b14b9be9939d306bc702d46a58216df932d2bcb45a3f181bd84f4b9ba992
+f3a5f12a5db615ae0598a9c432cf5c0095187a849a93ca0d2d7deedb2db1ced5
+3c0d4ae5d2b37eb25e07992452e0188e2d72682f46f0167f0f6a680243eff2c4
+b5fcf0235852f99defa4d535a479176fa3a22587511581b3649fe410e302ec1b
+9061cb535c492ae57ac126cb49ea47de12a9097c5f8a869d84d4aae903f0bc6f
+53a60514cebe02fdc9a204a6be2a66567d589fcbaca36565a3e02d10b16920ea
+26b05c50be805d06ece3c9ee7db7eb207c33c1d4ac92ca294f1a0f8fac839fea
+0389fae43384a2daa7a4c1f5e92d622f8eb37ac0c55eb9df8d9713de03a0ef8b
+2d9306c8530f607d898ba88adb6ad982becd3b05cac32b7dfe767c826e5e8bdf
+40120f1a49e84cd11c4c09b07c27591a6032b372a7bd468b09ece07ee6eca6e9
+4559f14843dd9a97931e0c06d105aa2237e67a3c128d33ab61dc47986fdafb79
+7e60cb44453b4dfbcf7afdfe02f686c720fd65d5381827be62f3322acbc37213
+0443d6690e3ae3b17f263f9345998ca26317f757b86d0ad41531b114f5d57fa8
+2e5023e5176227d087f765e1421cef31be9c315866838017bb2aa58955bf52ce
+6e
+</pre><a href="#appendix-B.1-9" class="pilcrow">¶</a>
+</div>
+<p id="appendix-B.1-10">Alice encodes the CMSORIforKEMOtherInfo:<a href="#appendix-B.1-10" class="pilcrow">¶</a></p>
+<div class="lang-test-vectors sourcecode" id="appendix-B.1-11">
+<pre>
+3010300b060960864801650304012d020120
+</pre><a href="#appendix-B.1-11" class="pilcrow">¶</a>
+</div>
+<p id="appendix-B.1-12">Alice derives the key-encryption key from the shared secret and CMSORIforKEMOtherInfo using HKDF with SHA-256:<a href="#appendix-B.1-12" class="pilcrow">¶</a></p>
+<div class="lang-test-vectors sourcecode" id="appendix-B.1-13">
+<pre>
+0555324e4703e672404e2272c555438bd7d04feac1321e05ebae6c0a2336d529
+</pre><a href="#appendix-B.1-13" class="pilcrow">¶</a>
+</div>
+<p id="appendix-B.1-14">Alice randomly generates a 128-bit content-encryption key:<a href="#appendix-B.1-14" class="pilcrow">¶</a></p>
+<div class="lang-test-vectors sourcecode" id="appendix-B.1-15">
+<pre>
+3424cef0cbc2b67f58351abd1e87b3507a11c90adef7e1cdab8d20b0331b8105
+</pre><a href="#appendix-B.1-15" class="pilcrow">¶</a>
+</div>
+<p id="appendix-B.1-16">Alice uses AES-256-KEYWRAP to encrypt the content-encryption key with the key-encryption key:<a href="#appendix-B.1-16" class="pilcrow">¶</a></p>
+<div class="lang-test-vectors sourcecode" id="appendix-B.1-17">
+<pre>
+5d13ae00d914a29158a8ef32b23ae5f27b8c293387e3be65fc3dfc19b99d8fdc
+552527fd42154b37
+</pre><a href="#appendix-B.1-17" class="pilcrow">¶</a>
+</div>
+<p id="appendix-B.1-18">Alice encrypts the padded content using AES-256-GCM with the content-encryption key and encodes the AuthEnvelopedData (using KEMRecipientInfo) and ContentInfo, and then sends the result to Bob.<a href="#appendix-B.1-18" class="pilcrow">¶</a></p>
+<p id="appendix-B.1-19">The Base64-encoded result is:<a href="#appendix-B.1-19" class="pilcrow">¶</a></p>
+<div class="lang-test-vectors sourcecode" id="appendix-B.1-20">
+<pre>
+-----BEGIN CMS-----
+MIIFcgYLKoZIhvcNAQkQARegggVhMIIFXQIBADGCBQikggUEBgsqhkiG9w0BCRAN
+AzCCBPMCAQCAFBTx2P7SH2EDZ2x1LJfQlJU3qWqyMAoGCCsGAQUFBwY7BIIEgVS3
+XJRf+DGU+/MSIUdJsRS/aDiHi0lAP1I1vndK5nGdkFMdqasBOg+KgdvWUQWS9fvL
+47G885N5P1F+dYu90QRnwacrFBZSM+OG6msCfkgoJNMyRMx/gQv30hzSjgB8hBkI
+dpi+DdeTRlPzXIsBZMIY3Ly+KDAqgT5HozTJVlNJDPV2AseY1j05Pp5uvCGSZapl
+YmMqYY1MPkBSsgyJ8vBOpFVUZz0b6JEfg8pKIM6GtZzwqMlk5bBHB4ddVgEdSJKR
+q/I3CDjcYI/i4m5hfQ7CwsZD5RyvZxbmTCzFoYXHJ3DsQYVIdYkVa7R+QUGAxs7e
+rNja0H/6kJFEH9rO1VPEgr0MQdW3dknw7YA9B9KWgtwsQdIEfRj92rllKbn4ovDd
+1eSzAv/9jMvsA9mRf/prjSSRFxRsWP2JoTWpbs5nDFilWWKKaAEtTJpD5f/7Qn8N
+8w2nRbsOTrM0cWu4IXUQRnuLWOG+VLMMhXUiZUy7V4eBPLGy+5V6cl9RYSGHtYu4
+M1P45Wqmr4nJTt1lbZK/ZpEwIvzo+FcwYX2KFmu7JFFVWZFcxHJDWVC86MJSGf71
+B6ZSemo5IMLeradzKQLi0q6MYL2lGKZdpm+TWBt+NwQqEEZGdasyb2A74U5bVSVj
+St65VlEqhP24Ca8vN9IKn9I/Z+yndBtJ1bfXT5R6i22saIiLPjgCmUyYzMtowqDn
+kn8V5ee+FACYPiKkye8rq98kRSWt3jtNked44h4r0yxSIfVDPyg5ASjqvzsYG4XC
+we/X+ulGOZu4/iHeKu0KPnLKs00wVQlUffM6RdF9ATo6wI8Ntp2/8LrlpLnBXui9
+xOJSW0nmhlrrdSBRk1+OL7Xa6pEtEYZxECuPtGdcOTeziafHBoy2l7N5j//p1uZB
+Vkk7uAjQZ6PqxBinv1gZ4lp0DINJkU5QCDQMOBoH2HCxS5vpk50wa8cC1GpYIW35
+MtK8tFo/GBvYT0ubqZLzpfEqXbYVrgWYqcQyz1wAlRh6hJqTyg0tfe7bLbHO1TwN
+SuXSs36yXgeZJFLgGI4tcmgvRvAWfw9qaAJD7/LEtfzwI1hS+Z3vpNU1pHkXb6Oi
+JYdRFYGzZJ/kEOMC7BuQYctTXEkq5XrBJstJ6kfeEqkJfF+Khp2E1KrpA/C8b1Om
+BRTOvgL9yaIEpr4qZlZ9WJ/LrKNlZaPgLRCxaSDqJrBcUL6AXQbs48nufbfrIHwz
+wdSsksopTxoPj6yDn+oDifrkM4Si2qekwfXpLWIvjrN6wMVeud+NlxPeA6Dviy2T
+BshTD2B9iYuoittq2YK+zTsFysMrff52fIJuXovfQBIPGknoTNEcTAmwfCdZGmAy
+s3KnvUaLCezgfubspulFWfFIQ92al5MeDAbRBaoiN+Z6PBKNM6th3EeYb9r7eX5g
+y0RFO037z3r9/gL2hscg/WXVOBgnvmLzMirLw3ITBEPWaQ4647F/Jj+TRZmMomMX
+91e4bQrUFTGxFPXVf6guUCPlF2In0If3ZeFCHO8xvpwxWGaDgBe7KqWJVb9Szm4w
+DQYLKoZIhvcNAQkQAxwCASAwCwYJYIZIAWUDBAEtBChdE64A2RSikVio7zKyOuXy
+e4wpM4fjvmX8PfwZuZ2P3FUlJ/1CFUs3MDoGCSqGSIb3DQEHATAeBglghkgBZQME
+AS4wEQQMhrwH+8PcSlmdkPPoAgEQgA0g+U8GH3sF+VsyV//ABBBfKmBjryzwX+Hi
+l6KLp6sQ
+-----END CMS-----
+</pre><a href="#appendix-B.1-20" class="pilcrow">¶</a>
+</div>
+<p id="appendix-B.1-21">This result decodes to:<a href="#appendix-B.1-21" class="pilcrow">¶</a></p>
+<div class="breakable lang-test-vectors sourcecode" id="appendix-B.1-22">
+<pre>
+   0 1394: SEQUENCE {
+   4   11:  OBJECT IDENTIFIER
+         :   authEnvelopedData (1 2 840 113549 1 9 16 1 23)
+  17 1377:  [0] {
+  21 1373:   SEQUENCE {
+  25    1:    INTEGER 0
+  28 1288:    SET {
+  32 1284:     [4] {
+  36   11:      OBJECT IDENTIFIER '1 2 840 113549 1 9 16 13 3'
+  49 1267:      SEQUENCE {
+  53    1:       INTEGER 0
+  56   20:       [0]
+         :   14 F1 D8 FE D2 1F 61 03 67 6C 75 2C 97 D0 94 95
+         :   37 A9 6A B2
+  78   10:       SEQUENCE {
+  80    8:        OBJECT IDENTIFIER '1 3 6 1 5 5 7 6 59'
+         :         }
+  90 1153:       OCTET STRING
+         :   54 B7 5C 94 5F F8 31 94 FB F3 12 21 47 49 B1 14
+         :   BF 68 38 87 8B 49 40 3F 52 35 BE 77 4A E6 71 9D
+         :   90 53 1D A9 AB 01 3A 0F 8A 81 DB D6 51 05 92 F5
+         :   FB CB E3 B1 BC F3 93 79 3F 51 7E 75 8B BD D1 04
+         :   67 C1 A7 2B 14 16 52 33 E3 86 EA 6B 02 7E 48 28
+         :   24 D3 32 44 CC 7F 81 0B F7 D2 1C D2 8E 00 7C 84
+         :   19 08 76 98 BE 0D D7 93 46 53 F3 5C 8B 01 64 C2
+         :   18 DC BC BE 28 30 2A 81 3E 47 A3 34 C9 56 53 49
+         :   0C F5 76 02 C7 98 D6 3D 39 3E 9E 6E BC 21 92 65
+         :   AA 65 62 63 2A 61 8D 4C 3E 40 52 B2 0C 89 F2 F0
+         :   4E A4 55 54 67 3D 1B E8 91 1F 83 CA 4A 20 CE 86
+         :   B5 9C F0 A8 C9 64 E5 B0 47 07 87 5D 56 01 1D 48
+         :   92 91 AB F2 37 08 38 DC 60 8F E2 E2 6E 61 7D 0E
+         :   C2 C2 C6 43 E5 1C AF 67 16 E6 4C 2C C5 A1 85 C7
+         :   27 70 EC 41 85 48 75 89 15 6B B4 7E 41 41 80 C6
+         :   CE DE AC D8 DA D0 7F FA 90 91 44 1F DA CE D5 53
+         :   C4 82 BD 0C 41 D5 B7 76 49 F0 ED 80 3D 07 D2 96
+         :   82 DC 2C 41 D2 04 7D 18 FD DA B9 65 29 B9 F8 A2
+         :   F0 DD D5 E4 B3 02 FF FD 8C CB EC 03 D9 91 7F FA
+         :   6B 8D 24 91 17 14 6C 58 FD 89 A1 35 A9 6E CE 67
+         :   0C 58 A5 59 62 8A 68 01 2D 4C 9A 43 E5 FF FB 42
+         :   7F 0D F3 0D A7 45 BB 0E 4E B3 34 71 6B B8 21 75
+         :   10 46 7B 8B 58 E1 BE 54 B3 0C 85 75 22 65 4C BB
+         :   57 87 81 3C B1 B2 FB 95 7A 72 5F 51 61 21 87 B5
+         :   8B B8 33 53 F8 E5 6A A6 AF 89 C9 4E DD 65 6D 92
+         :   BF 66 91 30 22 FC E8 F8 57 30 61 7D 8A 16 6B BB
+         :   24 51 55 59 91 5C C4 72 43 59 50 BC E8 C2 52 19
+         :   FE F5 07 A6 52 7A 6A 39 20 C2 DE AD A7 73 29 02
+         :   E2 D2 AE 8C 60 BD A5 18 A6 5D A6 6F 93 58 1B 7E
+         :   37 04 2A 10 46 46 75 AB 32 6F 60 3B E1 4E 5B 55
+         :   25 63 4A DE B9 56 51 2A 84 FD B8 09 AF 2F 37 D2
+         :   0A 9F D2 3F 67 EC A7 74 1B 49 D5 B7 D7 4F 94 7A
+         :   8B 6D AC 68 88 8B 3E 38 02 99 4C 98 CC CB 68 C2
+         :   A0 E7 92 7F 15 E5 E7 BE 14 00 98 3E 22 A4 C9 EF
+         :   2B AB DF 24 45 25 AD DE 3B 4D 91 E7 78 E2 1E 2B
+         :   D3 2C 52 21 F5 43 3F 28 39 01 28 EA BF 3B 18 1B
+         :   85 C2 C1 EF D7 FA E9 46 39 9B B8 FE 21 DE 2A ED
+         :   0A 3E 72 CA B3 4D 30 55 09 54 7D F3 3A 45 D1 7D
+         :   01 3A 3A C0 8F 0D B6 9D BF F0 BA E5 A4 B9 C1 5E
+         :   E8 BD C4 E2 52 5B 49 E6 86 5A EB 75 20 51 93 5F
+         :   8E 2F B5 DA EA 91 2D 11 86 71 10 2B 8F B4 67 5C
+         :   39 37 B3 89 A7 C7 06 8C B6 97 B3 79 8F FF E9 D6
+         :   E6 41 56 49 3B B8 08 D0 67 A3 EA C4 18 A7 BF 58
+         :   19 E2 5A 74 0C 83 49 91 4E 50 08 34 0C 38 1A 07
+         :   D8 70 B1 4B 9B E9 93 9D 30 6B C7 02 D4 6A 58 21
+         :   6D F9 32 D2 BC B4 5A 3F 18 1B D8 4F 4B 9B A9 92
+         :   F3 A5 F1 2A 5D B6 15 AE 05 98 A9 C4 32 CF 5C 00
+         :   95 18 7A 84 9A 93 CA 0D 2D 7D EE DB 2D B1 CE D5
+         :   3C 0D 4A E5 D2 B3 7E B2 5E 07 99 24 52 E0 18 8E
+         :   2D 72 68 2F 46 F0 16 7F 0F 6A 68 02 43 EF F2 C4
+         :   B5 FC F0 23 58 52 F9 9D EF A4 D5 35 A4 79 17 6F
+         :   A3 A2 25 87 51 15 81 B3 64 9F E4 10 E3 02 EC 1B
+         :   90 61 CB 53 5C 49 2A E5 7A C1 26 CB 49 EA 47 DE
+         :   12 A9 09 7C 5F 8A 86 9D 84 D4 AA E9 03 F0 BC 6F
+         :   53 A6 05 14 CE BE 02 FD C9 A2 04 A6 BE 2A 66 56
+         :   7D 58 9F CB AC A3 65 65 A3 E0 2D 10 B1 69 20 EA
+         :   26 B0 5C 50 BE 80 5D 06 EC E3 C9 EE 7D B7 EB 20
+         :   7C 33 C1 D4 AC 92 CA 29 4F 1A 0F 8F AC 83 9F EA
+         :   03 89 FA E4 33 84 A2 DA A7 A4 C1 F5 E9 2D 62 2F
+         :   8E B3 7A C0 C5 5E B9 DF 8D 97 13 DE 03 A0 EF 8B
+         :   2D 93 06 C8 53 0F 60 7D 89 8B A8 8A DB 6A D9 82
+         :   BE CD 3B 05 CA C3 2B 7D FE 76 7C 82 6E 5E 8B DF
+         :   40 12 0F 1A 49 E8 4C D1 1C 4C 09 B0 7C 27 59 1A
+         :   60 32 B3 72 A7 BD 46 8B 09 EC E0 7E E6 EC A6 E9
+         :   45 59 F1 48 43 DD 9A 97 93 1E 0C 06 D1 05 AA 22
+         :   37 E6 7A 3C 12 8D 33 AB 61 DC 47 98 6F DA FB 79
+         :   7E 60 CB 44 45 3B 4D FB CF 7A FD FE 02 F6 86 C7
+         :   20 FD 65 D5 38 18 27 BE 62 F3 32 2A CB C3 72 13
+         :   04 43 D6 69 0E 3A E3 B1 7F 26 3F 93 45 99 8C A2
+         :   63 17 F7 57 B8 6D 0A D4 15 31 B1 14 F5 D5 7F A8
+         :   2E 50 23 E5 17 62 27 D0 87 F7 65 E1 42 1C EF 31
+         :   BE 9C 31 58 66 83 80 17 BB 2A A5 89 55 BF 52 CE
+         :   6E
+1247   13:       SEQUENCE {
+1249   11:        OBJECT IDENTIFIER
+         :         hkdfWithSha256 (1 2 840 113549 1 9 16 3 28)
+         :         }
+1262    1:       INTEGER 32
+1265   11:       SEQUENCE {
+1267    9:        OBJECT IDENTIFIER
+         :         aes256-wrap (2 16 840 1 101 3 4 1 45)
+         :         }
+1278   40:       OCTET STRING
+         :   5D 13 AE 00 D9 14 A2 91 58 A8 EF 32 B2 3A E5 F2
+         :   7B 8C 29 33 87 E3 BE 65 FC 3D FC 19 B9 9D 8F DC
+         :   55 25 27 FD 42 15 4B 37
+         :        }
+         :       }
+         :      }
+1320   58:    SEQUENCE {
+1322    9:     OBJECT IDENTIFIER data (1 2 840 113549 1 7 1)
+1333   30:     SEQUENCE {
+1335    9:      OBJECT IDENTIFIER
+         :       aes256-GCM (2 16 840 1 101 3 4 1 46)
+1346   17:      SEQUENCE {
+1348   12:       OCTET STRING 86 BC 07 FB C3 DC 4A 59 9D 90 F3 E8
+1362    1:       INTEGER 16
+         :        }
+         :       }
+1365   13:     [0] 20 F9 4F 06 1F 7B 05 F9 5B 32 57 FF C0
+         :      }
+1380   16:    OCTET STRING
+         :   5F 2A 60 63 AF 2C F0 5F E1 E2 97 A2 8B A7 AB 10
+         :     }
+         :    }
+         :   }
+</pre><a href="#appendix-B.1-22" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="recipient-cms-processing">
+<section id="appendix-B.2">
+        <h3 id="name-recipient-cms-processing">
+<a href="#appendix-B.2" class="section-number selfRef">B.2. </a><a href="#name-recipient-cms-processing" class="section-name selfRef">Recipient CMS Processing</a>
+        </h3>
+<p id="appendix-B.2-1">Bob's id-MLKEM768-ECDH-P256-SHA3-256 private key:<a href="#appendix-B.2-1" class="pilcrow">¶</a></p>
+<div class="lang-test-vectors sourcecode" id="appendix-B.2-2">
+<pre>
+-----BEGIN PRIVATE KEY-----
+MIGEAgEAMAoGCCsGAQUFBwY7BHOImiTrgVkiRNnS3EmMdxHUrh+EHeflRSSQaMrG
+7NAvf0DDSVt58hvzJz/RuCOE4/8REOs/DZVr5gWO2jOyldClMDECAQEEIM/ctKyh
+CrQyBNhBbpwS5ZkEO1mklf14j5NRtwj3obB+oAoGCCqGSM49AwEH
+-----END PRIVATE KEY-----
+</pre><a href="#appendix-B.2-2" class="pilcrow">¶</a>
+</div>
+<p id="appendix-B.2-3">Bob decapsulates the ciphertext in the KEMRecipientInfo to get the MLKEM768-ECDH-P256-SHA3-256 shared secret, encodes the CMSORIforKEMOtherInfo, derives the key-encryption key from the shared secret and the DER-encoded CMSORIforKEMOtherInfo using HKDF with SHA-256, uses AES-256-KEYWRAP to decrypt the content-encryption key with the key-encryption key, and decrypts the encrypted contents with the content-encryption key, revealing the plaintext content:<a href="#appendix-B.2-3" class="pilcrow">¶</a></p>
+<div class="lang-test-vectors sourcecode" id="appendix-B.2-4">
+<pre>
+</pre><a href="#appendix-B.2-4" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="acknowledgments">
+<section id="appendix-C">
+      <h2 id="name-acknowledgments">
+<a href="#appendix-C" class="section-number selfRef">Appendix C. </a><a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
+      </h2>
+<p id="appendix-C-1">This document borrows heavily from <span>[<a href="#RFC9690" class="cite xref">RFC9690</a>]</span> and <span>[<a href="#RFC9936" class="cite xref">RFC9936</a>]</span>. Thanks go to the authors of those documents. "Copying always makes things easier and less error prone" - RFC8411.<a href="#appendix-C-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="authors-addresses">
+<section id="appendix-D">
+      <h2 id="name-authors-addresses">
+<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
+      </h2>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Daniel Van Geest</span></div>
+<div dir="auto" class="left"><span class="org">CryptoNext Security</span></div>
+<div dir="auto" class="left"><span class="street-address">‍16, Boulevard Saint-Germain</span></div>
+<div dir="auto" class="left">
+<span class="postal-code">75007</span> <span class="locality">Paris</span>
+</div>
+<div dir="auto" class="left"><span class="country-name">France</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:daniel.vangeest@cryptonext-security.com" class="email">daniel.vangeest@cryptonext-security.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Mike Ounsworth</span></div>
+<div dir="auto" class="left"><span class="org">Entrust Limited</span></div>
+<div dir="auto" class="left"><span class="street-address">2500 Solandt Road – Suite 100</span></div>
+<div dir="auto" class="left">
+<span class="locality">Ottawa, Ontario</span>  <span class="postal-code">K2K 3G5</span>
+</div>
+<div dir="auto" class="left"><span class="country-name">Canada</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:mike.ounsworth@entrust.com" class="email">mike.ounsworth@entrust.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">John Gray</span></div>
+<div dir="auto" class="left"><span class="org">Entrust Limited</span></div>
+<div dir="auto" class="left"><span class="street-address">2500 Solandt Road – Suite 100</span></div>
+<div dir="auto" class="left">
+<span class="locality">Ottawa, Ontario</span>  <span class="postal-code">K2K 3G5</span>
+</div>
+<div dir="auto" class="left"><span class="country-name">Canada</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:john.gray@entrust.com" class="email">john.gray@entrust.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Jan Klaussner</span></div>
+<div dir="auto" class="left"><span class="org">Bundesdruckerei GmbH</span></div>
+<div dir="auto" class="left"><span class="street-address">Kommandantenstr. 18</span></div>
+<div dir="auto" class="left">
+<span class="postal-code">10969</span> <span class="locality">Berlin</span>
+</div>
+<div dir="auto" class="left"><span class="country-name">Germany</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:jan.klaussner@bdr.de" class="email">jan.klaussner@bdr.de</a>
+</div>
+</address>
+</section>
+</div>
+<script>const toc = document.getElementById("toc");
+toc.querySelector("h2").addEventListener("click", e => {
+  toc.classList.toggle("active");
+});
+toc.querySelector("nav").addEventListener("click", e => {
+  toc.classList.remove("active");
+});
+</script>
+</body>
+</html>
