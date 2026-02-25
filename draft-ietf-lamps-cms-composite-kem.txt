@@ -5,11 +5,11 @@
 LAMPS                                                       D. Van Geest
 Internet-Draft                                       CryptoNext Security
 Intended status: Standards Track                            M. Ounsworth
-Expires: 28 August 2026                                          J. Gray
+Expires: 29 August 2026                                          J. Gray
                                                                  Entrust
                                                             J. Klaussner
                                                     Bundesdruckerei GmbH
-                                                        24 February 2026
+                                                        25 February 2026
 
 
      Composite ML-KEM for use in Cryptographic Message Syntax (CMS)
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 28 August 2026.
+   This Internet-Draft will expire on 29 August 2026.
 
 Copyright Notice
 
@@ -135,8 +135,7 @@ Table of Contents
    pairs ML-KEM-768 or ML-KEM-1024 with RSA-OAEP, ECDH, X25519, or X448
    at similar security levels such that the shared secret key from each
    component algorithm is combined into a single shared secret key.
-   Note that Composite ML-KEM does not provide pairings based on ML-KEM-
-   512.
+   Composite ML-KEM does not provide pairings based on ML-KEM-512.
 
    All KEM algorithms provide three functions: KeyGen(), Encapsulate(),
    and Decapsulate().
