@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-24T02:43:39.005142+00:00",
+  "timestamp": "2026-02-26T02:39:50.470033+00:00",
   "repo": "lamps-wg/cms-composite-kem",
   "labels": [
     {
@@ -55,17 +55,46 @@
       "id": "I_kwDOQdl0ts7qFHbR",
       "title": "Decision on KDF to use in the forthcoming draft",
       "url": "https://github.com/lamps-wg/cms-composite-kem/issues/1",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "johngray-dev",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "We discussed using HDKF-SHA256 a few times, and no one has a problem with its usage...",
       "createdAt": "2026-02-11T15:33:46Z",
-      "updatedAt": "2026-02-11T15:33:46Z",
-      "closedAt": null,
+      "updatedAt": "2026-02-24T16:28:43Z",
+      "closedAt": "2026-02-24T16:28:43Z",
       "comments": []
     }
   ],
-  "pulls": []
+  "pulls": [
+    {
+      "number": 2,
+      "id": "PR_kwDOQdl0ts7F_brc",
+      "title": "Minor wordsmithing",
+      "url": "https://github.com/lamps-wg/cms-composite-kem/pull/2",
+      "state": "MERGED",
+      "author": "danvangeest",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-02-24T17:07:08Z",
+      "updatedAt": "2026-02-25T10:41:44Z",
+      "baseRepository": "lamps-wg/cms-composite-kem",
+      "baseRefName": "main",
+      "baseRefOid": "76b5af75e54e945dc67210d7695e034493210448",
+      "headRepository": "lamps-wg/cms-composite-kem",
+      "headRefName": "dvg/wordsmith",
+      "headRefOid": "5a65183913d37a78885317f526e953fb35a6ea89",
+      "closedAt": "2026-02-25T10:41:39Z",
+      "mergedAt": "2026-02-25T10:41:39Z",
+      "mergedBy": "danvangeest",
+      "mergeCommit": {
+        "oid": "bcd5c4e9bc6bc05158b91cd4fde7921e2f44b607"
+      },
+      "comments": [],
+      "reviews": []
+    }
+  ]
 }
