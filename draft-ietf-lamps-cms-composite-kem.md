@@ -71,12 +71,6 @@ author:
     country: Germany
 
 normative:
-  SP.800-57pt1r5:
-    title: "Recommendation for Key Management: Part 1 – General"
-    date: May 2020
-    author:
-      org: "National Institute of Standards and Technology (NIST)"
-    target: https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-57pt1r5.pdf
   FIPS180: DOI.10.6028/NIST.FIPS.180-4
   X680:
     target: https://www.itu.int/rec/T-REC-X.680
@@ -106,6 +100,12 @@ normative:
 
 informative:
   FIPS203: DOI.10.6028/NIST.FIPS.203
+  SP.800-57pt1r5:
+    title: "Recommendation for Key Management: Part 1 – General"
+    date: May 2020
+    author:
+      org: "National Institute of Standards and Technology (NIST)"
+    target: https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-57pt1r5.pdf
 
 
 --- abstract
@@ -140,7 +140,8 @@ CMS values are generated using ASN.1 {{X680}}, using the Basic Encoding Rules (B
 
 ML-KEM is a lattice-based KEM using Module Learning with Errors as its underlying primitive.
 It was standardized with three parameter sets: ML-KEM-512, ML-KEM-768, and ML-KEM-1024.
-Composite ML-KEM pairs ML-KEM-768 or ML-KEM-1024 with RSA-OAEP, ECDH, X25519, or X448 at similar security levels such that the shared secret key from each component algorithm is combined into a single shared secret key. Composite ML-KEM does not provide pairings based on ML-KEM-512.
+Composite ML-KEM pairs ML-KEM-768 or ML-KEM-1024 with RSA-OAEP, ECDH, X25519, or X448 at similar security levels such that the shared secret key from each component algorithm is combined into a single shared secret key.
+Composite ML-KEM does not provide pairings based on ML-KEM-512.
 
 All KEM algorithms provide three functions: KeyGen(), Encapsulate(), and Decapsulate().
 
@@ -161,9 +162,11 @@ Decapsulate(dk, c) -> ss:
 
 # Use of Composite ML-KEM in the CMS
 
-Composite ML-KEM algorithms MAY be employed for one or more recipients in the CMS enveloped-data content type {{!RFC5652}}, the CMS authenticated-data content type {{!RFC5652}}, or the CMS authenticated-enveloped-data content type {{!RFC5083}}. In each case, the KEMRecipientInfo {{!RFC9629}} type is used with the Composite ML-KEM algorithm to securely transfer the content-encryption key from the originator to the recipient.
+Composite ML-KEM algorithms MAY be employed for one or more recipients in the CMS enveloped-data content type {{!RFC5652}}, the CMS authenticated-data content type {{!RFC5652}}, or the CMS authenticated-enveloped-data content type {{!RFC5083}}.
+In each case, the KEMRecipientInfo {{!RFC9629}} type is used with the Composite ML-KEM algorithm to securely transfer the content-encryption key from the originator to the recipient.
 
-Processing a Composite ML-KEM algorithm with KEMRecipientInfo follows the same steps as {{Section 2 of RFC9629}}. To support the Composite ML-KEM algorithm, a CMS originator MUST implement the Encapsulate() function and a CMS recipient MUST implement the Decapsulate() function.
+Processing a Composite ML-KEM algorithm with KEMRecipientInfo follows the same steps as {{Section 2 of RFC9629}}.
+To support the Composite ML-KEM algorithm, a CMS originator MUST implement the Encapsulate() function and a CMS recipient MUST implement the Decapsulate() function.
 
 
 ## RecipientInfo Conventions {#sec-using-recipientInfo}
@@ -186,8 +189,9 @@ kemct
 : The ciphertext produced for this recipient.
 
 kdf
-: Identifies the key derivation algorithm. Note that the Key Derivation Function (KDF) used for CMS RecipientInfo process MAY be different than the KDF used within the Composite ML-KEM algorithm.
-Implementations MUST support the HMAC-based Key Derivation Function (HKDF) {{!RFC5869}} with SHA-256 {{!FIPS180}}, using the id-alg-hkdf-with-sha256 KDF object identifier (OID) {{!RFC8619}}.
+: Identifies the key derivation algorithm.
+Note that the Key Derivation Function (KDF) used for CMS RecipientInfo process MAY be different than the KDF used within the Composite ML-KEM algorithm.
+Implementations MUST support the HMAC-based Key Derivation Function (HKDF) {{!RFC5869}} with SHA-256 {{FIPS180}}, using the id-alg-hkdf-with-sha256 KDF object identifier (OID) {{!RFC8619}}.
 As specified in {{!RFC8619}}, the parameter field MUST be absent when this OID appears within the ASN.1 type AlgorithmIdentifier.
 Implementations MAY support other KDFs as well.
 
@@ -210,7 +214,7 @@ Implementations MAY support other key-encryption algorithms as well.
 ## Underlying Components
 
 When Composite ML-KEM is employed in the CMS, the underlying components used within the KEMRecipientInfo structure SHOULD be consistent with a minimum desired security level.
-Several security levels have been identified {{?SP.800-57pt1r5}}.
+Several security levels have been identified {{SP.800-57pt1r5}}.
 
 If underlying components other than those specified in {{sec-using-recipientInfo}} are used, then the following table gives the minimum requirements on the components used with Composite ML-KEM in the KEMRecipientInfo type in order to satisfy the KDF and key wrapping algorithm requirements from {{Section 7 of RFC9629}}.
 The components are chosen based on the ML-KEM variant used within the Composite ML-KEM algorithm.
@@ -334,7 +338,7 @@ Disclosure of the Composite ML-KEM private key could result in the compromise of
 Disclosure of the key-encryption key, the content-encryption key, or the content-authenticated-encryption key could result in the compromise of the associated encrypted content.
 Disclosure of the key-encryption key, the message-authentication key, or the content-authenticated-encryption key could allow modification of the associated authenticated content.
 
-Additional considerations related to key management may be found in {{?SP.800-57pt1r5}}.
+Additional considerations related to key management may be found in {{SP.800-57pt1r5}}.
 
 The generation of private keys relies on random numbers, as does the encapsulation function of Composite ML-KEM.
 The use of inadequate pseudorandom number generators (PRNGs) to generate these values can result in little or no security.
@@ -346,7 +350,8 @@ Implementations MUST NOT use intermediate values directly for any purpose.
 Implementations SHOULD NOT reveal information about intermediate values or calculations, whether by timing or other "side channels"; otherwise an opponent may be able to determine information about the keying data and/or the recipient's private key.
 Although not all intermediate information may be useful to an opponent, it is preferable to conceal as much information as is practical, unless analysis specifically indicates that the information would not be useful to an opponent.
 
-Generally, good cryptographic practice employs a given Composite ML-KEM key pair in only one scheme. This practice avoids the risk that vulnerability in one scheme may compromise the security of the other and may be essential to maintain provable security.
+Generally, good cryptographic practice employs a given Composite ML-KEM key pair in only one scheme.
+This practice avoids the risk that vulnerability in one scheme may compromise the security of the other and may be essential to maintain provable security.
 
 
 # IANA Considerations {#sec-iana}
@@ -366,7 +371,8 @@ IANA is requested to allocate a value from the "SMI Security for PKIX Module Ide
 
 # ASN.1 Module {#sec-asn1-module}
 
-This appendix includes the ASN.1 module {{X680}} for Composite ML-KEM. This module imports objects from {{RFC5911}}, {{RFC9629}}, {{RFC8619}}, {{I-D.ietf-lamps-pq-composite-kem}}.
+This appendix includes the ASN.1 module {{X680}} for Composite ML-KEM.
+This module imports objects from {{RFC5911}}, {{RFC9629}}, {{RFC8619}}, {{I-D.ietf-lamps-pq-composite-kem}}.
 
 ~~~ asn.1
 <CODE BEGINS>
@@ -388,8 +394,8 @@ key using:
 
 In real-world use, the originator would encrypt the content-
 encryption key in a manner that would allow decryption with their own
-private key as well as the recipient's private key.  This is omitted
-in an attempt to simplify the example.
+private key as well as the recipient's private key.
+This is omitted in an attempt to simplify the example.
 
 ## Originator CMS Processing
 
@@ -474,5 +480,7 @@ Bob decapsulates the ciphertext in the KEMRecipientInfo to get the MLKEM768-ECDH
 
 # Acknowledgments
 
-This document borrows heavily from {{?RFC9690}} and {{?RFC9936}}. Thanks go to the authors of those documents. "Copying always makes things easier and less error prone" - RFC8411.
+This document borrows heavily from {{?RFC9690}} and {{?RFC9936}}.
+Thanks go to the authors of those documents.
+"Copying always makes things easier and less error prone" - RFC8411.
 
