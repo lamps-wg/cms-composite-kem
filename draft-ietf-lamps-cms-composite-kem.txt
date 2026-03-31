@@ -5,11 +5,11 @@
 LAMPS                                                       D. Van Geest
 Internet-Draft                                       CryptoNext Security
 Intended status: Standards Track                            M. Ounsworth
-Expires: 14 September 2026                                       J. Gray
+Expires: 2 October 2026                                          J. Gray
                                                                  Entrust
                                                             J. Klaussner
                                                     Bundesdruckerei GmbH
-                                                           13 March 2026
+                                                           31 March 2026
 
 
      Composite ML-KEM for use in Cryptographic Message Syntax (CMS)
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 14 September 2026.
+   This Internet-Draft will expire on 2 October 2026.
 
 Copyright Notice
 
@@ -216,7 +216,7 @@ Table of Contents
       does not place any requirements on this value.  See Section 3 of
       [RFC9629] for more information about the ukm parameter.
 
-   wrap:
+   wrap
       Identifies a key-encryption algorithm used to encrypt the content-
       encryption key.  Implementations MUST support the AES-Wrap-256
       [RFC3394] key-encryption algorithm using the id-aes256-wrap key-
@@ -414,12 +414,14 @@ Table of Contents
 
 5.  IANA Considerations
 
-   IANA is requested to allocate a value from the "SMI Security for PKIX
-   Module Identifier" registry for the included ASN.1 module.
+   IANA is requested to allocate a value from the "SMI Security for S/
+   MIME Module Identifier (1.2.840.113549.1.9.16.0)" registry for the
+   included ASN.1 module.
 
    *  Decimal: IANA Assigned - *Replace TBDMOD*
 
-   *  Description: Composite-KEM-2026 - id-mod-composite-mlkem-cms-2026
+   *  Description: Composite-MLKEM-CMS-2026 - id-mod-composite-mlkem-
+      cms-2026
 
    *  References: This Document
 
@@ -439,9 +441,9 @@ Table of Contents
               Ounsworth, M., Gray, J., Pala, M., Klaußner, J., and S.
               Fluhrer, "Composite ML-KEM for use in X.509 Public Key
               Infrastructure", Work in Progress, Internet-Draft, draft-
-              ietf-lamps-pq-composite-kem-12, 7 January 2026,
+              ietf-lamps-pq-composite-kem-14, 27 March 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-lamps-
-              pq-composite-kem-12>.
+              pq-composite-kem-14>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -546,8 +548,8 @@ Appendix A.  ASN.1 Module
 
    <CODE BEGINS>
    Composite-MLKEM-CMS-2026
-         { iso(1) identified-organization(3) dod(6) internet(1)
-           security(5) mechanisms(5) pkix(7) id-mod(0)
+     { iso(1) member-body(2) us(840) rsadsi(113549) pkcs(1) pkcs9(9)
+           id-smime(16) id-mod(0)
            id-mod-composite-mlkem-cms-2026(TBDMOD) }
 
    DEFINITIONS IMPLICIT TAGS ::= BEGIN

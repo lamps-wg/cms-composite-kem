@@ -14,7 +14,7 @@
 This document specifies the conventions for using Composite ML-KEM algorithms with the Cryptographic Message Syntax (CMS) using the KEMRecipientInfo structure defined in “Using Key Encapsulation
 Mechanism (KEM) Algorithms in the Cryptographic Message Syntax (CMS)” (RFC 9629). 
     " name="description">
-<meta content="xml2rfc 3.31.0" name="generator">
+<meta content="xml2rfc 3.32.0" name="generator">
 <meta content="X.509" name="keyword">
 <meta content="CMS" name="keyword">
 <meta content="Post-Quantum" name="keyword">
@@ -22,18 +22,18 @@ Mechanism (KEM) Algorithms in the Cryptographic Message Syntax (CMS)” (RFC 962
 <meta content="Composite ML-KEM" name="keyword">
 <meta content="draft-ietf-lamps-cms-composite-kem-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.31.0
+  xml2rfc 3.32.0
     Python 3.12.12
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.2.1
     Jinja2 3.1.6
     lxml 6.0.2
-    platformdirs 4.5.1
+    platformdirs 4.9.4
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.32.5
-    wcwidth 0.3.0
+    wcwidth 0.6.0
 -->
 <link href="draft-ietf-lamps-cms-composite-kem.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1058,7 +1058,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Van Geest, et al.</td>
-<td class="center">Expires 14 September 2026</td>
+<td class="center">Expires 2 October 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1071,12 +1071,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-lamps-cms-composite-kem-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-03-13" class="published">13 March 2026</time>
+<time datetime="2026-03-31" class="published">31 March 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-09-14">14 September 2026</time></dd>
+<dd class="expires"><time datetime="2026-10-02">2 October 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1140,7 +1140,7 @@ Mechanism (KEM) Algorithms in the Cryptographic Message Syntax (CMS)” (RFC 962
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 14 September 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 2 October 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1294,19 +1294,19 @@ Composite ML-KEM does not provide pairings based on ML-KEM-512.<a href="#section
           <dt id="section-1.3-4.1">KeyGen() -&gt; (ek, dk):</dt>
           <dd style="margin-left: 1.5em" id="section-1.3-4.2">
             <p id="section-1.3-4.2.1">Generate the public encapsulation key (ek) and a private decapsulation key (dk).
-<span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-kem-12#section-3.1" class="relref">Section 3.1</a> of [<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> specifies the key generation algorithm for Composite ML-KEM.<a href="#section-1.3-4.2.1" class="pilcrow">¶</a></p>
+<span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-kem-14#section-3.1" class="relref">Section 3.1</a> of [<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> specifies the key generation algorithm for Composite ML-KEM.<a href="#section-1.3-4.2.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-1.3-4.3">Encapsulate(ek) -&gt; (c, ss):</dt>
           <dd style="margin-left: 1.5em" id="section-1.3-4.4">
             <p id="section-1.3-4.4.1">Given the recipient's public key (ek), produce both a ciphertext (c) to be passed to the recipient and a shared secret (ss) for use by the originator.
-<span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-kem-12#section-3.2" class="relref">Section 3.2</a> of [<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> specifies the encapsulation algorithm for Composite ML-KEM.<a href="#section-1.3-4.4.1" class="pilcrow">¶</a></p>
+<span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-kem-14#section-3.2" class="relref">Section 3.2</a> of [<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> specifies the encapsulation algorithm for Composite ML-KEM.<a href="#section-1.3-4.4.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-1.3-4.5">Decapsulate(dk, c) -&gt; ss:</dt>
           <dd style="margin-left: 1.5em" id="section-1.3-4.6">
             <p id="section-1.3-4.6.1">Given the private key (dk) and the ciphertext (c), produce the shared secret (ss) for the recipient.
-<span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-kem-12#section-3.3" class="relref">Section 3.3</a> of [<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> specifies the decapsulation algorithm for Composite ML-KEM.<a href="#section-1.3-4.6.1" class="pilcrow">¶</a></p>
+<span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-kem-14#section-3.3" class="relref">Section 3.3</a> of [<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> specifies the decapsulation algorithm for Composite ML-KEM.<a href="#section-1.3-4.6.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
@@ -1372,7 +1372,7 @@ The secure use of Composite ML-KEM in CMS does not depend on the use of a ukm va
 See <span><a href="https://rfc-editor.org/rfc/rfc9629#section-3" class="relref">Section 3</a> of [<a href="#RFC9629" class="cite xref">RFC9629</a>]</span> for more information about the ukm parameter.<a href="#section-2.1-3.14.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-2.1-3.15">wrap:</dt>
+<dt id="section-2.1-3.15">wrap</dt>
           <dd style="margin-left: 1.5em" id="section-2.1-3.16">
             <p id="section-2.1-3.16.1">Identifies a key-encryption algorithm used to encrypt the content-encryption key.
 Implementations MUST support the AES-Wrap-256 <span>[<a href="#RFC3394" class="cite xref">RFC3394</a>]</span> key-encryption algorithm using the id-aes256-wrap key-encryption algorithm OID <span>[<a href="#RFC3565" class="cite xref">RFC3565</a>]</span>.
@@ -1568,13 +1568,13 @@ This practice avoids the risk that vulnerability in one scheme may compromise th
       <h2 id="name-iana-considerations">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-5-1">IANA is requested to allocate a value from the "SMI Security for PKIX Module Identifier" registry for the included ASN.1 module.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-5-1">IANA is requested to allocate a value from the "SMI Security for S/MIME Module Identifier (1.2.840.113549.1.9.16.0)" registry for the included ASN.1 module.<a href="#section-5-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5-2.1">
           <p id="section-5-2.1.1">Decimal: IANA Assigned - <strong>Replace TBDMOD</strong><a href="#section-5-2.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-5-2.2">
-          <p id="section-5-2.2.1">Description: Composite-KEM-2026 - id-mod-composite-mlkem-cms-2026<a href="#section-5-2.2.1" class="pilcrow">¶</a></p>
+          <p id="section-5-2.2.1">Description: Composite-MLKEM-CMS-2026 - id-mod-composite-mlkem-cms-2026<a href="#section-5-2.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-5-2.3">
           <p id="section-5-2.3.1">References: This Document<a href="#section-5-2.3.1" class="pilcrow">¶</a></p>
@@ -1602,7 +1602,7 @@ This practice avoids the risk that vulnerability in one scheme may compromise th
 <dd class="break"></dd>
 <dt id="I-D.ietf-lamps-pq-composite-kem">[I-D.ietf-lamps-pq-composite-kem]</dt>
         <dd>
-<span class="refAuthor">Ounsworth, M.</span>, <span class="refAuthor">Gray, J.</span>, <span class="refAuthor">Pala, M.</span>, <span class="refAuthor">Klaußner, J.</span>, and <span class="refAuthor">S. Fluhrer</span>, <span class="refTitle">"Composite ML-KEM for use in X.509 Public Key Infrastructure"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-lamps-pq-composite-kem-12</span>, <time datetime="2026-01-07" class="refDate">7 January 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-kem-12">https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-kem-12</a>&gt;</span>. </dd>
+<span class="refAuthor">Ounsworth, M.</span>, <span class="refAuthor">Gray, J.</span>, <span class="refAuthor">Pala, M.</span>, <span class="refAuthor">Klaußner, J.</span>, and <span class="refAuthor">S. Fluhrer</span>, <span class="refTitle">"Composite ML-KEM for use in X.509 Public Key Infrastructure"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-lamps-pq-composite-kem-14</span>, <time datetime="2026-03-27" class="refDate">27 March 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-kem-14">https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-kem-14</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
@@ -1701,8 +1701,8 @@ This module imports objects from <span>[<a href="#RFC5911" class="cite xref">RFC
 <pre>
 &lt;CODE BEGINS&gt;
 Composite-MLKEM-CMS-2026
-      { iso(1) identified-organization(3) dod(6) internet(1)
-        security(5) mechanisms(5) pkix(7) id-mod(0)
+  { iso(1) member-body(2) us(840) rsadsi(113549) pkcs(1) pkcs9(9)
+        id-smime(16) id-mod(0)
         id-mod-composite-mlkem-cms-2026(TBDMOD) }
 
 DEFINITIONS IMPLICIT TAGS ::= BEGIN
