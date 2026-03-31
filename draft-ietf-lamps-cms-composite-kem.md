@@ -203,7 +203,7 @@ ukm
 The secure use of Composite ML-KEM in CMS does not depend on the use of a ukm value, so this document does not place any requirements on this value.
 See {{Section 3 of RFC9629}} for more information about the ukm parameter.
 
-wrap:
+wrap
 : Identifies a key-encryption algorithm used to encrypt the content-encryption key.
 Implementations MUST support the AES-Wrap-256 {{!RFC3394}} key-encryption algorithm using the id-aes256-wrap key-encryption algorithm OID {{!RFC3565}}.
 Implementations MAY support other key-encryption algorithms as well.
@@ -356,10 +356,10 @@ This practice avoids the risk that vulnerability in one scheme may compromise th
 
 # IANA Considerations {#sec-iana}
 
-IANA is requested to allocate a value from the "SMI Security for PKIX Module Identifier" registry for the included ASN.1 module.
+IANA is requested to allocate a value from the "SMI Security for S/MIME Module Identifier (1.2.840.113549.1.9.16.0)" registry for the included ASN.1 module.
 
 -  Decimal: IANA Assigned - **Replace TBDMOD**
--  Description: Composite-KEM-2026 - id-mod-composite-mlkem-cms-2026
+-  Description: Composite-MLKEM-CMS-2026 - id-mod-composite-mlkem-cms-2026
 -  References: This Document
 
 <aside markdown="block">
