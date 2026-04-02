@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-03-22T02:49:55.432765+00:00",
+  "timestamp": "2026-04-02T02:51:09.053095+00:00",
   "repo": "lamps-wg/cms-composite-kem",
   "labels": [
     {
@@ -71,15 +71,17 @@
       "id": "I_kwDOQdl0ts70xl5X",
       "title": "Russ review Mar 20",
       "url": "https://github.com/lamps-wg/cms-composite-kem/issues/3",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ounsworth",
       "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
+      "assignees": [
+        "danvangeest"
+      ],
       "labels": [],
       "body": "\nCONCERN:\n\n[RFC9936] \"*** BROKEN REFERENCE ***\".\n\n\nMINOR:\n\nIn Section 5 and the ASN.1 Module:\n\nComposite-MLKEM-CMS-2026\n   { iso(1) identified-organization(3) dod(6) internet(1)\n   security(5) mechanisms(5) pkix(7) id-mod(0)\n   id-mod-composite-mlkem-cms-2026(TBDMOD) }\n\nWe usually assign CMS-related module identifiers from the S/MIME arc.\n\n\nNIT:\n\nSection 2.1: s/wrap:/wrap/\n\n\nASN.1 CHECK:\n\nWith placeholder values for the module identifiers, the ASN.1 module compiles without error.\n\nRuss",
       "createdAt": "2026-03-20T08:42:51Z",
-      "updatedAt": "2026-03-20T08:42:51Z",
-      "closedAt": null,
+      "updatedAt": "2026-03-31T18:15:55Z",
+      "closedAt": "2026-03-31T18:15:55Z",
       "comments": []
     }
   ],
