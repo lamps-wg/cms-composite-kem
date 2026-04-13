@@ -267,52 +267,52 @@ All identifiers used to indicate Composite ML-KEM within the CMS are defined in 
   -- Composite ML-KEM OIDs
 
   id-MLKEM768-RSA2048-SHA3-256 OBJECT IDENTIFIER ::= {
-    iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
-    pkix(7) alg(6) 55 }
+    iso(1) identified-organization(3) dod(6) internet(1) security(5)
+    mechanisms(5) pkix(7) alg(6) 55 }
 
   id-MLKEM768-RSA3072-SHA3-256 OBJECT IDENTIFIER ::= {
-    iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
-    pkix(7) alg(6) 56 }
+    iso(1) identified-organization(3) dod(6) internet(1) security(5)
+    mechanisms(5) pkix(7) alg(6) 56 }
 
   id-MLKEM768-RSA4096-SHA3-256 OBJECT IDENTIFIER ::= {
-    iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
-    pkix(7) alg(6) 57 }
+    iso(1) identified-organization(3) dod(6) internet(1) security(5)
+    mechanisms(5) pkix(7) alg(6) 57 }
 
   id-MLKEM768-X25519-SHA3-256 OBJECT IDENTIFIER ::= {
-    iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
-    pkix(7) alg(6) 58 }
+    iso(1) identified-organization(3) dod(6) internet(1) security(5)
+    mechanisms(5) pkix(7) alg(6) 58 }
 
   id-MLKEM768-ECDH-P256-SHA3-256 OBJECT IDENTIFIER ::= {
-    iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
-    pkix(7) alg(6) 59 }
+    iso(1) identified-organization(3) dod(6) internet(1) security(5)
+    mechanisms(5) pkix(7) alg(6) 59 }
 
   id-MLKEM768-ECDH-P384-SHA3-256 OBJECT IDENTIFIER ::= {
-    iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
-    pkix(7) alg(6) 60 }
+    iso(1) identified-organization(3) dod(6) internet(1) security(5)
+    mechanisms(5) pkix(7) alg(6) 60 }
 
   id-MLKEM768-ECDH-brainpoolP256r1-SHA3-256 OBJECT IDENTIFIER ::= {
-    iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
-    pkix(7) alg(6) 61 }
+    iso(1) identified-organization(3) dod(6) internet(1) security(5)
+    mechanisms(5) pkix(7) alg(6) 61 }
 
   id-MLKEM1024-RSA3072-SHA3-256 OBJECT IDENTIFIER ::= {
-    iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
-    pkix(7) alg(6) 62 }
+    iso(1) identified-organization(3) dod(6) internet(1) security(5)
+    mechanisms(5) pkix(7) alg(6) 62 }
 
   id-MLKEM1024-ECDH-P384-SHA3-256 OBJECT IDENTIFIER ::= {
-    iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
-    pkix(7) alg(6) 63 }
+    iso(1) identified-organization(3) dod(6) internet(1) security(5)
+    mechanisms(5) pkix(7) alg(6) 63 }
 
   id-MLKEM1024-ECDH-brainpoolP384r1-SHA3-256 OBJECT IDENTIFIER ::= {
-    iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
-    pkix(7) alg(6) 64 }
+    iso(1) identified-organization(3) dod(6) internet(1) security(5)
+    mechanisms(5) pkix(7) alg(6) 64 }
 
   id-MLKEM1024-X448-SHA3-256 OBJECT IDENTIFIER ::= {
-    iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
-    pkix(7) alg(6) 65 }
+    iso(1) identified-organization(3) dod(6) internet(1) security(5)
+    mechanisms(5) pkix(7) alg(6) 65 }
 
   id-MLKEM1024-ECDH-P521-SHA3-256 OBJECT IDENTIFIER ::= {
-    iso(1) org(3) dod(6) internet(1) security(5) mechanisms(5)
-    pkix(7) alg(6) 66 }
+    iso(1) identified-organization(3) dod(6) internet(1) security(5)
+    mechanisms(5) pkix(7) alg(6) 66 }
 
   -- KEMRecipientInfo.kdf OIDs
 
