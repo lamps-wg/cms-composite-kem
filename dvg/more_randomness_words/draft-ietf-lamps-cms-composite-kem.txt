@@ -392,7 +392,7 @@ Table of Contents
    PRNG environment that produced the keys or ciphertext, searching the
    resulting small set of possibilities for a matching public key or
    ciphertext value, rather than performing a more complex algorithmic
-   attack against the ML-KEM component of Composite ML-KEM.  During
+   attack against the components of Composite ML-KEM.  During
    encapsulation, the ML-KEM component draws the encapsulation
    randomness from a random bit generator.  While Composite ML-KEM
    passes this randomness through a KDF before using it, the peer
