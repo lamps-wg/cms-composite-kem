@@ -5,11 +5,11 @@
 LAMPS                                                       D. Van Geest
 Internet-Draft                                       CryptoNext Security
 Intended status: Standards Track                            M. Ounsworth
-Expires: 15 October 2026                                         J. Gray
+Expires: 5 February 2027                                         J. Gray
                                                                  Entrust
                                                             J. Klaussner
                                                     Bundesdruckerei GmbH
-                                                           13 April 2026
+                                                           4 August 2026
 
 
      Composite ML-KEM for use in Cryptographic Message Syntax (CMS)
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 15 October 2026.
+   This Internet-Draft will expire on 5 February 2027.
 
 Copyright Notice
 
@@ -392,7 +392,15 @@ Table of Contents
    PRNG environment that produced the keys or ciphertext, searching the
    resulting small set of possibilities for a matching public key or
    ciphertext value, rather than performing a more complex algorithmic
-   attack against Composite ML-KEM.
+   attack against the components of Composite ML-KEM.  During
+   encapsulation, the ML-KEM component draws the encapsulation
+   randomness from a random bit generator.  While Composite ML-KEM
+   passes this randomness through a KDF before using it, the peer
+   holding the decapsulation key has still received this randomness in
+   the ML-KEM component of the ciphertext.  Any information that this
+   randomness provides about other outputs of the generator is available
+   to that peer, therefore it is important to follow the RNG guidance in
+   [FIPS203].
 
    Composite ML-KEM encapsulation and decapsulation only outputs a
    shared secret and ciphertext.  Implementations MUST NOT use
@@ -441,9 +449,9 @@ Table of Contents
               Ounsworth, M., Gray, J., Pala, M., Klaußner, J., and S.
               Fluhrer, "Composite ML-KEM for use in X.509 Public Key
               Infrastructure", Work in Progress, Internet-Draft, draft-
-              ietf-lamps-pq-composite-kem-14, 27 March 2026,
+              ietf-lamps-pq-composite-kem-18, 23 July 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-lamps-
-              pq-composite-kem-14>.
+              pq-composite-kem-18>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -452,7 +460,7 @@ Table of Contents
 
    [RFC3394]  Schaad, J. and R. Housley, "Advanced Encryption Standard
               (AES) Key Wrap Algorithm", RFC 3394, DOI 10.17487/RFC3394,
-              September 2002, <https://www.rfc-editor.org/rfc/rfc3394>.
+              October 2002, <https://www.rfc-editor.org/rfc/rfc3394>.
 
    [RFC3565]  Schaad, J., "Use of the Advanced Encryption Standard (AES)
               Encryption Algorithm in Cryptographic Message Syntax
