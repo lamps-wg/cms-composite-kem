@@ -342,7 +342,7 @@ Additional considerations related to key management may be found in {{SP.800-57p
 
 The generation of private keys relies on random numbers, as does the encapsulation function of Composite ML-KEM.
 The use of inadequate pseudorandom number generators (PRNGs) to generate these values can result in little or no security.
-If the random value is weakly chosen, then an attacker may find it much easier to reproduce the PRNG environment that produced the keys or ciphertext, searching the resulting small set of possibilities for a matching public key or ciphertext value, rather than performing a more complex algorithmic attack against the ML-KEM component of Composite ML-KEM.
+If the random value is weakly chosen, then an attacker may find it much easier to reproduce the PRNG environment that produced the keys or ciphertext, searching the resulting small set of possibilities for a matching public key or ciphertext value, rather than performing a more complex algorithmic attack against the components of Composite ML-KEM.
 During encapsulation, the ML-KEM component draws the encapsulation randomness from a random bit generator.
 While Composite ML-KEM passes this randomness through a KDF before using it, the peer holding the decapsulation key has still received this randomness in the ML-KEM component of the ciphertext.
 Any information that this	randomness provides about other outputs of the generator is available to that peer, therefore it is important to follow the RNG guidance in {{FIPS203}}.
