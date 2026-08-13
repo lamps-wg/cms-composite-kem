@@ -440,7 +440,7 @@ Alice derives the key-encryption key from the shared secret and CMSORIforKEMOthe
 {::include ./example/kek.txt}
 ~~~
 
-Alice randomly generates a 128-bit content-encryption key:
+Alice randomly generates a 256-bit content-encryption key:
 
 ~~~ test-vectors
 {::include ./example/cek.txt}
