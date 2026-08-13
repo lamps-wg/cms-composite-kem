@@ -5,11 +5,11 @@
 LAMPS                                                       D. Van Geest
 Internet-Draft                                       CryptoNext Security
 Intended status: Standards Track                            M. Ounsworth
-Expires: 5 February 2027                                         J. Gray
+Expires: 14 February 2027                                        J. Gray
                                                                  Entrust
                                                             J. Klaussner
                                                     Bundesdruckerei GmbH
-                                                           4 August 2026
+                                                          13 August 2026
 
 
      Composite ML-KEM for use in Cryptographic Message Syntax (CMS)
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 February 2027.
+   This Internet-Draft will expire on 14 February 2027.
 
 Copyright Notice
 
@@ -735,7 +735,7 @@ B.1.  Originator CMS Processing
 
    0555324e4703e672404e2272c555438bd7d04feac1321e05ebae6c0a2336d529
 
-   Alice randomly generates a 128-bit content-encryption key:
+   Alice randomly generates a 256-bit content-encryption key:
 
    3424cef0cbc2b67f58351abd1e87b3507a11c90adef7e1cdab8d20b0331b8105
 
