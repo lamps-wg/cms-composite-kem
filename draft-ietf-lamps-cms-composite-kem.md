@@ -110,7 +110,7 @@ informative:
 
 --- abstract
 
-Composite ML-KEM defines combinations of ML-KEM with RSA-OAEP, ECDH, X25519, and X448.
+Composite ML-KEM defines combinations of Module-Lattice-based Key Encapsulation Mechanism (ML-KEM) with RSA-OAEP, ECDH, X25519, and X448.
 This document specifies the conventions for using Composite ML-KEM algorithms with the Cryptographic Message Syntax (CMS) using the KEMRecipientInfo structure defined in “Using Key Encapsulation
 Mechanism (KEM) Algorithms in the Cryptographic Message Syntax (CMS)” (RFC 9629).
 
@@ -121,7 +121,7 @@ Mechanism (KEM) Algorithms in the Cryptographic Message Syntax (CMS)” (RFC 962
 
 # Introduction {#sec-intro}
 
-{{!I-D.ietf-lamps-pq-composite-kem}} defines a collection of Key Encapsulation Mechanism (KEM) algorithms, referred to as Composite ML-KEM, which combine ML-KEM {{FIPS203}} with traditional algorithms RSA-OAEP, ECDH, X25519, and X448.
+{{!I-D.ietf-lamps-pq-composite-kem}} defines a collection of Key Encapsulation Mechanism (KEM) algorithms, referred to as Composite ML-KEM, which combine Module-Lattice-based Key Encapsulation Mechanism (ML-KEM) {{FIPS203}} with traditional algorithms RSA-OAEP, ECDH, X25519, and X448.
 {{!RFC9629}} defines the KEMRecipientInfo structure for the use of KEM algorithms for the Cryptographic Message Syntax (CMS) {{!RFC5652}} enveloped-data content type, the CMS authenticated-data content type, and the CMS authenticated-enveloped-data content type.
 This document acts as a companion to {{I-D.ietf-lamps-pq-composite-kem}} by providing conventions for using Composite ML-KEM algorithms with the KEMRecipientInfo structure within the CMS.
 
@@ -143,7 +143,7 @@ It was standardized with three parameter sets: ML-KEM-512, ML-KEM-768, and ML-KE
 Composite ML-KEM pairs ML-KEM-768 or ML-KEM-1024 with RSA-OAEP, ECDH, X25519, or X448 at similar security levels such that the shared secret key from each component algorithm is combined into a single shared secret key.
 Composite ML-KEM does not provide pairings based on ML-KEM-512.
 
-All KEM algorithms provide three functions: KeyGen(), Encapsulate(), and Decapsulate().
+All KEM algorithms provide three functions: KeyGen(), Encaps(), and Decaps().
 
 The following summarizes these three functions for Composite ML-KEM:
 
@@ -151,11 +151,11 @@ KeyGen() -> (ek, dk):
 : Generate the public encapsulation key (ek) and a private decapsulation key (dk).
 {{Section 3.1 of I-D.ietf-lamps-pq-composite-kem}} specifies the key generation algorithm for Composite ML-KEM.
 
-Encapsulate(ek) -> (c, ss):
+Encaps(ek) -> (c, ss):
 : Given the recipient's public key (ek), produce both a ciphertext (c) to be passed to the recipient and a shared secret (ss) for use by the originator.
 {{Section 3.2 of I-D.ietf-lamps-pq-composite-kem}} specifies the encapsulation algorithm for Composite ML-KEM.
 
-Decapsulate(dk, c) -> ss:
+Decaps(dk, c) -> ss:
 : Given the private key (dk) and the ciphertext (c), produce the shared secret (ss) for the recipient.
 {{Section 3.3 of I-D.ietf-lamps-pq-composite-kem}} specifies the decapsulation algorithm for Composite ML-KEM.
 
@@ -166,7 +166,7 @@ Composite ML-KEM algorithms MAY be employed for one or more recipients in the CM
 In each case, the KEMRecipientInfo {{!RFC9629}} type is used with the Composite ML-KEM algorithm to securely transfer the content-encryption key from the originator to the recipient.
 
 Processing a Composite ML-KEM algorithm with KEMRecipientInfo follows the same steps as {{Section 2 of RFC9629}}.
-To support the Composite ML-KEM algorithm, a CMS originator MUST implement the Encapsulate() function and a CMS recipient MUST implement the Decapsulate() function.
+To support the Composite ML-KEM algorithm, a CMS originator MUST implement the Encaps() function and a CMS recipient MUST implement the Decaps() function.
 
 
 ## RecipientInfo Conventions {#sec-using-recipientInfo}
