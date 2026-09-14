@@ -21,8 +21,8 @@ venue:
   type: Working Group
   mail: spams@ietf.org
   arch: https://datatracker.ietf.org/wg/lamps/about/
-  github: lamps-wg/draft-composite-kem
-  latest: https://lamps-wg.github.io/draft-composite-kem/draft-ietf-lamps-pq-composite-kem.html
+  github: lamps-wg/cms-composite-kem
+  latest: https://lamps-wg.github.io/cms-composite-kem/draft-ietf-lamps-cms-composite-kem.html
 
 coding: utf-8
 pi:    # can use array (if all yes) or hash here
@@ -139,7 +139,7 @@ CMS values are generated using ASN.1 {{X680}}, using the Basic Encoding Rules (B
 ## Composite ML-KEM
 
 ML-KEM is a lattice-based KEM using Module Learning with Errors as its underlying primitive.
-It was standardized with three parameter sets: ML-KEM-512, ML-KEM-768, and ML-KEM-1024.
+It was standardized in {{FIPS203}} with three parameter sets: ML-KEM-512, ML-KEM-768, and ML-KEM-1024.
 Composite ML-KEM pairs ML-KEM-768 or ML-KEM-1024 with RSA-OAEP, ECDH, X25519, or X448 at similar security levels such that the shared secret key from each component algorithm is combined into a single shared secret key.
 Composite ML-KEM does not provide pairings based on ML-KEM-512.
 
@@ -151,11 +151,11 @@ KeyGen() -> (ek, dk):
 : Generate the public encapsulation key (ek) and a private decapsulation key (dk).
 {{Section 3.1 of I-D.ietf-lamps-pq-composite-kem}} specifies the key generation algorithm for Composite ML-KEM.
 
-Encaps(ek) -> (c, ss):
+Encapsulate(ek) -> (c, ss):
 : Given the recipient's public key (ek), produce both a ciphertext (c) to be passed to the recipient and a shared secret (ss) for use by the originator.
 {{Section 3.2 of I-D.ietf-lamps-pq-composite-kem}} specifies the encapsulation algorithm for Composite ML-KEM.
 
-Decaps(dk, c) -> ss:
+Decapsulate(dk, c) -> ss:
 : Given the private key (dk) and the ciphertext (c), produce the shared secret (ss) for the recipient.
 {{Section 3.3 of I-D.ietf-lamps-pq-composite-kem}} specifies the decapsulation algorithm for Composite ML-KEM.
 
@@ -213,8 +213,7 @@ Implementations MAY support other key-encryption algorithms as well.
 
 ## Underlying Components
 
-When Composite ML-KEM is employed in the CMS, the underlying components used within the KEMRecipientInfo structure SHOULD be consistent with a minimum desired security level.
-Several security levels have been identified {{SP.800-57pt1r5}}.
+When Composite ML-KEM is employed in the CMS, the underlying components used within the KEMRecipientInfo structure SHOULD provide a security strength (as defined in {{SP.800-57pt1r5}}) of at least the security level of the ML-KEM variant used, as summarized in the table below.
 
 If underlying components other than those specified in {{sec-using-recipientInfo}} are used, then the following table gives the minimum requirements on the components used with Composite ML-KEM in the KEMRecipientInfo type in order to satisfy the KDF and key wrapping algorithm requirements from {{Section 7 of RFC9629}}.
 The components are chosen based on the ML-KEM variant used within the Composite ML-KEM algorithm.
@@ -345,7 +344,7 @@ The use of inadequate pseudorandom number generators (PRNGs) to generate these v
 If the random value is weakly chosen, then an attacker may find it much easier to reproduce the PRNG environment that produced the keys or ciphertext, searching the resulting small set of possibilities for a matching public key or ciphertext value, rather than performing a more complex algorithmic attack against the components of Composite ML-KEM.
 During encapsulation, the ML-KEM component draws the encapsulation randomness from a random bit generator.
 While Composite ML-KEM passes this randomness through a KDF before using it, the peer holding the decapsulation key has still received this randomness in the ML-KEM component of the ciphertext.
-Any information that this	randomness provides about other outputs of the generator is available to that peer, therefore it is important to follow the RNG guidance in {{FIPS203}}.
+Any information that this randomness provides about other outputs of the generator is available to that peer, therefore it is important to follow the RNG guidance in {{FIPS203}}.
 
 Composite ML-KEM encapsulation and decapsulation only outputs a shared secret and ciphertext.
 Implementations MUST NOT use intermediate values directly for any purpose.
@@ -359,7 +358,7 @@ This practice avoids the risk that vulnerability in one scheme may compromise th
 
 # IANA Considerations {#sec-iana}
 
-IANA is requested to allocate a value from the "SMI Security for S/MIME Module Identifier (1.2.840.113549.1.9.16.0)" registry for the included ASN.1 module.
+IANA is requested to allocate a value from the "SMI Security for S/MIME Module Identifier (1.2.840.113549.1.9.16.0)" registry for the ASN.1 module in {{sec-asn1-module}}.
 
 -  Decimal: IANA Assigned - **Replace TBDMOD**
 -  Description: Composite-MLKEM-CMS-2026 - id-mod-composite-mlkem-cms-2026
