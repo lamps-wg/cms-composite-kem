@@ -1107,7 +1107,7 @@ Mechanism (KEM) Algorithms in the Cryptographic Message Syntax (CMS)” (RFC 962
       </h2>
 <p id="section-note.1-1">This note is to be removed before publishing as an RFC.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
 <p id="section-note.1-2">
-        The latest revision of this draft can be found at <span><a href="https://lamps-wg.github.io/draft-composite-kem/draft-ietf-lamps-pq-composite-kem.html">https://lamps-wg.github.io/draft-composite-kem/draft-ietf-lamps-pq-composite-kem.html</a></span>.
+        The latest revision of this draft can be found at <span><a href="https://lamps-wg.github.io/cms-composite-kem/draft-ietf-lamps-cms-composite-kem.html">https://lamps-wg.github.io/cms-composite-kem/draft-ietf-lamps-cms-composite-kem.html</a></span>.
         Status information for this document may be found at <span><a href="https://datatracker.ietf.org/doc/draft-ietf-lamps-cms-composite-kem/">https://datatracker.ietf.org/doc/draft-ietf-lamps-cms-composite-kem/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
 <p id="section-note.1-3">
         Discussion of this document takes place on the
@@ -1115,7 +1115,7 @@ Mechanism (KEM) Algorithms in the Cryptographic Message Syntax (CMS)” (RFC 962
         which is archived at <span><a href="https://datatracker.ietf.org/wg/lamps/about/">https://datatracker.ietf.org/wg/lamps/about/</a></span>.
         Subscribe at <span><a href="https://www.ietf.org/mailman/listinfo/spams/">https://www.ietf.org/mailman/listinfo/spams/</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
 <p id="section-note.1-4">Source for this draft and an issue tracker can be found at
-        <span><a href="https://github.com/lamps-wg/draft-composite-kem">https://github.com/lamps-wg/draft-composite-kem</a></span>.<a href="#section-note.1-4" class="pilcrow">¶</a></p>
+        <span><a href="https://github.com/lamps-wg/cms-composite-kem">https://github.com/lamps-wg/cms-composite-kem</a></span>.<a href="#section-note.1-4" class="pilcrow">¶</a></p>
 </section>
 <div id="status-of-memo">
 <section id="section-boilerplate.1">
@@ -1281,28 +1281,37 @@ lower case as plain English words, absent their normative meanings.<a href="#sec
 <a href="#section-1.3" class="section-number selfRef">1.3. </a><a href="#name-composite-ml-kem" class="section-name selfRef">Composite ML-KEM</a>
         </h3>
 <p id="section-1.3-1">ML-KEM is a lattice-based KEM using Module Learning with Errors as its underlying primitive.
-It was standardized with three parameter sets: ML-KEM-512, ML-KEM-768, and ML-KEM-1024.
+It was standardized in <span>[<a href="#FIPS203" class="cite xref">FIPS203</a>]</span> with three parameter sets: ML-KEM-512, ML-KEM-768, and ML-KEM-1024.
 Composite ML-KEM pairs ML-KEM-768 or ML-KEM-1024 with RSA-OAEP, ECDH, X25519, or X448 at similar security levels such that the shared secret key from each component algorithm is combined into a single shared secret key.
 Composite ML-KEM does not provide pairings based on ML-KEM-512.<a href="#section-1.3-1" class="pilcrow">¶</a></p>
-<p id="section-1.3-2">All KEM algorithms provide three functions: KeyGen(), Encaps(), and Decaps().<a href="#section-1.3-2" class="pilcrow">¶</a></p>
-<p id="section-1.3-3">The following summarizes these three functions for Composite ML-KEM:<a href="#section-1.3-3" class="pilcrow">¶</a></p>
-<span class="break"></span><dl class="dlParallel" id="section-1.3-4">
-          <dt id="section-1.3-4.1">KeyGen() -&gt; (ek, dk):</dt>
-          <dd style="margin-left: 1.5em" id="section-1.3-4.2">
-            <p id="section-1.3-4.2.1">Generate the public encapsulation key (ek) and a private decapsulation key (dk).
-<span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-kem-21#section-3.1" class="relref">Section 3.1</a> of [<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> specifies the key generation algorithm for Composite ML-KEM.<a href="#section-1.3-4.2.1" class="pilcrow">¶</a></p>
+<p id="section-1.3-2">All KEM algorithms provide three functions: KeyGen(), Encapsulate(), and Decapsulate().
+The names KeyGen(), Encapsulate(), and Decapsulate() are taken from <span><a href="https://rfc-editor.org/rfc/rfc9629#section-2" class="relref">Section 2</a> of [<a href="#RFC9629" class="cite xref">RFC9629</a>]</span>, the specification of the KEMRecipientInfo structure.<a href="#section-1.3-2" class="pilcrow">¶</a></p>
+<p id="section-1.3-3"><span>[<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> defines the same three operations for Composite ML-KEM under the names KeyGen(), Encaps(), and Decaps().
+The two naming conventions refer to the same operations: Encapsulate() in this document and in <span>[<a href="#RFC9629" class="cite xref">RFC9629</a>]</span> is Encaps() in <span>[<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span>; Decapsulate() is Decaps().
+This document uses the <span>[<a href="#RFC9629" class="cite xref">RFC9629</a>]</span> names throughout, since it defines the CMS-specific KEMRecipientInfo processing.<a href="#section-1.3-3" class="pilcrow">¶</a></p>
+<p id="section-1.3-4">The parameter names also differ between the two documents, though they denote the same values.
+This document, following <span>[<a href="#RFC9629" class="cite xref">RFC9629</a>]</span>, uses ek for the public encapsulation key, dk for the private decapsulation key, and c for the ciphertext; <span>[<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> uses pk, sk, and ct for the same three values.
+Both documents use ss for the shared secret.<a href="#section-1.3-4" class="pilcrow">¶</a></p>
+<p id="section-1.3-5">The parameter order matches between the two documents for KeyGen() and for Decapsulate()/Decaps(), but not for Encapsulate()/Encaps(): this document's Encapsulate(ek) -&gt; (c, ss) returns the ciphertext before the shared secret, while <span>[<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span>'s Encaps(pk) -&gt; (ss, ct) returns the shared secret before the ciphertext.
+Implementers referencing both documents should not assume positional correspondence between the two encapsulation functions' return values.<a href="#section-1.3-5" class="pilcrow">¶</a></p>
+<p id="section-1.3-6">The following summarizes these three functions for Composite ML-KEM:<a href="#section-1.3-6" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-1.3-7">
+          <dt id="section-1.3-7.1">KeyGen() -&gt; (ek, dk):</dt>
+          <dd style="margin-left: 1.5em" id="section-1.3-7.2">
+            <p id="section-1.3-7.2.1">Generate the public encapsulation key (ek) and a private decapsulation key (dk).
+<span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-kem-21#section-3.1" class="relref">Section 3.1</a> of [<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> specifies the KeyGen() algorithm for Composite ML-KEM.<a href="#section-1.3-7.2.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-1.3-4.3">Encaps(ek) -&gt; (c, ss):</dt>
-          <dd style="margin-left: 1.5em" id="section-1.3-4.4">
-            <p id="section-1.3-4.4.1">Given the recipient's public key (ek), produce both a ciphertext (c) to be passed to the recipient and a shared secret (ss) for use by the originator.
-<span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-kem-21#section-3.2" class="relref">Section 3.2</a> of [<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> specifies the encapsulation algorithm for Composite ML-KEM.<a href="#section-1.3-4.4.1" class="pilcrow">¶</a></p>
+<dt id="section-1.3-7.3">Encapsulate(ek) -&gt; (c, ss):</dt>
+          <dd style="margin-left: 1.5em" id="section-1.3-7.4">
+            <p id="section-1.3-7.4.1">Given the recipient's public key (ek), produce both a ciphertext (c) to be passed to the recipient and a shared secret (ss) for use by the originator.
+<span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-kem-21#section-3.2" class="relref">Section 3.2</a> of [<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> specifies the Encaps() algorithm for Composite ML-KEM.<a href="#section-1.3-7.4.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-1.3-4.5">Decaps(dk, c) -&gt; ss:</dt>
-          <dd style="margin-left: 1.5em" id="section-1.3-4.6">
-            <p id="section-1.3-4.6.1">Given the private key (dk) and the ciphertext (c), produce the shared secret (ss) for the recipient.
-<span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-kem-21#section-3.3" class="relref">Section 3.3</a> of [<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> specifies the decapsulation algorithm for Composite ML-KEM.<a href="#section-1.3-4.6.1" class="pilcrow">¶</a></p>
+<dt id="section-1.3-7.5">Decapsulate(dk, c) -&gt; ss:</dt>
+          <dd style="margin-left: 1.5em" id="section-1.3-7.6">
+            <p id="section-1.3-7.6.1">Given the private key (dk) and the ciphertext (c), produce the shared secret (ss) for the recipient.
+<span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-kem-21#section-3.3" class="relref">Section 3.3</a> of [<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> specifies the Decaps() algorithm for Composite ML-KEM.<a href="#section-1.3-7.6.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
@@ -1318,7 +1327,7 @@ Composite ML-KEM does not provide pairings based on ML-KEM-512.<a href="#section
 <p id="section-2-1">Composite ML-KEM algorithms MAY be employed for one or more recipients in the CMS enveloped-data content type <span>[<a href="#RFC5652" class="cite xref">RFC5652</a>]</span>, the CMS authenticated-data content type <span>[<a href="#RFC5652" class="cite xref">RFC5652</a>]</span>, or the CMS authenticated-enveloped-data content type <span>[<a href="#RFC5083" class="cite xref">RFC5083</a>]</span>.
 In each case, the KEMRecipientInfo <span>[<a href="#RFC9629" class="cite xref">RFC9629</a>]</span> type is used with the Composite ML-KEM algorithm to securely transfer the content-encryption key from the originator to the recipient.<a href="#section-2-1" class="pilcrow">¶</a></p>
 <p id="section-2-2">Processing a Composite ML-KEM algorithm with KEMRecipientInfo follows the same steps as <span><a href="https://rfc-editor.org/rfc/rfc9629#section-2" class="relref">Section 2</a> of [<a href="#RFC9629" class="cite xref">RFC9629</a>]</span>.
-To support the Composite ML-KEM algorithm, a CMS originator MUST implement the Encaps() function and a CMS recipient MUST implement the Decaps() function.<a href="#section-2-2" class="pilcrow">¶</a></p>
+To support the Composite ML-KEM algorithm, a CMS originator MUST implement the Encapsulate() function and a CMS recipient MUST implement the Decapsulate() function.<a href="#section-2-2" class="pilcrow">¶</a></p>
 <div id="sec-using-recipientInfo">
 <section id="section-2.1">
         <h3 id="name-recipientinfo-conventions">
@@ -1384,8 +1393,7 @@ Implementations MAY support other key-encryption algorithms as well.<a href="#se
         <h3 id="name-underlying-components">
 <a href="#section-2.2" class="section-number selfRef">2.2. </a><a href="#name-underlying-components" class="section-name selfRef">Underlying Components</a>
         </h3>
-<p id="section-2.2-1">When Composite ML-KEM is employed in the CMS, the underlying components used within the KEMRecipientInfo structure SHOULD be consistent with a minimum desired security level.
-Several security levels have been identified <span>[<a href="#SP.800-57pt1r5" class="cite xref">SP.800-57pt1r5</a>]</span>.<a href="#section-2.2-1" class="pilcrow">¶</a></p>
+<p id="section-2.2-1">When Composite ML-KEM is employed in the CMS, the underlying components used within the KEMRecipientInfo structure SHOULD provide a security strength (as defined in <span>[<a href="#SP.800-57pt1r5" class="cite xref">SP.800-57pt1r5</a>]</span>) of at least the security level of the ML-KEM variant used, as summarized in the table below.<a href="#section-2.2-1" class="pilcrow">¶</a></p>
 <p id="section-2.2-2">If underlying components other than those specified in <a href="#sec-using-recipientInfo" class="auto internal xref">Section 2.1</a> are used, then the following table gives the minimum requirements on the components used with Composite ML-KEM in the KEMRecipientInfo type in order to satisfy the KDF and key wrapping algorithm requirements from <span><a href="https://rfc-editor.org/rfc/rfc9629#section-7" class="relref">Section 7</a> of [<a href="#RFC9629" class="cite xref">RFC9629</a>]</span>.
 The components are chosen based on the ML-KEM variant used within the Composite ML-KEM algorithm.<a href="#section-2.2-2" class="pilcrow">¶</a></p>
 <span id="name-composite-ml-kem-kemrecipie"></span><div id="tab-strong">
@@ -1553,7 +1561,7 @@ The use of inadequate pseudorandom number generators (PRNGs) to generate these v
 If the random value is weakly chosen, then an attacker may find it much easier to reproduce the PRNG environment that produced the keys or ciphertext, searching the resulting small set of possibilities for a matching public key or ciphertext value, rather than performing a more complex algorithmic attack against the components of Composite ML-KEM.
 During encapsulation, the ML-KEM component draws the encapsulation randomness from a random bit generator.
 While Composite ML-KEM passes this randomness through a KDF before using it, the peer holding the decapsulation key has still received this randomness in the ML-KEM component of the ciphertext.
-Any information that this       randomness provides about other outputs of the generator is available to that peer, therefore it is important to follow the RNG guidance in <span>[<a href="#FIPS203" class="cite xref">FIPS203</a>]</span>.<a href="#section-4-4" class="pilcrow">¶</a></p>
+Any information that this randomness provides about other outputs of the generator is available to that peer, therefore it is important to follow the RNG guidance in <span>[<a href="#FIPS203" class="cite xref">FIPS203</a>]</span>.<a href="#section-4-4" class="pilcrow">¶</a></p>
 <p id="section-4-5">Composite ML-KEM encapsulation and decapsulation only outputs a shared secret and ciphertext.
 Implementations MUST NOT use intermediate values directly for any purpose.<a href="#section-4-5" class="pilcrow">¶</a></p>
 <p id="section-4-6">Implementations SHOULD NOT reveal information about intermediate values or calculations, whether by timing or other "side channels"; otherwise an opponent may be able to determine information about the keying data and/or the recipient's private key.
@@ -1567,7 +1575,7 @@ This practice avoids the risk that vulnerability in one scheme may compromise th
       <h2 id="name-iana-considerations">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-5-1">IANA is requested to allocate a value from the "SMI Security for S/MIME Module Identifier (1.2.840.113549.1.9.16.0)" registry for the included ASN.1 module.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-5-1">IANA is requested to allocate a value from the "SMI Security for S/MIME Module Identifier (1.2.840.113549.1.9.16.0)" registry for the ASN.1 module in <a href="#sec-asn1-module" class="auto internal xref">Appendix A</a>.<a href="#section-5-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5-2.1">
           <p id="section-5-2.1.1">Decimal: IANA Assigned - <strong>Replace TBDMOD</strong><a href="#section-5-2.1.1" class="pilcrow">¶</a></p>
