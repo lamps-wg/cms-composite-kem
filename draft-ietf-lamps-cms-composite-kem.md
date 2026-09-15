@@ -163,12 +163,12 @@ KeyGen() -> (ek, dk):
 : Generate the public encapsulation key (ek) and a private decapsulation key (dk).
 {{Section 3.1 of I-D.ietf-lamps-pq-composite-kem}} specifies the KeyGen() algorithm for Composite ML-KEM.
 
-Encapsulate(ek) -> (c, ss):
-: Given the recipient's public key (ek), produce both a ciphertext (c) to be passed to the recipient and a shared secret (ss) for use by the originator.
+Encapsulate(ek) -> (ct, ss):
+: Given the recipient's public key (ek), produce both a ciphertext (ct) to be passed to the recipient and a shared secret (ss) for use by the originator.
 {{Section 3.2 of I-D.ietf-lamps-pq-composite-kem}} specifies the Encaps() algorithm for Composite ML-KEM.
 
-Decapsulate(dk, c) -> ss:
-: Given the private key (dk) and the ciphertext (c), produce the shared secret (ss) for the recipient.
+Decapsulate(dk, ct) -> ss:
+: Given the private key (dk) and the ciphertext (ct), produce the shared secret (ss) for the recipient.
 {{Section 3.3 of I-D.ietf-lamps-pq-composite-kem}} specifies the Decaps() algorithm for Composite ML-KEM.
 
 
