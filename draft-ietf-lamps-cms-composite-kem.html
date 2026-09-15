@@ -10,7 +10,7 @@
 <meta content="John Gray" name="author">
 <meta content="Jan Klaussner" name="author">
 <meta content="
-       Composite ML-KEM defines combinations of ML-KEM with RSA-OAEP, ECDH, X25519, and X448.
+       Composite ML-KEM defines combinations of Module-Lattice-based Key Encapsulation Mechanism (ML-KEM) with RSA-OAEP, ECDH, X25519, and X448.
 This document specifies the conventions for using Composite ML-KEM algorithms with the Cryptographic Message Syntax (CMS) using the KEMRecipientInfo structure defined in “Using Key Encapsulation
 Mechanism (KEM) Algorithms in the Cryptographic Message Syntax (CMS)” (RFC 9629). 
     " name="description">
@@ -1054,7 +1054,7 @@ svg {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Van Geest, et al.</td>
-<td class="center">Expires 18 March 2027</td>
+<td class="center">Expires 19 March 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1067,12 +1067,12 @@ svg {
 <dd class="internet-draft">draft-ietf-lamps-cms-composite-kem-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-09-14" class="published">14 September 2026</time>
+<time datetime="2026-09-15" class="published">15 September 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-03-18">18 March 2027</time></dd>
+<dd class="expires"><time datetime="2027-03-19">19 March 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1097,7 +1097,7 @@ svg {
 <h1 id="title">Composite ML-KEM for use in Cryptographic Message Syntax (CMS)</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">Composite ML-KEM defines combinations of ML-KEM with RSA-OAEP, ECDH, X25519, and X448.
+<p id="section-abstract-1">Composite ML-KEM defines combinations of Module-Lattice-based Key Encapsulation Mechanism (ML-KEM) with RSA-OAEP, ECDH, X25519, and X448.
 This document specifies the conventions for using Composite ML-KEM algorithms with the Cryptographic Message Syntax (CMS) using the KEMRecipientInfo structure defined in “Using Key Encapsulation
 Mechanism (KEM) Algorithms in the Cryptographic Message Syntax (CMS)” (RFC 9629).<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
@@ -1136,7 +1136,7 @@ Mechanism (KEM) Algorithms in the Cryptographic Message Syntax (CMS)” (RFC 962
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 18 March 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 19 March 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1250,7 +1250,7 @@ Mechanism (KEM) Algorithms in the Cryptographic Message Syntax (CMS)” (RFC 962
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1"><span>[<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> defines a collection of Key Encapsulation Mechanism (KEM) algorithms, referred to as Composite ML-KEM, which combine ML-KEM <span>[<a href="#FIPS203" class="cite xref">FIPS203</a>]</span> with traditional algorithms RSA-OAEP, ECDH, X25519, and X448.
+<p id="section-1-1"><span>[<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> defines a collection of Key Encapsulation Mechanism (KEM) algorithms, referred to as Composite ML-KEM, which combine Module-Lattice-based Key Encapsulation Mechanism (ML-KEM) <span>[<a href="#FIPS203" class="cite xref">FIPS203</a>]</span> with traditional algorithms RSA-OAEP, ECDH, X25519, and X448.
 <span>[<a href="#RFC9629" class="cite xref">RFC9629</a>]</span> defines the KEMRecipientInfo structure for the use of KEM algorithms for the Cryptographic Message Syntax (CMS) <span>[<a href="#RFC5652" class="cite xref">RFC5652</a>]</span> enveloped-data content type, the CMS authenticated-data content type, and the CMS authenticated-enveloped-data content type.
 This document acts as a companion to <span>[<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> by providing conventions for using Composite ML-KEM algorithms with the KEMRecipientInfo structure within the CMS.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <div id="asn1">
@@ -1284,25 +1284,34 @@ lower case as plain English words, absent their normative meanings.<a href="#sec
 It was standardized in <span>[<a href="#FIPS203" class="cite xref">FIPS203</a>]</span> with three parameter sets: ML-KEM-512, ML-KEM-768, and ML-KEM-1024.
 Composite ML-KEM pairs ML-KEM-768 or ML-KEM-1024 with RSA-OAEP, ECDH, X25519, or X448 at similar security levels such that the shared secret key from each component algorithm is combined into a single shared secret key.
 Composite ML-KEM does not provide pairings based on ML-KEM-512.<a href="#section-1.3-1" class="pilcrow">¶</a></p>
-<p id="section-1.3-2">All KEM algorithms provide three functions: KeyGen(), Encapsulate(), and Decapsulate().<a href="#section-1.3-2" class="pilcrow">¶</a></p>
-<p id="section-1.3-3">The following summarizes these three functions for Composite ML-KEM:<a href="#section-1.3-3" class="pilcrow">¶</a></p>
-<span class="break"></span><dl class="dlParallel" id="section-1.3-4">
-          <dt id="section-1.3-4.1">KeyGen() -&gt; (pk, sk):</dt>
-          <dd style="margin-left: 1.5em" id="section-1.3-4.2">
-            <p id="section-1.3-4.2.1">Generate the public encapsulation key (pk) and a private decapsulation key (sk).
-<span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-kem-21#section-3.1" class="relref">Section 3.1</a> of [<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> specifies the key generation algorithm for Composite ML-KEM.<a href="#section-1.3-4.2.1" class="pilcrow">¶</a></p>
+<p id="section-1.3-2">All KEM algorithms provide three functions: KeyGen(), Encapsulate(), and Decapsulate().
+The names KeyGen(), Encapsulate(), and Decapsulate() are taken from <span><a href="https://rfc-editor.org/rfc/rfc9629#section-2" class="relref">Section 2</a> of [<a href="#RFC9629" class="cite xref">RFC9629</a>]</span>, the specification of the KEMRecipientInfo structure.<a href="#section-1.3-2" class="pilcrow">¶</a></p>
+<p id="section-1.3-3"><span>[<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> defines the same three operations for Composite ML-KEM under the names KeyGen(), Encaps(), and Decaps().
+The two naming conventions refer to the same operations: Encapsulate() in this document and in <span>[<a href="#RFC9629" class="cite xref">RFC9629</a>]</span> is Encaps() in <span>[<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span>; Decapsulate() is Decaps().
+This document uses the <span>[<a href="#RFC9629" class="cite xref">RFC9629</a>]</span> names throughout, since it defines the CMS-specific KEMRecipientInfo processing.<a href="#section-1.3-3" class="pilcrow">¶</a></p>
+<p id="section-1.3-4">The parameter names also differ between the two documents, though they denote the same values.
+This document, following <span>[<a href="#RFC9629" class="cite xref">RFC9629</a>]</span>, uses ek for the public encapsulation key, dk for the private decapsulation key, and c for the ciphertext; <span>[<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> uses pk, sk, and ct for the same three values.
+Both documents use ss for the shared secret.<a href="#section-1.3-4" class="pilcrow">¶</a></p>
+<p id="section-1.3-5">The parameter order matches between the two documents for KeyGen() and for Decapsulate()/Decaps(), but not for Encapsulate()/Encaps(): this document's Encapsulate(ek) -&gt; (c, ss) returns the ciphertext before the shared secret, while <span>[<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span>'s Encaps(pk) -&gt; (ss, ct) returns the shared secret before the ciphertext.
+Implementers referencing both documents should not assume positional correspondence between the two encapsulation functions' return values.<a href="#section-1.3-5" class="pilcrow">¶</a></p>
+<p id="section-1.3-6">The following summarizes these three functions for Composite ML-KEM:<a href="#section-1.3-6" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-1.3-7">
+          <dt id="section-1.3-7.1">KeyGen() -&gt; (ek, dk):</dt>
+          <dd style="margin-left: 1.5em" id="section-1.3-7.2">
+            <p id="section-1.3-7.2.1">Generate the public encapsulation key (ek) and a private decapsulation key (dk).
+<span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-kem-21#section-3.1" class="relref">Section 3.1</a> of [<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> specifies the KeyGen() algorithm for Composite ML-KEM.<a href="#section-1.3-7.2.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-1.3-4.3">Encapsulate(pk) -&gt; (c, ss):</dt>
-          <dd style="margin-left: 1.5em" id="section-1.3-4.4">
-            <p id="section-1.3-4.4.1">Given the recipient's public key (pk), produce both a ciphertext (c) to be passed to the recipient and a shared secret (ss) for use by the originator.
-<span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-kem-21#section-3.2" class="relref">Section 3.2</a> of [<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> specifies the encapsulation algorithm for Composite ML-KEM.<a href="#section-1.3-4.4.1" class="pilcrow">¶</a></p>
+<dt id="section-1.3-7.3">Encapsulate(ek) -&gt; (ct, ss):</dt>
+          <dd style="margin-left: 1.5em" id="section-1.3-7.4">
+            <p id="section-1.3-7.4.1">Given the recipient's public key (ek), produce both a ciphertext (ct) to be passed to the recipient and a shared secret (ss) for use by the originator.
+<span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-kem-21#section-3.2" class="relref">Section 3.2</a> of [<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> specifies the Encaps() algorithm for Composite ML-KEM.<a href="#section-1.3-7.4.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-1.3-4.5">Decapsulate(sk, c) -&gt; ss:</dt>
-          <dd style="margin-left: 1.5em" id="section-1.3-4.6">
-            <p id="section-1.3-4.6.1">Given the private key (sk) and the ciphertext (c), produce the shared secret (ss) for the recipient.
-<span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-kem-21#section-3.3" class="relref">Section 3.3</a> of [<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> specifies the decapsulation algorithm for Composite ML-KEM.<a href="#section-1.3-4.6.1" class="pilcrow">¶</a></p>
+<dt id="section-1.3-7.5">Decapsulate(dk, ct) -&gt; ss:</dt>
+          <dd style="margin-left: 1.5em" id="section-1.3-7.6">
+            <p id="section-1.3-7.6.1">Given the private key (dk) and the ciphertext (ct), produce the shared secret (ss) for the recipient.
+<span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-kem-21#section-3.3" class="relref">Section 3.3</a> of [<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> specifies the Decaps() algorithm for Composite ML-KEM.<a href="#section-1.3-7.6.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
