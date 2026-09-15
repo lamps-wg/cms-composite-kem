@@ -151,24 +151,24 @@ The two naming conventions refer to the same operations: Encapsulate() in this d
 This document uses the {{RFC9629}} names throughout, since it defines the CMS-specific KEMRecipientInfo processing.
 
 The parameter names also differ between the two documents, though they denote the same values.
-This document, following {{RFC9629}}, uses ek for the public encapsulation key, dk for the private decapsulation key, and c for the ciphertext; {{I-D.ietf-lamps-pq-composite-kem}} uses pk, sk, and ct for the same three values.
+This document, following {{RFC9629}}, uses pk for the public encapsulation key, sk for the private decapsulation key, and ct for the ciphertext; {{I-D.ietf-lamps-pq-composite-kem}} uses pk, sk, and ct for the same three values.
 Both documents use ss for the shared secret.
 
-The parameter order matches between the two documents for KeyGen() and for Decapsulate()/Decaps(), but not for Encapsulate()/Encaps(): this document's Encapsulate(ek) -> (c, ss) returns the ciphertext before the shared secret, while {{I-D.ietf-lamps-pq-composite-kem}}'s Encaps(pk) -> (ss, ct) returns the shared secret before the ciphertext.
+The parameter order matches between the two documents for KeyGen() and for Decapsulate()/Decaps(), but not for Encapsulate()/Encaps(): this document's Encapsulate(pk) -> (ct, ss) returns the ciphertext before the shared secret, while {{I-D.ietf-lamps-pq-composite-kem}}'s Encaps(pk) -> (ss, ct) returns the shared secret before the ciphertext.
 Implementers referencing both documents should not assume positional correspondence between the two encapsulation functions' return values.
 
 The following summarizes these three functions for Composite ML-KEM:
 
-KeyGen() -> (ek, dk):
-: Generate the public encapsulation key (ek) and a private decapsulation key (dk).
+KeyGen() -> (pk, sk):
+: Generate the public encapsulation key (pk) and a private decapsulation key (sk).
 {{Section 3.1 of I-D.ietf-lamps-pq-composite-kem}} specifies the KeyGen() algorithm for Composite ML-KEM.
 
-Encapsulate(ek) -> (ct, ss):
-: Given the recipient's public key (ek), produce both a ciphertext (ct) to be passed to the recipient and a shared secret (ss) for use by the originator.
+Encapsulate(pk) -> (ct, ss):
+: Given the recipient's public key (pk), produce both a ciphertext (ct) to be passed to the recipient and a shared secret (ss) for use by the originator.
 {{Section 3.2 of I-D.ietf-lamps-pq-composite-kem}} specifies the Encaps() algorithm for Composite ML-KEM.
 
-Decapsulate(dk, ct) -> ss:
-: Given the private key (dk) and the ciphertext (ct), produce the shared secret (ss) for the recipient.
+Decapsulate(sk, ct) -> ss:
+: Given the private key (sk) and the ciphertext (ct), produce the shared secret (ss) for the recipient.
 {{Section 3.3 of I-D.ietf-lamps-pq-composite-kem}} specifies the Decaps() algorithm for Composite ML-KEM.
 
 
