@@ -377,7 +377,7 @@ IANA is requested to allocate a value from the "SMI Security for S/MIME Module I
 -  References: This Document
 
 <aside markdown="block">
-  RFC EDITOR: Please replace TBDCompositeMOD in the ASN.1 module with with module number assigned to id-mod-composite-mlkem-2025 in {{I-D.ietf-lamps-pq-composite-kem}}.
+  RFC EDITOR: Please replace TBDCompositeMOD in the ASN.1 module with the module number assigned to id-mod-composite-mlkem-2025 in {{I-D.ietf-lamps-pq-composite-kem}}.
 </aside>
 
 
