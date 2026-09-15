@@ -1290,27 +1290,27 @@ The names KeyGen(), Encapsulate(), and Decapsulate() are taken from <span><a hre
 The two naming conventions refer to the same operations: Encapsulate() in this document and in <span>[<a href="#RFC9629" class="cite xref">RFC9629</a>]</span> is Encaps() in <span>[<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span>; Decapsulate() is Decaps().
 This document uses the <span>[<a href="#RFC9629" class="cite xref">RFC9629</a>]</span> names throughout, since it defines the CMS-specific KEMRecipientInfo processing.<a href="#section-1.3-3" class="pilcrow">¶</a></p>
 <p id="section-1.3-4">The parameter names also differ between the two documents, though they denote the same values.
-This document, following <span>[<a href="#RFC9629" class="cite xref">RFC9629</a>]</span>, uses ek for the public encapsulation key, dk for the private decapsulation key, and c for the ciphertext; <span>[<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> uses pk, sk, and ct for the same three values.
+This document, following <span>[<a href="#RFC9629" class="cite xref">RFC9629</a>]</span>, uses pk for the public encapsulation key, sk for the private decapsulation key, and ct for the ciphertext; <span>[<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> uses pk, sk, and ct for the same three values.
 Both documents use ss for the shared secret.<a href="#section-1.3-4" class="pilcrow">¶</a></p>
-<p id="section-1.3-5">The parameter order matches between the two documents for KeyGen() and for Decapsulate()/Decaps(), but not for Encapsulate()/Encaps(): this document's Encapsulate(ek) -&gt; (c, ss) returns the ciphertext before the shared secret, while <span>[<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span>'s Encaps(pk) -&gt; (ss, ct) returns the shared secret before the ciphertext.
+<p id="section-1.3-5">The parameter order matches between the two documents for KeyGen() and for Decapsulate()/Decaps(), but not for Encapsulate()/Encaps(): this document's Encapsulate(pk) -&gt; (ct, ss) returns the ciphertext before the shared secret, while <span>[<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span>'s Encaps(pk) -&gt; (ss, ct) returns the shared secret before the ciphertext.
 Implementers referencing both documents should not assume positional correspondence between the two encapsulation functions' return values.<a href="#section-1.3-5" class="pilcrow">¶</a></p>
 <p id="section-1.3-6">The following summarizes these three functions for Composite ML-KEM:<a href="#section-1.3-6" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-1.3-7">
-          <dt id="section-1.3-7.1">KeyGen() -&gt; (ek, dk):</dt>
+          <dt id="section-1.3-7.1">KeyGen() -&gt; (pk, sk):</dt>
           <dd style="margin-left: 1.5em" id="section-1.3-7.2">
-            <p id="section-1.3-7.2.1">Generate the public encapsulation key (ek) and a private decapsulation key (dk).
+            <p id="section-1.3-7.2.1">Generate the public encapsulation key (pk) and a private decapsulation key (sk).
 <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-kem-21#section-3.1" class="relref">Section 3.1</a> of [<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> specifies the KeyGen() algorithm for Composite ML-KEM.<a href="#section-1.3-7.2.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-1.3-7.3">Encapsulate(ek) -&gt; (ct, ss):</dt>
+<dt id="section-1.3-7.3">Encapsulate(pk) -&gt; (ct, ss):</dt>
           <dd style="margin-left: 1.5em" id="section-1.3-7.4">
-            <p id="section-1.3-7.4.1">Given the recipient's public key (ek), produce both a ciphertext (ct) to be passed to the recipient and a shared secret (ss) for use by the originator.
+            <p id="section-1.3-7.4.1">Given the recipient's public key (pk), produce both a ciphertext (ct) to be passed to the recipient and a shared secret (ss) for use by the originator.
 <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-kem-21#section-3.2" class="relref">Section 3.2</a> of [<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> specifies the Encaps() algorithm for Composite ML-KEM.<a href="#section-1.3-7.4.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-1.3-7.5">Decapsulate(dk, ct) -&gt; ss:</dt>
+<dt id="section-1.3-7.5">Decapsulate(sk, ct) -&gt; ss:</dt>
           <dd style="margin-left: 1.5em" id="section-1.3-7.6">
-            <p id="section-1.3-7.6.1">Given the private key (dk) and the ciphertext (ct), produce the shared secret (ss) for the recipient.
+            <p id="section-1.3-7.6.1">Given the private key (sk) and the ciphertext (ct), produce the shared secret (ss) for the recipient.
 <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lamps-pq-composite-kem-21#section-3.3" class="relref">Section 3.3</a> of [<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span> specifies the Decaps() algorithm for Composite ML-KEM.<a href="#section-1.3-7.6.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
@@ -1588,7 +1588,7 @@ This practice avoids the risk that vulnerability in one scheme may compromise th
 </li>
       </ul>
 <aside id="section-5-3">
-        <p id="section-5-3.1">RFC EDITOR: Please replace TBDCompositeMOD in the ASN.1 module with with module number assigned to id-mod-composite-mlkem-2025 in <span>[<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span>.<a href="#section-5-3.1" class="pilcrow">¶</a></p>
+        <p id="section-5-3.1">RFC EDITOR: Please replace TBDCompositeMOD in the ASN.1 module with the module number assigned to id-mod-composite-mlkem-2025 in <span>[<a href="#I-D.ietf-lamps-pq-composite-kem" class="cite xref">I-D.ietf-lamps-pq-composite-kem</a>]</span>.<a href="#section-5-3.1" class="pilcrow">¶</a></p>
 </aside>
 </section>
 </div>
