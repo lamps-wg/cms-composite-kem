@@ -36,7 +36,7 @@ author:
     name: Daniel Van Geest
     org: CryptoNext Security
     email: daniel.vangeest@cryptonext-security.com
-    street: ‍16, Boulevard Saint-Germain
+    street: 16, Boulevard Saint-Germain
     code: 75007
     city: Paris
     country: France
