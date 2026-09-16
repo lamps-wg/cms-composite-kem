@@ -5,11 +5,11 @@
 LAMPS                                                       D. Van Geest
 Internet-Draft                                       CryptoNext Security
 Intended status: Standards Track                            M. Ounsworth
-Expires: 19 March 2027                                           J. Gray
+Expires: 20 March 2027                                           J. Gray
                                                                  Entrust
                                                             J. Klaussner
                                                     Bundesdruckerei GmbH
-                                                       15 September 2026
+                                                       16 September 2026
 
 
      Composite ML-KEM for use in Cryptographic Message Syntax (CMS)
@@ -57,7 +57,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 March 2027.
+   This Internet-Draft will expire on 20 March 2027.
 
 Copyright Notice
 
@@ -973,7 +973,7 @@ Authors' Addresses
 
    Daniel Van Geest
    CryptoNext Security
-   ‍16, Boulevard Saint-Germain
+   16, Boulevard Saint-Germain
    75007 Paris
    France
    Email: daniel.vangeest@cryptonext-security.com
