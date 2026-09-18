@@ -150,10 +150,6 @@ The names KeyGen(), Encapsulate(), and Decapsulate() are taken from {{Section 2 
 The two naming conventions refer to the same operations: Encapsulate() in this document and in {{RFC9629}} is Encaps() in {{I-D.ietf-lamps-pq-composite-kem}}; Decapsulate() is Decaps().
 This document uses the {{RFC9629}} names throughout, since it defines the CMS-specific KEMRecipientInfo processing.
 
-The parameter names also differ between the two documents, though they denote the same values.
-This document, following {{RFC9629}}, uses pk for the public encapsulation key, sk for the private decapsulation key, and ct for the ciphertext; {{I-D.ietf-lamps-pq-composite-kem}} uses pk, sk, and ct for the same three values.
-Both documents use ss for the shared secret.
-
 The parameter order matches between the two documents for KeyGen() and for Decapsulate()/Decaps(), but not for Encapsulate()/Encaps(): this document's Encapsulate(pk) -> (ct, ss) returns the ciphertext before the shared secret, while {{I-D.ietf-lamps-pq-composite-kem}}'s Encaps(pk) -> (ss, ct) returns the shared secret before the ciphertext.
 Implementers referencing both documents should not assume positional correspondence between the two encapsulation functions' return values.
 
