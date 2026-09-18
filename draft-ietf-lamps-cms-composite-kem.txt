@@ -5,11 +5,11 @@
 LAMPS                                                       D. Van Geest
 Internet-Draft                                       CryptoNext Security
 Intended status: Standards Track                            M. Ounsworth
-Expires: 20 March 2027                                           J. Gray
+Expires: 22 March 2027                                           J. Gray
                                                                  Entrust
                                                             J. Klaussner
                                                     Bundesdruckerei GmbH
-                                                       16 September 2026
+                                                       18 September 2026
 
 
      Composite ML-KEM for use in Cryptographic Message Syntax (CMS)
@@ -57,7 +57,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 March 2027.
+   This Internet-Draft will expire on 22 March 2027.
 
 Copyright Notice
 
@@ -959,9 +959,7 @@ B.2.  Recipient CMS Processing
    the key-encryption key, and decrypts the encrypted contents with the
    content-encryption key, revealing the plaintext content:
 
-   (Artwork only available as TEST-VECTORS: see
-   https://www.ietf.org/archive/id/draft-ietf-lamps-cms-composite-kem-
-   latest.html)
+   Hello, world!
 
 Appendix C.  Acknowledgments
 
