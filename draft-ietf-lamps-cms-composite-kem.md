@@ -175,7 +175,7 @@ Decapsulate(sk, ct) -> ss:
 # Use of Composite ML-KEM in the CMS
 
 Composite ML-KEM algorithms MAY be employed for one or more recipients in the CMS enveloped-data content type {{!RFC5652}}, the CMS authenticated-data content type {{!RFC5652}}, or the CMS authenticated-enveloped-data content type {{!RFC5083}}.
-In each case, the KEMRecipientInfo {{!RFC9629}} type is used with the Composite ML-KEM algorithm to securely transfer the content-encryption key from the originator to the recipient.
+In each case, the KEMRecipientInfo {{!RFC9629}} type is used with the Composite ML-KEM algorithm to securely transfer the content-encryption key or the content-authenticated-encryption key from the originator to the recipient.
 
 Processing a Composite ML-KEM algorithm with KEMRecipientInfo follows the same steps as {{Section 2 of RFC9629}}.
 To support the Composite ML-KEM algorithm, a CMS originator MUST implement the Encapsulate() function and a CMS recipient MUST implement the Decapsulate() function.
@@ -216,9 +216,12 @@ The secure use of Composite ML-KEM in CMS does not depend on the use of a ukm va
 See {{Section 3 of RFC9629}} for more information about the ukm parameter.
 
 wrap
-: Identifies a key-encryption algorithm used to encrypt the content-encryption key.
+: Identifies a key-encryption algorithm used to encrypt the content-encryption key or the content-authenticated-encryption key.
 Implementations MUST support the AES-Wrap-256 {{!RFC3394}} key-encryption algorithm using the id-aes256-wrap key-encryption algorithm OID {{!RFC3565}}.
 Implementations MAY support other key-encryption algorithms as well.
+
+encryptedKey
+: The result of encrypting the content-encryption key or the content-authenticated-encryption key with the key-encryption key.
 
 {{example}} contains an example of establishing a content-encryption key using Composite ML-KEM in the KEMRecipientInfo type.
 
