@@ -50,8 +50,6 @@ rm MLKEM768-ECDH-P256-SHA3-256.cms.der
 openssl cms -decrypt -inform PEM -in MLKEM768-ECDH-P256-SHA3-256.cms -recip MLKEM768-ECDH-P256-SHA3-256.pem \
     -inkey MLKEM768-ECDH-P256-SHA3-256.priv -out decrypted.txt
 
-rm -f cek.txt ciphertext.txt encrypted_cek.txt kek.txt ori_info.txt shared_secret.txt
-
 echo "*******************************************"
 echo "Examples Generated!"
 echo "REMEMBER TO UPDATE INTERMEDIATE ARTIFACTS"
