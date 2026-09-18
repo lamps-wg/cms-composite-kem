@@ -194,8 +194,9 @@ Table of Contents
    authenticated-data content type [RFC5652], or the CMS authenticated-
    enveloped-data content type [RFC5083].  In each case, the
    KEMRecipientInfo [RFC9629] type is used with the Composite ML-KEM
-   algorithm to securely transfer the content-encryption key from the
-   originator to the recipient.
+   algorithm to securely transfer the content-encryption key or the
+   content-authenticated-encryption key from the originator to the
+   recipient.
 
    Processing a Composite ML-KEM algorithm with KEMRecipientInfo follows
    the same steps as Section 2 of [RFC9629].  To support the Composite
@@ -247,10 +248,15 @@ Table of Contents
 
    wrap
       Identifies a key-encryption algorithm used to encrypt the content-
-      encryption key.  Implementations MUST support the AES-Wrap-256
-      [RFC3394] key-encryption algorithm using the id-aes256-wrap key-
-      encryption algorithm OID [RFC3565].  Implementations MAY support
-      other key-encryption algorithms as well.
+      encryption key or the content-authenticated-encryption key.
+      Implementations MUST support the AES-Wrap-256 [RFC3394] key-
+      encryption algorithm using the id-aes256-wrap key-encryption
+      algorithm OID [RFC3565].  Implementations MAY support other key-
+      encryption algorithms as well.
+
+   encryptedKey
+      The result of encrypting the content-encryption key or the
+      content-authenticated-encryption key with the key-encryption key.
 
    Appendix B contains an example of establishing a content-encryption
    key using Composite ML-KEM in the KEMRecipientInfo type.
