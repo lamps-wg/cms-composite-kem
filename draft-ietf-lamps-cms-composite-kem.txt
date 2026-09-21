@@ -5,11 +5,11 @@
 LAMPS                                                       D. Van Geest
 Internet-Draft                                       CryptoNext Security
 Intended status: Standards Track                            M. Ounsworth
-Expires: 22 March 2027                                           J. Gray
+Expires: 25 March 2027                                           J. Gray
                                                                  Entrust
                                                             J. Klaussner
                                                     Bundesdruckerei GmbH
-                                                       18 September 2026
+                                                       21 September 2026
 
 
      Composite ML-KEM for use in Cryptographic Message Syntax (CMS)
@@ -57,7 +57,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 March 2027.
+   This Internet-Draft will expire on 25 March 2027.
 
 Copyright Notice
 
@@ -152,13 +152,6 @@ Table of Contents
    [I-D.ietf-lamps-pq-composite-kem]; Decapsulate() is Decaps().  This
    document uses the [RFC9629] names throughout, since it defines the
    CMS-specific KEMRecipientInfo processing.
-
-   The parameter names also differ between the two documents, though
-   they denote the same values.  This document, following [RFC9629],
-   uses pk for the public encapsulation key, sk for the private
-   decapsulation key, and ct for the ciphertext;
-   [I-D.ietf-lamps-pq-composite-kem] uses pk, sk, and ct for the same
-   three values.  Both documents use ss for the shared secret.
 
    The parameter order matches between the two documents for KeyGen()
    and for Decapsulate()/Decaps(), but not for Encapsulate()/Encaps():
