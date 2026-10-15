@@ -493,6 +493,8 @@ Bob decapsulates the ciphertext in the KEMRecipientInfo to get the MLKEM768-ECDH
 
 # Acknowledgments
 
+Thanks to Carl Wallace for IETF hackathon interop testing.
+
 This document borrows heavily from {{?RFC9690}} and {{?RFC9936}}.
 Thanks go to the authors of those documents.
 "Copying always makes things easier and less error prone" - RFC8411.
